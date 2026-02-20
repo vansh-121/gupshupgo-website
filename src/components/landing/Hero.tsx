@@ -97,13 +97,15 @@ export default function Hero() {
 
   return (
     <section className="grain relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
-      <DotGrid />
-      <FloatingOrbs />
+      <div className="absolute inset-0 z-[1]">
+        <DotGrid />
+        <FloatingOrbs />
+      </div>
       
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-12 lg:gap-16">
+      <div className="w-full max-w-[1400px] mx-auto px-6 relative z-10">
+        <div className="relative">
           {/* Left content */}
-          <div className="max-w-2xl text-center lg:text-left">
+          <div className="w-full lg:max-w-[60%] text-center lg:text-left">
             {/* Version badge */}
             <div className="flex justify-center lg:justify-start mb-6">
               <span className="inline-flex items-center gap-2 text-xs font-medium border border-border rounded-full px-4 py-1.5 bg-card/50 backdrop-blur-sm text-muted-foreground">
@@ -184,7 +186,7 @@ export default function Hero() {
 
             {/* Trust badges */}
             <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-              {badges.map((b, i) => (
+              {badges.map((b) => (
                 <span
                   key={b}
                   className="text-[11px] text-muted-foreground border border-border rounded-full px-3.5 py-1 bg-card/30 backdrop-blur-sm transition-all duration-300 hover:border-indigo/30 hover:text-foreground"
@@ -196,7 +198,7 @@ export default function Hero() {
           </div>
 
           {/* Phone mockup */}
-          <div className="flex-shrink-0">
+          <div className="flex justify-center lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 mt-12 lg:mt-0">
             <PhoneMockup />
           </div>
         </div>
