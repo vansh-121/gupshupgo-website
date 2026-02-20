@@ -75,10 +75,10 @@ export default function Hero() {
   return (
     <section className="grain relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20">
           {/* Left content */}
-          <div className="flex-1 max-w-2xl">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6">
+          <div className="flex-1 max-w-2xl text-center lg:text-left">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-[-0.03em] leading-[1.05] mb-6">
               {headline.split("").map((char, i) => (
                 <span
                   key={i}
@@ -100,7 +100,7 @@ export default function Hero() {
               their phones.
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-10">
+            <div className="flex flex-wrap gap-3 mb-10 justify-center lg:justify-start">
               <Button
                 size="lg"
                 className="gap-2 bg-indigo hover:bg-indigo/90 text-primary-foreground"
@@ -124,7 +124,7 @@ export default function Hero() {
             </div>
 
             {/* Trust badges */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
               {badges.map((b) => (
                 <span
                   key={b}
