@@ -13,35 +13,35 @@ const callFeatures = [
 function MiniPhone({ variant }: { variant: "outgoing" | "incoming" }) {
   const isOutgoing = variant === "outgoing";
   return (
-    <div className="w-[180px] h-[360px] rounded-[28px] border border-border bg-card p-2.5 flex-shrink-0">
-      <div className="w-full h-full rounded-[20px] bg-background flex flex-col items-center justify-center gap-4">
+    <div className="w-[190px] h-[380px] rounded-[32px] border border-border bg-card p-3 flex-shrink-0 shadow-lg shadow-primary/[0.03]">
+      <div className="w-full h-full rounded-[24px] bg-background flex flex-col items-center justify-center gap-4 border border-border/50">
         {/* Avatar circle */}
-        <div className={`w-16 h-16 rounded-full ${isOutgoing ? "bg-indigo/20" : "bg-teal/20"} flex items-center justify-center`}>
-          <span className={`text-xl font-bold ${isOutgoing ? "text-indigo" : "text-teal"}`}>
+        <div className={`w-16 h-16 rounded-full ${isOutgoing ? "bg-primary/10" : "bg-accent/10"} flex items-center justify-center`}>
+          <span className={`text-xl font-bold ${isOutgoing ? "text-primary" : "text-accent"}`}>
             {isOutgoing ? "A" : "B"}
           </span>
         </div>
         <div className="text-center">
-          <p className="text-xs font-semibold text-foreground">
+          <p className="text-sm font-semibold text-foreground tracking-tight">
             {isOutgoing ? "Alex" : "Bailey"}
           </p>
-          <p className={`text-[10px] ${isOutgoing ? "text-indigo" : "text-teal"}`}>
+          <p className={`text-[11px] font-medium ${isOutgoing ? "text-primary" : "text-accent"}`}>
             {isOutgoing ? "Calling..." : "Incoming call"}
           </p>
         </div>
         {/* Buttons */}
         <div className="flex gap-3 mt-2">
           {isOutgoing ? (
-            <div className="w-10 h-10 rounded-full bg-destructive/20 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
               <span className="text-destructive text-lg">✕</span>
             </div>
           ) : (
             <>
-              <div className="w-10 h-10 rounded-full bg-destructive/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
                 <span className="text-destructive text-sm">✕</span>
               </div>
-              <div className="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center">
-                <span className="text-teal text-sm">✓</span>
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                <span className="text-accent text-sm">✓</span>
               </div>
             </>
           )}
@@ -55,7 +55,7 @@ export default function DemoHighlight() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="py-24 bg-card/50" ref={ref}>
+    <section className="py-28 bg-secondary/50" ref={ref}>
       <div className="container mx-auto px-6">
         <div
           className={`flex flex-col lg:flex-row items-center gap-16 ${
@@ -70,17 +70,20 @@ export default function DemoHighlight() {
 
           {/* Feature list */}
           <div className="flex-1">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
+            <p className="text-sm font-semibold text-primary tracking-wide uppercase mb-3">Demo</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-[-0.03em] mb-4">
               Full in-call controls
             </h2>
-            <p className="text-muted-foreground mb-8 max-w-md">
+            <p className="text-muted-foreground mb-10 max-w-md text-lg">
               Every feature you'd expect from a production calling app — nothing left out.
             </p>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-5">
               {callFeatures.map((f) => (
                 <div key={f.label} className="flex items-center gap-3">
-                  <f.icon className="w-4 h-4 text-indigo flex-shrink-0" />
-                  <span className="text-sm text-foreground">{f.label}</span>
+                  <div className="w-8 h-8 rounded-lg bg-primary/[0.08] flex items-center justify-center flex-shrink-0">
+                    <f.icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <span className="text-sm text-foreground font-medium">{f.label}</span>
                 </div>
               ))}
             </div>
