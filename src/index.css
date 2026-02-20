@@ -3,27 +3,26 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 99%;
-    --foreground: 240 10% 6%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 6%;
+    --card: 0 0% 97%;
+    --card-foreground: 0 0% 9%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 6%;
+    --popover: 0 0% 97%;
+    --popover-foreground: 0 0% 9%;
 
     --primary: 263 70% 50.4%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 6% 10%;
+    --secondary: 0 0% 93%;
+    --secondary-foreground: 0 0% 9%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
+    --muted: 0 0% 93%;
+    --muted-foreground: 0 0% 40%;
 
     --accent: 187 92% 41%;
     --accent-foreground: 0 0% 100%;
@@ -31,46 +30,46 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
     --ring: 263 70% 50.4%;
 
-    --radius: 0.625rem;
+    --radius: 0.5rem;
 
-    --surface: 240 5% 96%;
-    --surface-border: 240 6% 90%;
+    --surface: 0 0% 97%;
+    --surface-border: 0 0% 89%;
     --indigo: 263 70% 50.4%;
     --indigo-deep: 239 84% 67%;
     --teal: 187 92% 41%;
 
-    --sidebar-background: 0 0% 99%;
-    --sidebar-foreground: 240 10% 6%;
+    --sidebar-background: 0 0% 97%;
+    --sidebar-foreground: 0 0% 9%;
     --sidebar-primary: 263 70% 50.4%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 240 6% 10%;
-    --sidebar-border: 240 6% 90%;
+    --sidebar-accent: 0 0% 93%;
+    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-border: 0 0% 89%;
     --sidebar-ring: 263 70% 50.4%;
   }
 
   .dark {
-    --background: 240 6% 6%;
+    --background: 0 0% 5.1%;
     --foreground: 0 0% 95%;
 
-    --card: 240 5% 10%;
+    --card: 0 0% 8.6%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 240 5% 10%;
+    --popover: 0 0% 8.6%;
     --popover-foreground: 0 0% 95%;
 
     --primary: 263 70% 50.4%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 4% 14%;
+    --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 95%;
 
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
 
     --accent: 187 92% 41%;
     --accent-foreground: 0 0% 100%;
@@ -78,23 +77,23 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 4% 18%;
-    --input: 240 4% 18%;
+    --border: 0 0% 16.5%;
+    --input: 0 0% 16.5%;
     --ring: 263 70% 50.4%;
 
-    --surface: 240 5% 10%;
-    --surface-border: 240 4% 18%;
-    --indigo: 263 70% 58%;
+    --surface: 0 0% 8.6%;
+    --surface-border: 0 0% 16.5%;
+    --indigo: 263 70% 50.4%;
     --indigo-deep: 239 84% 67%;
-    --teal: 187 92% 50%;
+    --teal: 187 92% 41%;
 
-    --sidebar-background: 240 6% 6%;
+    --sidebar-background: 0 0% 5.1%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 263 70% 50.4%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 4% 14%;
+    --sidebar-accent: 0 0% 12%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 240 4% 18%;
+    --sidebar-border: 0 0% 16.5%;
     --sidebar-ring: 263 70% 50.4%;
   }
 }
@@ -109,18 +108,11 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', system-ui, sans-serif;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'kern' 1, 'liga' 1;
-    letter-spacing: -0.011em;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
-    letter-spacing: -0.035em;
-    font-weight: 700;
   }
 }
 
@@ -132,7 +124,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     background-repeat: repeat;
     background-size: 256px 256px;
     pointer-events: none;

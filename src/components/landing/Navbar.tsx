@@ -25,7 +25,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
         scrolled
-          ? "bg-background/80 backdrop-blur-2xl border-b border-border py-3 shadow-sm"
+          ? "bg-background/70 backdrop-blur-xl border-b border-border py-3"
           : "bg-transparent py-5"
       }`}
     >
@@ -37,7 +37,7 @@ export default function Navbar() {
             alt="GupShupGo"
             className="h-8 w-8 rounded-lg"
           />
-          <span className="text-lg font-bold tracking-[-0.02em] text-foreground">
+          <span className="text-lg font-bold tracking-tight text-foreground">
             GupShupGo
           </span>
         </a>
@@ -50,7 +50,7 @@ export default function Navbar() {
               href={l.href}
               target={l.href.startsWith("http") ? "_blank" : undefined}
               rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
               {l.label}
             </a>
@@ -61,19 +61,19 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-secondary transition-all duration-200"
+            className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-indigo transition-colors duration-200"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground border border-border rounded-full px-3 py-1.5 font-medium">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground border border-border rounded-full px-3 py-1">
             <Star className="w-3 h-3" />
             <span>Star</span>
           </div>
           <Button
             variant="outline"
             size="sm"
-            className="gap-2 border-border text-foreground hover:border-primary/40 hover:bg-secondary rounded-xl font-semibold"
+            className="gap-2 border-border text-foreground hover:border-indigo hover:text-indigo"
             asChild
           >
             <a
@@ -98,13 +98,13 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-2xl border-t border-border px-6 py-4 space-y-3">
+        <div className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border px-6 py-4 space-y-3">
           {links.map((l) => (
             <a
               key={l.label}
               href={l.href}
               target={l.href.startsWith("http") ? "_blank" : undefined}
-              className="block text-sm text-muted-foreground hover:text-foreground font-medium"
+              className="block text-sm text-muted-foreground hover:text-foreground"
               onClick={() => setMenuOpen(false)}
             >
               {l.label}
@@ -112,12 +112,12 @@ export default function Navbar() {
           ))}
           <button
             onClick={toggleTheme}
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground font-medium"
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             {theme === "dark" ? "Light Mode" : "Dark Mode"}
           </button>
-          <Button variant="outline" size="sm" className="w-full gap-2 rounded-xl" asChild>
+          <Button variant="outline" size="sm" className="w-full gap-2" asChild>
             <a href="https://github.com/vansh-121/GupShupGo" target="_blank" rel="noopener noreferrer">
               <Github className="w-4 h-4" />
               View on GitHub

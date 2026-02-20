@@ -25,7 +25,7 @@ const nodes = [
 function DashedArrow() {
   return (
     <div className="hidden lg:flex items-center justify-center flex-shrink-0">
-      <svg width="80" height="24" viewBox="0 0 80 24" className="text-primary">
+      <svg width="80" height="24" viewBox="0 0 80 24" className="text-indigo">
         <line
           x1="0" y1="12" x2="68" y2="12"
           stroke="currentColor"
@@ -43,14 +43,13 @@ export default function Architecture() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="architecture" className="py-28 bg-secondary/50" ref={ref}>
+    <section id="architecture" className="py-24 bg-card/50" ref={ref}>
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-sm font-semibold text-primary tracking-wide uppercase mb-3">Architecture</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-[-0.03em] mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
             How it works
           </h2>
-          <p className="text-muted-foreground max-w-md mx-auto text-lg">
+          <p className="text-muted-foreground max-w-md mx-auto">
             A clean three-layer architecture for reliable communication at scale.
           </p>
         </div>
@@ -62,17 +61,15 @@ export default function Architecture() {
         >
           {nodes.map((node, i) => (
             <div key={node.label} className="contents">
-              <div className="group w-full lg:w-72 rounded-2xl border border-border bg-card p-7 text-center transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/[0.04]">
-                <div className="w-12 h-12 rounded-xl bg-primary/[0.08] flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/[0.12] transition-colors duration-200">
-                  <node.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-bold text-lg mb-0.5 tracking-tight">{node.label}</h3>
-                <p className="text-xs text-muted-foreground mb-4 font-medium">{node.sub}</p>
+              <div className="group w-full lg:w-72 rounded-xl border border-border bg-card p-6 text-center transition-all duration-300 hover:border-indigo hover:shadow-lg hover:shadow-indigo/5">
+                <node.icon className="w-8 h-8 mx-auto mb-3 text-muted-foreground group-hover:text-indigo transition-colors duration-200" />
+                <h3 className="font-bold text-lg mb-0.5">{node.label}</h3>
+                <p className="text-xs text-muted-foreground mb-4">{node.sub}</p>
                 <div className="flex flex-wrap justify-center gap-1.5">
                   {node.items.map((item) => (
                     <span
                       key={item}
-                      className="text-[10px] border border-border rounded-full px-2.5 py-0.5 text-muted-foreground font-medium"
+                      className="text-[10px] border border-border rounded-full px-2.5 py-0.5 text-muted-foreground"
                     >
                       {item}
                     </span>

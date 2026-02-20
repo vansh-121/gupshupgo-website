@@ -9,13 +9,13 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border py-14">
+    <footer className="border-t border-border py-12">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2.5">
-            <img src="/app_icon.png" alt="GupShupGo" className="h-7 w-7 rounded-lg" />
-            <span className="text-sm font-bold text-foreground tracking-tight">GupShupGo</span>
+            <img src="/app_icon.png" alt="GupShupGo" className="h-6 w-6 rounded-md" />
+            <span className="text-sm font-semibold text-foreground">GupShupGo</span>
           </div>
 
           {/* Links */}
@@ -25,7 +25,7 @@ export default function Footer() {
                 key={l.label}
                 href={l.href}
                 target={l.href.startsWith("http") ? "_blank" : undefined}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
                 {l.label}
               </a>
@@ -42,7 +42,7 @@ export default function Footer() {
             >
               <Github className="w-4 h-4" />
             </a>
-            <span className="border border-border rounded-full px-2.5 py-0.5 font-medium">MIT</span>
+            <span className="border border-border rounded-full px-2.5 py-0.5">MIT</span>
           </div>
         </div>
 
