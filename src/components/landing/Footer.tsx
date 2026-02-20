@@ -1,4 +1,5 @@
 import { Github } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const links = [
   { label: "Features", href: "#features" },
@@ -46,8 +47,15 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 text-center text-xs text-muted-foreground">
-          Made with Flutter & ❤️ by vansh-121
+        <div className="mt-8 flex flex-col items-center gap-3">
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <span>·</span>
+            <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Made with Flutter & ❤️ by vansh-121
+          </p>
         </div>
       </div>
     </footer>
