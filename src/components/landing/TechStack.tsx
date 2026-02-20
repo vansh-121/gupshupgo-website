@@ -1,15 +1,16 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { Feather, Target, Flame, Radio, Zap, Database, Bell, Cloud, Palette } from "lucide-react";
 
 const techs = [
-  { name: "Flutter", icon: "🦋" },
-  { name: "Dart", icon: "🎯" },
-  { name: "Firebase", icon: "🔥" },
-  { name: "Agora", icon: "📡" },
-  { name: "Provider", icon: "⚡" },
-  { name: "Firestore", icon: "💾" },
-  { name: "FCM", icon: "🔔" },
-  { name: "Firebase Storage", icon: "☁️" },
-  { name: "Material Design 3", icon: "🎨" },
+  { name: "Flutter", icon: Feather },
+  { name: "Dart", icon: Target },
+  { name: "Firebase", icon: Flame },
+  { name: "Agora", icon: Radio },
+  { name: "Provider", icon: Zap },
+  { name: "Firestore", icon: Database },
+  { name: "FCM", icon: Bell },
+  { name: "Firebase Storage", icon: Cloud },
+  { name: "Material Design 3", icon: Palette },
 ];
 
 export default function TechStack() {
@@ -40,7 +41,7 @@ export default function TechStack() {
               key={t.name}
               className="glow-card group inline-flex items-center gap-2.5 text-sm border border-border rounded-2xl px-5 py-3 text-muted-foreground bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-indigo/40 hover:text-foreground hover:-translate-y-0.5 cursor-default"
             >
-              <span className="text-base transition-transform duration-300 group-hover:scale-125">{t.icon}</span>
+              <t.icon className="w-4 h-4 text-indigo transition-transform duration-300 group-hover:scale-125" />
               {t.name}
             </span>
           ))}
