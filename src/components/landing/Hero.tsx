@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 
 const headline = "Talk. Vibe. Connect. Anywhere.";
 const badges = ["Flutter 3.5", "Firebase", "Agora RTC", "Open Source", "MIT License"];
@@ -8,7 +8,7 @@ const badges = ["Flutter 3.5", "Firebase", "Agora RTC", "Open Source", "MIT Lice
 function PhoneMockup() {
   return (
     <div className="relative animate-float">
-      <div className="w-[260px] h-[520px] rounded-[40px] border-2 border-border bg-card p-3 shadow-2xl shadow-indigo/10">
+      <div className="w-[220px] h-[440px] sm:w-[260px] sm:h-[520px] rounded-[40px] border-2 border-border bg-card p-3 shadow-2xl shadow-indigo/10">
         {/* Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-background rounded-b-2xl" />
         {/* Screen */}
@@ -78,7 +78,7 @@ export default function Hero() {
         <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20">
           {/* Left content */}
           <div className="flex-1 max-w-2xl text-center lg:text-left">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-[-0.03em] leading-[1.05] mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.03em] leading-[1.05] mb-6">
               {headline.split("").map((char, i) => (
                 <span
                   key={i}
@@ -94,13 +94,21 @@ export default function Hero() {
               ))}
             </h1>
 
-            <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg">
+            {/* Beta Badge */}
+            <div className="flex justify-center lg:justify-start mb-5">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-indigo/10 text-indigo border border-indigo/20 rounded-full px-3.5 py-1.5 animate-pulse">
+                <Sparkles className="w-3 h-3" />
+                Currently in Beta Testing
+              </span>
+            </div>
+
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0">
               A production-ready Flutter app with HD video calling, real-time
               messaging and status updates. Built for people who actually use
               their phones.
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-10 justify-center lg:justify-start">
+            <div className="flex flex-wrap gap-3 mb-6 justify-center lg:justify-start">
               <Button
                 size="lg"
                 className="gap-2 bg-indigo hover:bg-indigo/90 text-primary-foreground"
@@ -121,6 +129,21 @@ export default function Hero() {
                   View Source
                 </a>
               </Button>
+            </div>
+
+            {/* Play Store Hype */}
+            <div className="flex justify-center lg:justify-start mb-6">
+              <div className="inline-flex items-center gap-3 bg-card border border-border rounded-xl px-4 py-3">
+                <div className="w-9 h-9 rounded-lg bg-teal/10 flex items-center justify-center flex-shrink-0">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5 text-teal" fill="currentColor">
+                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.396 12l2.302-2.492zM5.864 2.658L16.8 9.191l-2.302 2.302L5.864 2.658z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-foreground">Coming Soon on Google Play</p>
+                  <p className="text-[10px] text-muted-foreground">Be the first to download — stay tuned!</p>
+                </div>
+              </div>
             </div>
 
             {/* Trust badges */}

@@ -61,7 +61,7 @@ export default function Architecture() {
         >
           {nodes.map((node, i) => (
             <div key={node.label} className="contents">
-              <div className="group w-full lg:w-72 rounded-xl border border-border bg-card p-6 text-center transition-all duration-300 hover:border-indigo hover:shadow-lg hover:shadow-indigo/5">
+              <div className="group w-full sm:w-64 lg:w-72 rounded-xl border border-border bg-card p-6 text-center transition-all duration-300 hover:border-indigo hover:shadow-lg hover:shadow-indigo/5">
                 <node.icon className="w-8 h-8 mx-auto mb-3 text-muted-foreground group-hover:text-indigo transition-colors duration-200" />
                 <h3 className="font-bold text-lg mb-0.5">{node.label}</h3>
                 <p className="text-xs text-muted-foreground mb-4">{node.sub}</p>
