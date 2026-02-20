@@ -9,12 +9,13 @@ export default function TechStack() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="tech-stack" className="py-24" ref={ref}>
+    <section id="tech-stack" className="py-28" ref={ref}>
       <div className="container mx-auto px-6 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+        <p className="text-sm font-semibold text-primary tracking-wide uppercase mb-3">Tech Stack</p>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-[-0.03em] mb-4">
           Built on rock-solid infrastructure
         </h2>
-        <p className="text-muted-foreground max-w-md mx-auto mb-12">
+        <p className="text-muted-foreground max-w-md mx-auto mb-14 text-lg">
           Industry-proven technologies, battle-tested at scale.
         </p>
 
@@ -26,7 +27,7 @@ export default function TechStack() {
           {techs.map((t) => (
             <span
               key={t}
-              className="text-sm border border-border rounded-full px-5 py-2 text-muted-foreground bg-card transition-all duration-200 hover:border-indigo hover:text-foreground cursor-default"
+              className="text-sm border border-border rounded-xl px-5 py-2.5 text-muted-foreground bg-card transition-all duration-200 hover:border-primary/40 hover:text-foreground cursor-default font-medium"
             >
               {t}
             </span>
