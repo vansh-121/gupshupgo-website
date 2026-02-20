@@ -101,9 +101,9 @@ export default function Hero() {
       <FloatingOrbs />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-12 lg:gap-16">
           {/* Left content */}
-          <div className="flex-1 max-w-xl text-center lg:text-left">
+          <div className="max-w-2xl text-center lg:text-left">
             {/* Version badge */}
             <div className="flex justify-center lg:justify-start mb-6">
               <span className="inline-flex items-center gap-2 text-xs font-medium border border-border rounded-full px-4 py-1.5 bg-card/50 backdrop-blur-sm text-muted-foreground">
