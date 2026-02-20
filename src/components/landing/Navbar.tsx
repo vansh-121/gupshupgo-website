@@ -23,9 +23,9 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
         scrolled
-          ? "bg-background/70 backdrop-blur-xl border-b border-border py-3"
+          ? "bg-background/60 backdrop-blur-2xl border-b border-border/50 py-3"
           : "bg-transparent py-5"
       }`}
     >
@@ -35,9 +35,9 @@ export default function Navbar() {
           <img
             src="/app_icon.png"
             alt="GupShupGo"
-            className="h-8 w-8 rounded-lg"
+            className="h-8 w-8 rounded-lg transition-transform duration-300 group-hover:scale-110"
           />
-          <span className="text-lg font-bold tracking-tight text-foreground">
+          <span className="display-font text-lg font-bold tracking-tight text-foreground">
             GupShupGo
           </span>
         </a>
@@ -50,7 +50,7 @@ export default function Navbar() {
               href={l.href}
               target={l.href.startsWith("http") ? "_blank" : undefined}
               rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-indigo after:transition-all after:duration-300 hover:after:w-full"
             >
               {l.label}
             </a>
@@ -61,19 +61,15 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-indigo transition-colors duration-200"
+            className="p-2 rounded-xl border border-border text-muted-foreground hover:text-foreground hover:border-indigo/30 hover:bg-card/50 transition-all duration-300"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground border border-border rounded-full px-3 py-1">
-            <Star className="w-3 h-3" />
-            <span>Star</span>
-          </div>
           <Button
             variant="outline"
             size="sm"
-            className="gap-2 border-border text-foreground hover:border-indigo hover:text-indigo"
+            className="gap-2 border-border text-foreground hover:border-indigo/40 hover:bg-indigo/5 rounded-xl transition-all duration-300"
             asChild
           >
             <a
@@ -82,14 +78,15 @@ export default function Navbar() {
               rel="noopener noreferrer"
             >
               <Github className="w-4 h-4" />
-              View on GitHub
+              <span>Star on GitHub</span>
+              <Star className="w-3 h-3 text-muted-foreground" />
             </a>
           </Button>
         </div>
 
         {/* Mobile menu toggle */}
         <button
-          className="md:hidden text-foreground"
+          className="md:hidden text-foreground p-2 rounded-xl hover:bg-card transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -98,13 +95,13 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border px-6 py-4 space-y-3">
+        <div className="md:hidden bg-background/95 backdrop-blur-2xl border-t border-border/50 px-6 py-5 space-y-4">
           {links.map((l) => (
             <a
               key={l.label}
               href={l.href}
               target={l.href.startsWith("http") ? "_blank" : undefined}
-              className="block text-sm text-muted-foreground hover:text-foreground"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setMenuOpen(false)}
             >
               {l.label}
@@ -117,10 +114,10 @@ export default function Navbar() {
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             {theme === "dark" ? "Light Mode" : "Dark Mode"}
           </button>
-          <Button variant="outline" size="sm" className="w-full gap-2" asChild>
+          <Button variant="outline" size="sm" className="w-full gap-2 rounded-xl" asChild>
             <a href="https://github.com/vansh-121/GupShupGo" target="_blank" rel="noopener noreferrer">
               <Github className="w-4 h-4" />
-              View on GitHub
+              Star on GitHub
             </a>
           </Button>
         </div>
