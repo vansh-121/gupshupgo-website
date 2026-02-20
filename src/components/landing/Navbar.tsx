@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Github, Star, Menu, X } from "lucide-react";
+import { Github, Star, Menu, X, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -57,6 +59,13 @@ export default function Navbar() {
 
         {/* CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-indigo transition-colors duration-200"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground border border-border rounded-full px-3 py-1">
             <Star className="w-3 h-3" />
             <span>Star</span>
@@ -101,6 +110,13 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+          <button
+            onClick={toggleTheme}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </button>
           <Button variant="outline" size="sm" className="w-full gap-2" asChild>
             <a href="https://github.com/vansh-121/GupShupGo" target="_blank" rel="noopener noreferrer">
               <Github className="w-4 h-4" />
