@@ -13,7 +13,7 @@ const callFeatures = [
 function MiniPhone({ variant }: { variant: "outgoing" | "incoming" }) {
   const isOutgoing = variant === "outgoing";
   return (
-    <div className="w-[180px] h-[360px] rounded-[28px] border border-border bg-card p-2.5 flex-shrink-0">
+    <div className="w-[150px] h-[300px] sm:w-[180px] sm:h-[360px] rounded-[28px] border border-border bg-card p-2.5 flex-shrink-0">
       <div className="w-full h-full rounded-[20px] bg-background flex flex-col items-center justify-center gap-4">
         {/* Avatar circle */}
         <div className={`w-16 h-16 rounded-full ${isOutgoing ? "bg-indigo/20" : "bg-teal/20"} flex items-center justify-center`}>
@@ -58,12 +58,12 @@ export default function DemoHighlight() {
     <section className="py-24 bg-card/50" ref={ref}>
       <div className="container mx-auto px-6">
         <div
-          className={`flex flex-col lg:flex-row items-center gap-16 ${
+          className={`flex flex-col lg:flex-row items-center gap-10 lg:gap-16 ${
             isVisible ? "animate-fade-in-up" : "opacity-0"
           }`}
         >
           {/* Phone mockups */}
-          <div className="flex gap-6 flex-shrink-0">
+          <div className="flex gap-4 sm:gap-6 flex-shrink-0">
             <MiniPhone variant="outgoing" />
             <MiniPhone variant="incoming" />
           </div>
