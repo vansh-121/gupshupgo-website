@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gupshupgo.com/sitemap.xml
+Sitemap: https://www.gupshupgo.app/sitemap.xml
