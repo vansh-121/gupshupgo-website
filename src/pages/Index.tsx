@@ -10,9 +10,11 @@ import Footer from "@/components/landing/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
-      <main>
+    <>
+      <header>
+        <Navbar />
+      </header>
+      <main className="min-h-screen bg-background text-foreground">
         <Hero />
         <WaitlistSignup />
         <FeatureGrid />
@@ -22,7 +24,7 @@ const Index = () => {
         <CTAStrip />
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

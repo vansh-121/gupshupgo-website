@@ -96,7 +96,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="grain relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
+    <section aria-label="Hero" className="grain relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
       <div className="absolute inset-0 z-[1]">
         <DotGrid />
         <FloatingOrbs />
