@@ -34,8 +34,9 @@ export default function Navbar() {
         <a href="#" className="flex items-center gap-2.5 group">
           <img
             src="/app_icon.png"
-            alt="GupShupGo"
+            alt="GupShupGo — open source video calling and chat app"
             className="h-8 w-8 rounded-lg transition-transform duration-300 group-hover:scale-110"
+            loading="eager"
           />
           <span className="display-font text-lg font-bold tracking-tight text-foreground">
             GupShupGo
