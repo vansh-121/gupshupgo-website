@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function TermsOfService() {
+  useEffect(() => {
+    document.title = "Terms of Service — GupShupGo";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "GupShupGo Terms of Service. Read the terms governing usage of our open-source communication app.");
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto max-w-3xl px-6 py-16">

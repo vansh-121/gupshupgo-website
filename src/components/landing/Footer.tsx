@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2.5">
-            <img src="/app_icon.png" alt="GupShupGo" className="h-7 w-7 rounded-lg" />
+            <img src="/app_icon.png" alt="GupShupGo logo" className="h-7 w-7 rounded-lg" loading="lazy" />
             <span className="display-font text-sm font-bold text-foreground">GupShupGo</span>
           </div>
 

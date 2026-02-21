@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function PrivacyPolicy() {
+  useEffect(() => {
+    document.title = "Privacy Policy — GupShupGo";
+    document.querySelector('meta[name="description"]')?.setAttribute("content", "GupShupGo Privacy Policy. Learn how we collect, use, and protect your data in our open-source communication app.");
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto max-w-3xl px-6 py-16">

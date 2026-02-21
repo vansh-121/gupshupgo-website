@@ -57,7 +57,7 @@ export default function DemoHighlight() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section className="py-28 relative" ref={ref}>
+    <section aria-label="In-call experience demo" className="py-28 relative" ref={ref}>
       <div className="absolute inset-0 dot-grid opacity-15 pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-indigo/3 rounded-full blur-[120px] pointer-events-none" />
 
