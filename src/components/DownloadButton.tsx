@@ -56,12 +56,19 @@ export function DownloadButton({
           box equal the font size, so the primitive's own
           `items-center justify-center` centres the label exactly.
         */
-        'rounded-pill bg-brand py-0 font-medium leading-100 text-white shadow-elevation',
+        'rounded-pill bg-brand py-0 font-medium shadow-elevation',
         // Standard_Transition (Req 14.5); neutralised under reduced motion (Req 15.3).
         'transition duration-200 ease-standard motion-reduce:transition-none',
         'hover:bg-brand-dark',
-        'dark:bg-brand-dark dark:text-white dark:hover:bg-brand-dark',
         VARIANT_CLASSES[variant],
+        /*
+          Colour and line-height come AFTER the variant so a size utility can
+          never beat them. tailwind-merge classifies `text-19` as a font-size
+          (see src/lib/utils.ts) and font-size conflicts with `leading-*`, so
+          both `text-white` and `leading-100` have to be declared last.
+        */
+        'leading-100 text-white',
+        'dark:bg-brand-dark dark:text-white dark:hover:bg-brand-dark',
         className,
       )}
     >
