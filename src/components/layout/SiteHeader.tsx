@@ -12,21 +12,48 @@ import DownloadButton from "@/components/DownloadButton";
 import { cn } from "@/lib/utils";
 
 const MOBILE_PANEL_ID = "site-header-mobile-nav";
-const OVERFLOW_PANEL_ID = "site-header-more-nav";
+const LEGAL_PANEL_ID = "site-header-legal-nav";
 
 /**
- * The links the desktop pill carries directly (Req 8.5).
+ * The section links the desktop pill carries, flat, in this order (Req 8.5).
  *
- * Nova's pill nav holds a handful of links; the registry holds ten. Rather than
- * dropping six sections from navigation, the pill shows these five and the
- * remaining five live behind the "More sections" disclosure next to them, so
- * every section that has a heading is still reachable from the desktop pill in
- * at most two interactions — and all ten stay in one flat list in the
- * below-810px menu. The subset is derived from `NAV_SECTIONS`, never hand
- * listed, so a new section can never be silently lost: anything not named here
- * lands in the overflow panel automatically.
+ * The pill hugs its content rather than stretching to the container, so these
+ * six fit in one flat row and the old "More sections" overflow disclosure — a
+ * workaround for a full-width bar's cramped middle — is gone.
+ *
+ * Resolved against `NAV_SECTIONS` rather than duplicated as label/href pairs, so
+ * the row stays flag-aware: `pro` is absent from `NAV_SECTIONS` while
+ * `PRO_LAUNCHED` is false and simply does not render, and a label edit in the
+ * registry cannot drift from the pill.
+ *
+ * Deliberately not here: Anonymous chat, Trust, Updates, and Download — the
+ * last redundant next to the "Get the app" button. All four remain in the
+ * below-810px menu, which still lists every section, so nothing is unreachable.
  */
-const DESKTOP_PRIMARY_IDS: readonly SectionId[] = ["features", "mesh", "calling", "privacy", "pro"];
+const DESKTOP_SECTION_IDS: readonly SectionId[] = [
+  "features",
+  "mesh",
+  "arcade",
+  "privacy",
+  "calling",
+  "pro",
+];
+
+const DESKTOP_SECTIONS: readonly SectionMeta[] = DESKTOP_SECTION_IDS.map((id) =>
+  NAV_SECTIONS.find((section) => section.id === id),
+).filter((section): section is SectionMeta => section !== undefined);
+
+/**
+ * Route links behind the "Legal" disclosure.
+ *
+ * These are the real routes registered in `App.tsx`. `/privacy-policy` is NOT a
+ * route and must never be linked here.
+ */
+const LEGAL_LINKS: readonly { readonly to: string; readonly label: string }[] = [
+  { to: "/privacy", label: "Privacy Policy" },
+  { to: "/terms", label: "Terms of Service" },
+  { to: "/delete-account", label: "Delete Account" },
+];
 
 /**
  * Pill_Nav foreground variants (Req 8.3).
@@ -178,9 +205,9 @@ interface Disclosure {
 }
 
 /**
- * Disclosure behaviour shared by the below-810px menu and the desktop "More
- * sections" popover (Req 8.6, 8.8): opening focuses the first link, Tab is
- * contained inside the panel, Escape closes and restores focus to the trigger.
+ * Disclosure behaviour shared by the below-810px menu and the desktop "Legal"
+ * popover (Req 8.6, 8.8): opening focuses the first link, Tab is contained
+ * inside the panel, Escape closes and restores focus to the trigger.
  */
 function useDisclosure(): Disclosure {
   const [isOpen, setIsOpen] = useState(false);
@@ -197,7 +224,8 @@ function useDisclosure(): Disclosure {
   // Move focus into the revealed panel.
   useEffect(() => {
     if (!isOpen) return;
-    const firstLink = panelRef.current?.querySelector<HTMLAnchorElement>("a[href^='#']");
+    // `a[href]`, not `a[href^='#']`: the Legal panel holds route links.
+    const firstLink = panelRef.current?.querySelector<HTMLAnchorElement>("a[href]");
     firstLink?.focus();
   }, [isOpen]);
 
@@ -263,8 +291,15 @@ const ICON_BUTTON_BASE =
   "inline-flex h-11 w-11 min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-pill " +
   "transition-standard motion-reduce:transition-none";
 
+/**
+ * Disclosure panels sit on `layer-1` — one step raised above the pill's own
+ * `layer-0` surface — so they read as floating above it in both themes, with the
+ * inset hairline and the single outer elevation composed in one declaration
+ * (Req 4.5). Rows are `text-14 font-medium` at a 44px minimum height via
+ * `NAV_LINK_BASE`.
+ */
 const PANEL_BASE =
-  "absolute z-10 rounded-8 bg-layer-0 p-8px shadow-hairline-12-elevated";
+  "absolute z-10 rounded-8 bg-layer-1 p-8px shadow-hairline-12-elevated";
 
 /**
  * Floating blurred pill navigation (Req 8).
@@ -277,9 +312,18 @@ const PANEL_BASE =
  *   permitted to use (Req 5.5)
  * - foreground inverts between a light and a dark variant (Req 8.3, 8.4); see
  *   `useNavForeground`
+ * - the pill is `w-fit` and centred above 810px: it hugs its content (~880px)
+ *   instead of stretching to the container, which is what makes it read as a
+ *   discrete floating object rather than a bar with rounded corners. The three
+ *   groups — logo, nav, actions — are separated by real gaps, not
+ *   `justify-between`. Below 810px it stays full width, where the collapsed
+ *   arrangement needs it.
  * - in-page links derive from `NAV_SECTIONS`, so the registry stays the only
  *   source of nav truth; activation runs `useSectionNavigation()` — scroll,
  *   then move focus into the section (Req 8.7)
+ * - a "Legal" disclosure carries the three route links. Unlike the in-page
+ *   anchors it must NOT preventDefault: the router navigates and the new route
+ *   takes focus, so the panel closes without restoring focus to the trigger.
  * - below 810px the links collapse into a disclosure with `aria-expanded` /
  *   `aria-controls`, a 44x44 trigger, focus-first-link on open, Tab
  *   containment, and Escape restoring focus to the trigger (Req 8.6)
@@ -296,16 +340,7 @@ export default function SiteHeader() {
   const foreground = useNavForeground(navRef);
 
   const mobileMenu = useDisclosure();
-  const overflowMenu = useDisclosure();
-
-  const [primaryLinks, overflowLinks] = useMemo(() => {
-    const primary: SectionMeta[] = [];
-    const overflow: SectionMeta[] = [];
-    for (const section of NAV_SECTIONS) {
-      (DESKTOP_PRIMARY_IDS.includes(section.id) ? primary : overflow).push(section);
-    }
-    return [primary, overflow] as const;
-  }, []);
+  const legalMenu = useDisclosure();
 
   const handleLinkClick =
     (sectionId: SectionId, disclosure?: Disclosure) => (event: MouseEvent<HTMLAnchorElement>) => {
@@ -323,7 +358,10 @@ export default function SiteHeader() {
         ref={navRef}
         style={{ backgroundColor: PILL_BACKGROUND }}
         className={cn(
-          "pointer-events-auto relative mx-auto flex w-full max-w-[1320px] items-center gap-8px",
+          // Full width below 810px, where the collapsed row needs it; above,
+          // `w-fit` sizes the pill to its content and `mx-auto` centres it.
+          "pointer-events-auto relative mx-auto flex w-full items-center gap-8px",
+          "bp810:w-fit bp810:max-w-full bp810:gap-12px",
           "rounded-pill p-8px bg-layer-0 shadow-hairline-12-elevated",
           "backdrop-blur-[12px]",
           "transition-standard motion-reduce:transition-none",
@@ -333,7 +371,9 @@ export default function SiteHeader() {
         <Link
           to="/"
           className={cn(
-            "inline-flex min-h-[44px] shrink-0 items-center gap-8px rounded-pill px-8px",
+            // Trailing padding is trimmed: the lockup no longer anchors the
+            // left end of a full-width bar, so it only needs breathing room.
+            "inline-flex min-h-[44px] shrink-0 items-center gap-8px rounded-pill pl-8px pr-4px",
             "text-16 font-medium leading-100 transition-standard motion-reduce:transition-none",
             HOVER_CLASSES[foreground],
           )}
@@ -350,10 +390,18 @@ export default function SiteHeader() {
           <span className="hidden bp810:inline">GupShupGo</span>
         </Link>
 
-        <nav aria-label="Main" className="flex flex-1 items-center justify-end gap-4px">
-          {/* Desktop primary links (>=810px) */}
+        {/*
+          Below 810px `flex-1 justify-end` pushes the hamburger to the right of
+          the logo; above it the nav is its own width inside a content-sized
+          pill, so it neither grows nor pins to an edge.
+        */}
+        <nav
+          aria-label="Main"
+          className="flex flex-1 items-center justify-end gap-4px bp810:flex-none bp810:justify-start bp810:gap-2px"
+        >
+          {/* Desktop section links (>=810px), flat */}
           <ul className="hidden items-center gap-2px bp810:flex">
-            {primaryLinks.map((section) => (
+            {DESKTOP_SECTIONS.map((section) => (
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
@@ -366,46 +414,46 @@ export default function SiteHeader() {
             ))}
           </ul>
 
-          {/* Desktop overflow disclosure — the remaining registry sections */}
+          {/* Desktop "Legal" disclosure — route links, not in-page anchors */}
           <div className="relative hidden bp810:block">
             <button
-              ref={overflowMenu.triggerRef}
+              ref={legalMenu.triggerRef}
               type="button"
-              aria-expanded={overflowMenu.isOpen}
-              aria-controls={OVERFLOW_PANEL_ID}
-              onClick={() =>
-                overflowMenu.isOpen ? overflowMenu.close(false) : overflowMenu.open()
-              }
+              aria-expanded={legalMenu.isOpen}
+              aria-controls={LEGAL_PANEL_ID}
+              onClick={() => (legalMenu.isOpen ? legalMenu.close(false) : legalMenu.open())}
               className={cn(linkClasses, "gap-4px")}
             >
-              More sections
+              Legal
               <ChevronDown aria-hidden="true" className="h-4 w-4" />
             </button>
 
             <div
-              id={OVERFLOW_PANEL_ID}
-              ref={overflowMenu.panelRef}
-              hidden={!overflowMenu.isOpen}
-              onKeyDown={overflowMenu.onKeyDown}
+              id={LEGAL_PANEL_ID}
+              ref={legalMenu.panelRef}
+              hidden={!legalMenu.isOpen}
+              onKeyDown={legalMenu.onKeyDown}
               className={cn(PANEL_BASE, "right-0 top-[calc(100%+12px)] w-[220px]")}
             >
               <ul className="flex flex-col gap-2px">
-                {overflowLinks.map((section) => (
-                  <li key={section.id}>
-                    <a
-                      href={`#${section.id}`}
-                      onClick={handleLinkClick(section.id, overflowMenu)}
+                {LEGAL_LINKS.map((link) => (
+                  <li key={link.to}>
+                    <Link
+                      to={link.to}
+                      // The router navigates and the new route takes focus, so
+                      // this closes without restoring focus to the trigger.
+                      onClick={() => legalMenu.close(false)}
                       className={cn(linkClasses, "w-full")}
                     >
-                      {section.navLabel}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          {/* Mobile disclosure (<810px) — carries all ten sections */}
+          {/* Mobile disclosure (<810px) — every section plus the legal routes */}
           <button
             ref={mobileMenu.triggerRef}
             type="button"
@@ -429,7 +477,11 @@ export default function SiteHeader() {
             onKeyDown={mobileMenu.onKeyDown}
             className={cn(PANEL_BASE, "left-0 right-0 top-[calc(100%+12px)] bp810:hidden")}
           >
-            <ul className="flex flex-col gap-2px">
+            {/*
+              Two named lists rather than one list split by a rule: the grouping
+              is announced to assistive technology, not just drawn.
+            */}
+            <ul aria-label="Page sections" className="flex flex-col gap-2px">
               {NAV_SECTIONS.map((section) => (
                 <li key={section.id}>
                   <a
@@ -442,8 +494,31 @@ export default function SiteHeader() {
                 </li>
               ))}
             </ul>
+            <ul aria-label="Legal" className="mt-8px flex flex-col gap-2px">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    onClick={() => mobileMenu.close(false)}
+                    className={cn(linkClasses, "w-full")}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </nav>
+
+        {/*
+          Hairline rule separating the nav group from the actions. A 1px element
+          filled with the hairline token, never the `border` property (Req 4.3),
+          and gone below 810px where the row collapses.
+        */}
+        <span
+          aria-hidden="true"
+          className="hidden h-6 w-px shrink-0 bg-hairline-12 bp810:block"
+        />
 
         <ThemeToggle
           className={cn(
@@ -455,7 +530,10 @@ export default function SiteHeader() {
             HOVER_CLASSES[foreground],
           )}
         />
-        <DownloadButton variant="header">Get the app</DownloadButton>
+        {/* Extra breathing room between the toggle and the solid CTA. */}
+        <DownloadButton variant="header" className="bp810:ml-4px">
+          Get the app
+        </DownloadButton>
       </div>
     </header>
   );

@@ -57,7 +57,7 @@ export const SECTIONS: readonly SectionMeta[] = [
   },
   {
     id: 'privacy',
-    navLabel: 'Privacy',
+    navLabel: 'Security',
     headingText: 'Your conversations stay yours',
   },
   {
