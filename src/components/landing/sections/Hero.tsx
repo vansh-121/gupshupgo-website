@@ -104,7 +104,11 @@ export default function Hero() {
           <Button
             asChild
             variant="ghost"
-            className="h-14 min-h-[44px] w-full justify-center rounded-pill bg-transparent px-24px text-16 font-medium leading-120 text-ink-high underline-offset-4 transition-standard hover:bg-transparent hover:underline dark:bg-transparent dark:hover:bg-transparent sm:w-auto"
+            /*
+              `py-0 leading-100`: the primitive's default size adds `py-2` inside
+              this fixed `h-14`, which shrank the box the label centres in.
+            */
+            className="h-14 min-h-[44px] w-full justify-center rounded-pill bg-transparent px-24px py-0 text-16 font-medium leading-100 text-ink-high underline-offset-4 transition-standard hover:bg-transparent hover:underline dark:bg-transparent dark:hover:bg-transparent sm:w-auto"
           >
             <a href="#features" onClick={navigateToSection("features")}>
               See everything it does

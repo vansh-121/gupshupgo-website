@@ -117,7 +117,11 @@ export default function NewsletterForm() {
           type="submit"
           disabled={subscription.isPending}
           aria-busy={subscription.isPending}
-          className="h-48px rounded-pill bg-brand px-24px text-16 font-medium leading-140 text-white shadow-elevation transition-standard hover:bg-brand-dark dark:bg-brand-dark dark:hover:brightness-90"
+          /*
+            `py-0 leading-100`: the primitive's default size adds `py-2` on top
+            of this fixed `h-48px`, which shrank the box the label centres in.
+          */
+          className="h-48px rounded-pill bg-brand px-24px py-0 text-16 font-medium leading-100 text-white shadow-elevation transition-standard hover:bg-brand-dark dark:bg-brand-dark dark:hover:brightness-90"
         >
           {subscription.isPending ? (
             <>

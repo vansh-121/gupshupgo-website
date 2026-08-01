@@ -7,14 +7,11 @@ import { Menu, X } from "lucide-react";
 import { NAV_SECTIONS } from "@/data/sections";
 import type { SectionId, SectionMeta } from "@/data/sections";
 import { useSectionNavigation } from "@/hooks/useSectionNavigation";
-import { useActiveSection, useNavCondensed } from "@/hooks/useNavScrollState";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import ThemeToggle from "@/components/ThemeToggle";
 import DownloadButton from "@/components/DownloadButton";
-import { PILL_NAV_SURFACE_ALPHA, type PillNavState } from "@/lib/contrast";
+import { PILL_NAV_SURFACE_ALPHA } from "@/lib/contrast";
 import { cn } from "@/lib/utils";
-
-/** The pill's two scroll states: airy at the top, tightened once past the hero. */
-type PillState = PillNavState;
 
 const MOBILE_PANEL_ID = "site-header-mobile-nav";
 
@@ -108,61 +105,20 @@ const BAND_FOREGROUND: Record<"light" | "dark", Record<string, NavForeground>> =
 };
 
 /**
- * The pill's own surface: the base layer token at the alpha for the current
- * state — 72% at rest, 88% condensed — so the `backdrop-filter` blur stays
- * visible in both (Req 8.1, 5.5). Applied inline rather than as a utility
- * because Tailwind's `/opacity` modifier cannot add alpha to a bare `var()`
- * colour, and because an inline value the browser cannot parse is dropped,
- * leaving the opaque `bg-layer-0` class as the fallback. No new colour is
- * introduced — the hue is whatever `--layer-0` resolves to in the active theme.
+ * The pill's own surface: the base layer token at 72% alpha, so the
+ * `backdrop-filter` blur stays visible through it (Req 8.1, 5.5). Applied inline
+ * rather than as a utility because Tailwind's `/opacity` modifier cannot add
+ * alpha to a bare `var()` colour, and because an inline value the browser cannot
+ * parse is dropped, leaving the opaque `bg-layer-0` class as the fallback. No new
+ * colour is introduced — the hue is whatever `--layer-0` resolves to in the
+ * active theme.
  *
- * The alphas live in `src/lib/contrast.ts` as `PILL_NAV_SURFACE_ALPHA`, next to
+ * The alpha lives in `src/lib/contrast.ts` as `PILL_NAV_SURFACE_ALPHA`, next to
  * the pairing table that measures label text against the resulting blend, so the
  * component and the contrast assertion cannot drift apart.
  */
-const PILL_BACKGROUND: Record<PillState, string> = {
-  rest: `color-mix(in srgb, var(--layer-0) ${PILL_NAV_SURFACE_ALPHA.rest * 100}%, transparent)`,
-  condensed: `color-mix(in srgb, var(--layer-0) ${PILL_NAV_SURFACE_ALPHA.condensed * 100}%, transparent)`,
-};
-
-/**
- * Rest → condensed geometry (Feature: condense on scroll).
- *
- * One ramp step tighter padding, the denser surface above, and one hairline step
- * deeper on the composed inset+elevation shadow. That is the whole transition:
- * the logo icon is now fixed at 28px in both states (see `LOGO_CLASSES`) and the
- * wordmark is NOT touched either — it stays visible in both states at
- * Breakpoint_Small and up.
- *
- * What deliberately does NOT change: the pill's own `height` / `width` are never
- * animated, and `transform: scale` is not used on it either — scaling would
- * soften every label and drag all six 44px controls below the minimum target
- * size. The 12px blur is unchanged too; 6/10/11/12 are the only permitted blur
- * radii (Req 5.5).
- */
-const PILL_STATE_CLASSES: Record<PillState, string> = {
-  rest: "p-8px shadow-hairline-12-elevated",
-  condensed: "p-6px shadow-hairline-24-elevated",
-};
-
-/**
- * The logo icon's painted box: 28px in BOTH states.
- *
- * It used to animate 36px → 28px alongside the pill's padding, which was the
- * one piece of the condense transition that changed a *painted bitmap* rather
- * than a box: the icon resampled mid-scroll and read as a wobble next to the
- * static wordmark. Pinned at the condensed size, the lockup is stable the whole
- * way down the page.
- *
- * The `<img>` carries `width={28} height={28}`, matching the painted box
- * exactly, so the box reserved before the bitmap decodes is the box it lands in
- * and there is no layout shift (Req 17.4).
- *
- * The link around it keeps its `min-h-[44px]`, so the tap target stays 44px tall
- * (Req 8.8) and the pill's height maths is unchanged: the 44px minimum control
- * height, not the icon, is what sets the pill's height in both states.
- */
-const LOGO_CLASSES = "h-7 w-7";
+const PILL_BACKGROUND = `color-mix(in srgb, var(--layer-0) ${PILL_NAV_SURFACE_ALPHA * 100
+  }%, transparent)`;
 
 function readForegroundOverride(value: string | undefined): NavForeground | null {
   return value === "on-dark" || value === "on-light" ? value : null;
@@ -390,19 +346,16 @@ const PANEL_BASE =
  * - every control is a native `<button>` / `<a>` at 44x44 CSS px or larger and
  *   inherits the global `:focus-visible` outline (Req 8.8)
  *
- * The pill is 60px tall at rest (44px minimum control height + 2×8px padding)
- * — the 28px logo is well inside that, so pinning it changes no geometry —
- * and 56px condensed (44 + 2×6), inset 12px below 810px, so at rest it clears
- * the hero's 72px top padding exactly and condensing only widens that clearance.
- * No shell spacer is needed — `main#main-content` stays the untouched skip-link
- * target.
+ * The pill has ONE appearance: it does not resize, condense or otherwise react
+ * to scroll position. It is a single 60px-tall object — the 44px minimum control
+ * height plus 2×8px of padding; the 28px logo sits well inside that — inset 12px
+ * from the top below 810px, so 72px total, which clears the hero's `py-72px` top
+ * padding exactly. No shell spacer is needed — `main#main-content` stays the
+ * untouched skip-link target.
  *
- * Two scroll behaviours, both `IntersectionObserver`-driven, no scroll handler:
- *  - the pill condenses once the hero fold is behind you (`useNavCondensed`,
- *    watching the zero-height sentinel `SiteShell` puts at the top of `main`);
- *  - the desktop link for the section under the viewport centre is marked
- *    `aria-current="location"` and carries the pill's own hover wash
- *    (`useActiveSection`).
+ * One scroll-derived behaviour, and it changes no geometry: the desktop link for
+ * the section under the viewport centre is marked `aria-current="location"` and
+ * carries the pill's own hover wash (`useActiveSection`).
  */
 export default function SiteHeader() {
   const navigateToSection = useSectionNavigation();
@@ -410,12 +363,10 @@ export default function SiteHeader() {
   const foreground = useNavForeground(navRef);
 
   /*
-    Both of these are IntersectionObserver-driven (see `useNavScrollState`); the
-    header adds no scroll event listener.
+    IntersectionObserver-driven (see `useActiveSection`); the header adds no
+    scroll event listener.
   */
-  const condensed = useNavCondensed();
   const activeSection = useActiveSection(DESKTOP_SECTION_IDS);
-  const pillState: PillState = condensed ? "condensed" : "rest";
 
   const mobileMenu = useDisclosure();
 
@@ -433,8 +384,7 @@ export default function SiteHeader() {
     <header className="pointer-events-none fixed inset-x-0 top-12px z-50 px-20px bp810:top-16px bp810:px-36px">
       <div
         ref={navRef}
-        data-pill-state={pillState}
-        style={{ backgroundColor: PILL_BACKGROUND[pillState] }}
+        style={{ backgroundColor: PILL_BACKGROUND }}
         className={cn(
           // Full width below 810px, where the collapsed row needs it; above,
           // `w-fit` sizes the pill to its content and `mx-auto` centres it.
@@ -442,10 +392,10 @@ export default function SiteHeader() {
           "bp810:w-fit bp810:max-w-full bp810:gap-12px",
           "rounded-pill bg-layer-0",
           "backdrop-blur-[12px]",
-          // Padding / surface / shadow are the only things that move between the
-          // two states, and the state itself survives `reduce` — only the
-          // transition duration is dropped (Req 15.3).
-          PILL_STATE_CLASSES[pillState],
+          // One static appearance: 8px padding and the composed inset hairline +
+          // elevation shadow. Nothing here changes with scroll position.
+          "p-8px shadow-hairline-12-elevated",
+          // The transition is only for the theme/foreground swap now.
           "transition-standard motion-reduce:transition-none",
           FOREGROUND_CLASSES[foreground],
         )}
@@ -467,16 +417,17 @@ export default function SiteHeader() {
             height={28}
             loading="eager"
             decoding="async"
-            /* Fixed size in both states, so no transition on the icon either. */
-            className={cn("rounded-8", LOGO_CLASSES)}
+            /*
+              A fixed 28px painted box, matching the `width` / `height`
+              attributes above, so the box reserved before the bitmap decodes is
+              the box it lands in and there is no layout shift (Req 17.4). No
+              transition on the icon: nothing about it ever changes. The 44px tap
+              target comes from the wrapping link's `min-h-[44px]`, and that
+              minimum — not the icon — is what sets the pill's height.
+            */
+            className="h-7 w-7 rounded-8"
           />
-          {/*
-            The wordmark is state-independent: it shows at Breakpoint_Small and
-            up in BOTH the rest and condensed states. Hiding it while scrolling
-            was tried and reverted — the pill is `w-fit` above 810px, so keeping
-            the text only leaves the pill a little wider than it would otherwise
-            have been, and the brand stays legible the whole way down the page.
-          */}
+          {/* Wordmark shows at Breakpoint_Small and up. */}
           <span className="hidden bp810:inline">GupShupGo</span>
         </Link>
 

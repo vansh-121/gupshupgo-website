@@ -47,7 +47,16 @@ export function DownloadButton({
     <Button
       asChild
       className={cn(
-        'rounded-pill bg-brand font-medium leading-120 text-white shadow-elevation',
+        /*
+          `py-0 leading-100`: the Button primitive's default size is
+          `h-10 px-4 py-2`, and every variant below overrides `h-*` and `px-*`
+          but nothing was overriding `py-*` — so 16px of vertical padding was
+          being added inside an explicit fixed height, pushing the label off
+          optical centre. `py-0` neutralises it and `leading-100` makes the line
+          box equal the font size, so the primitive's own
+          `items-center justify-center` centres the label exactly.
+        */
+        'rounded-pill bg-brand py-0 font-medium leading-100 text-white shadow-elevation',
         // Standard_Transition (Req 14.5); neutralised under reduced motion (Req 15.3).
         'transition duration-200 ease-standard motion-reduce:transition-none',
         'hover:bg-brand-dark',

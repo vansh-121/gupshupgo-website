@@ -276,13 +276,12 @@ export const CONTRAST_PAIRS: readonly ContrastPair[] = [
      cannot silently drop the nav's own guarantee.
 
      The pill is also translucent — `color-mix(in srgb, var(--layer-0) 72%,
-     transparent)` at rest and 88% once condensed — so its painted backdrop is
-     a BLEND of `layer-0` and whichever band is beneath it, not `layer-0`
-     itself. A `ContrastPair` background must be a single token, so the blend is
-     asserted separately via `pillNavBackdrop`, which takes the state to measure
-     (see the contrast test). The rest blend is the binding case: 72% lets more
-     of the band through, and every extra percent of `layer-0` pushes the
-     backdrop toward the end of the ramp furthest from the label colour.
+     transparent)` — so its painted backdrop is a BLEND of `layer-0` and
+     whichever band is beneath it, not `layer-0` itself. A `ContrastPair`
+     background must be a single token, so the blend is asserted separately via
+     `pillNavBackdrop` (see the contrast test). 72% is the lowest alpha the pill
+     paints, and every extra percent of `layer-0` would only push the backdrop
+     toward the end of the ramp furthest from the label colour.
      ===================================================================== */
 
   ...SURFACE_BANDS.map((band) => ({
@@ -463,19 +462,12 @@ export function pairRatio(
 }
 
 /**
- * The Pill_Nav's two scroll states. It is airy at the top of the page and
- * tightens once the hero fold is behind the visitor; part of that tightening is
- * a denser surface, so the pill has two alphas, not one.
- */
-export type PillNavState = 'rest' | 'condensed';
-
-/**
- * Alpha of the Pill_Nav's own surface, per state. `SiteHeader` paints
- * `color-mix(in srgb, var(--layer-0) <alpha>%, transparent)` so the
- * `backdrop-filter` blur stays visible in both states, which means 28% (rest) or
- * 12% (condensed) of whatever band sits beneath the pill shows through. Kept
- * here, next to the pairing table, so the contrast assertion and the component
- * cannot drift apart silently.
+ * Alpha of the Pill_Nav's own surface. The pill has ONE appearance, so one
+ * alpha: `SiteHeader` paints `color-mix(in srgb, var(--layer-0) 72%,
+ * transparent)` so the `backdrop-filter` blur stays visible, which means 28% of
+ * whatever band sits beneath the pill shows through. Kept here, next to the
+ * pairing table, so the contrast assertion and the component cannot drift apart
+ * silently.
  *
  * Raising the alpha is monotonically *safe* for label contrast: it moves the
  * blend further toward `layer-0`, which is the extreme end of the ramp in both
@@ -485,25 +477,15 @@ export type PillNavState = 'rest' | 'condensed';
  * `layer-0`:
  *
  *   Light_Theme, `ink-high` on the blend over layer-0/1/2/3/tint
- *     rest      14.63 / 14.21 / 13.77 / 13.31 / 13.73  → worst 13.31:1
- *     condensed 14.63 / 14.45 / 14.26 / 14.05 / 14.24  → worst 14.05:1
+ *     14.63 / 14.21 / 13.77 / 13.31 / 13.73  → worst 13.31:1
  *   Dark_Theme, `white` on the same blends
- *     rest      20.01 / 19.91 / 19.61 / 19.39 / 19.84  → worst 19.39:1
- *     condensed 20.01 / 19.97 / 19.84 / 19.75 / 19.94  → worst 19.75:1
- *
- * So the condensed state improves the worst case in both themes, and `rest`
- * stays the binding one the assertions default to.
+ *     20.01 / 19.91 / 19.61 / 19.39 / 19.84  → worst 19.39:1
  */
-export const PILL_NAV_SURFACE_ALPHA: Readonly<Record<PillNavState, number>> = {
-  rest: 0.72,
-  condensed: 0.88,
-};
+export const PILL_NAV_SURFACE_ALPHA = 0.72;
 
 /**
  * The colour the Pill_Nav's backdrop actually resolves to over `band`:
- * `layer-0` at {@link PILL_NAV_SURFACE_ALPHA} for `state` composited onto that
- * band. `state` defaults to `rest`, the weaker of the two blends and therefore
- * the binding one — see the monotonicity note above.
+ * `layer-0` at {@link PILL_NAV_SURFACE_ALPHA} composited onto that band.
  *
  * This is the backdrop the nav's label text is measured against — measuring
  * against `layer-0` alone would be wrong on every band except `layer-0`.
@@ -513,11 +495,10 @@ export const PILL_NAV_SURFACE_ALPHA: Readonly<Record<PillNavState, number>> = {
 export function pillNavBackdrop(
   band: ContrastToken,
   tokens: Readonly<Record<string, string>>,
-  state: PillNavState = 'rest',
 ): Rgb {
   const [r, g, b] = parseColor(resolveToken('layer-0', tokens));
   const beneath = parseColor(resolveToken(band, tokens));
-  const translucent: Rgba = [r, g, b, PILL_NAV_SURFACE_ALPHA[state]];
+  const translucent: Rgba = [r, g, b, PILL_NAV_SURFACE_ALPHA];
   return compositeOver(translucent, beneath);
 }
 
