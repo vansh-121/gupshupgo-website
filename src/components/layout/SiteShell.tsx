@@ -24,10 +24,18 @@ interface SiteShellProps {
  *
  * `SiteHeader` and `SiteFooter` render their own landmark elements, so this
  * shell must not wrap them again.
+ *
+ * `SiteHeader` is the floating Pill_Nav and is `position: fixed`, so it is out
+ * of flow and contributes no height here. No spacer is added on purpose: the
+ * pill is 60px tall inset 12px (72px total) below Breakpoint_Small and 76px
+ * total above it, while every page's first block already clears that — the hero
+ * at `py-72px bp810:py-164px` and the legal/404 pages at `py-section` (80px).
+ * A spacer would also sit between `<main>` and its first child and blunt the
+ * skip-link landing.
  */
 export default function SiteShell({ children, mainClassName }: SiteShellProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-surface text-ink-high">
+    <div className="flex min-h-screen flex-col bg-layer-0 text-ink-high">
       <SkipLink />
       <SiteHeader />
       <main id="main-content" tabIndex={-1} className={cn("flex-1 focus:outline-none", mainClassName)}>

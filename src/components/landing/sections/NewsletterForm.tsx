@@ -20,6 +20,14 @@ const DUPLICATE_EMAIL_CODE = "23505";
  * (`waitlist` insert) because Req 8.2 requires the same endpoint; only the
  * visitor-facing copy changed. The client is imported lazily inside the
  * mutation so the Supabase chunk stays off the critical path (design §5).
+ *
+ * Nova pass is presentation-only: no logic, no ARIA wiring and no request shape
+ * changed. The field's boundary is its sole affordance, so it is a
+ * `shadow-hairline-56` inset hairline with the primitive's CSS `border`
+ * neutralised (Req 4.2–4.4); the placeholder is `ink-secondary` because
+ * `ink-low` measures 2.56:1 at best. The submit fill stays `brand-dark` in
+ * Dark_Theme — white on `brand` reads 4.37:1 there — and its hover darkens
+ * rather than lightens so the label keeps 4.5:1 in every state (Req 16.1).
  */
 export default function NewsletterForm() {
   const [email, setEmail] = useState("");
@@ -65,12 +73,12 @@ export default function NewsletterForm() {
     return (
       <div
         role="status"
-        className="flex items-start gap-3 rounded-xl border border-hairline bg-surface p-6 text-left"
+        className="flex items-start gap-12px rounded-8 bg-layer-2 p-24px text-left shadow-hairline-12"
       >
-        <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-status-success" aria-hidden="true" />
+        <CheckCircle2 className="mt-2px size-5 shrink-0 text-status-success" aria-hidden="true" />
         <div>
-          <p className="text-body font-semibold text-ink-high">You're subscribed.</p>
-          <p className="text-body-sm text-ink-high">
+          <p className="text-16 font-medium leading-140 text-ink-high">You're subscribed.</p>
+          <p className="text-14 leading-140 text-ink-secondary">
             We'll email you when new GupShupGo features ship.
           </p>
         </div>
@@ -83,11 +91,11 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="w-full">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+      <div className="flex flex-col gap-12px sm:flex-row sm:items-end">
         <div className="flex-1">
           <label
             htmlFor="newsletter-email"
-            className="mb-2 block text-body-sm font-medium text-ink-high"
+            className="mb-8px block text-14 font-medium leading-140 text-ink-high"
           >
             Email address
           </label>
@@ -102,14 +110,14 @@ export default function NewsletterForm() {
             onChange={(event) => setEmail(event.target.value)}
             aria-invalid={message ? true : undefined}
             aria-describedby={message ? "email-error" : undefined}
-            className="h-12 rounded-xl border-hairline bg-surface text-ink-high placeholder:text-ink-low"
+            className="h-48px rounded-8 border-0 bg-layer-0 text-16 leading-140 text-ink-high shadow-hairline-56 transition-standard placeholder:text-ink-secondary"
           />
         </div>
         <Button
           type="submit"
           disabled={subscription.isPending}
           aria-busy={subscription.isPending}
-          className="h-12 rounded-xl bg-brand px-6 text-body font-semibold text-white hover:bg-brand-dark"
+          className="h-48px rounded-pill bg-brand px-24px text-16 font-medium leading-140 text-white shadow-elevation transition-standard hover:bg-brand-dark dark:bg-brand-dark dark:hover:brightness-90"
         >
           {subscription.isPending ? (
             <>
@@ -123,7 +131,7 @@ export default function NewsletterForm() {
       </div>
 
       {message ? (
-        <p id="email-error" role="alert" className="mt-3 text-body-sm text-status-error">
+        <p id="email-error" role="alert" className="mt-12px text-14 leading-140 text-status-error">
           {message}
         </p>
       ) : null}

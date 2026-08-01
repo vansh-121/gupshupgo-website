@@ -66,10 +66,8 @@ function MessageBubble({ message }: { message: MockupMessage }) {
     <li className={cn("flex", isSelf ? "justify-end" : "justify-start")}>
       <div
         className={cn(
-          "max-w-[78%] rounded-xl px-2.5 py-1.5 text-caption shadow-2xs",
-          isSelf
-            ? "rounded-br-sm bg-brand text-white"
-            : "rounded-bl-sm bg-bubble-received text-ink-high",
+          "max-w-[78%] rounded-8 px-10px py-6px text-12 leading-130",
+          isSelf ? "bg-brand text-white" : "bg-bubble-received text-ink-high",
         )}
       >
         <span className="flex items-center gap-1.5">
@@ -78,17 +76,20 @@ function MessageBubble({ message }: { message: MockupMessage }) {
             <span
               aria-hidden="true"
               className={cn(
-                "h-3.5 w-3.5 shrink-0 rounded-sm border",
-                isSelf ? "border-white/60" : "border-hairline",
+                // Filled rather than outlined: the hairline steps are black in
+                // Light_Theme, which would read as a dark notch on the brand
+                // bubble. Inside a mockup the glyph is decoration either way.
+                "h-3.5 w-3.5 shrink-0 rounded-8",
+                isSelf ? "bg-white/50" : "shadow-hairline-24",
               )}
             />
           )}
-          <span className="leading-snug">{message.body}</span>
+          <span className="leading-130">{message.body}</span>
         </span>
 
         <span
           className={cn(
-            "mt-0.5 flex items-center justify-end gap-1 text-[0.5rem] leading-none",
+            "mt-2px flex items-center justify-end gap-4px text-8 leading-100",
             isSelf ? "text-white/75" : "text-ink-low",
           )}
         >
@@ -114,30 +115,30 @@ export default function ChatScreenContent({ screen }: ChatScreenContentProps) {
   return (
     <div className="flex h-full w-full flex-col bg-surface-chat">
       {/* App bar */}
-      <header className="flex shrink-0 items-center gap-2 border-b border-hairline-divider bg-brand px-3 pb-2 pt-9">
+      <header className="flex shrink-0 items-center gap-8px bg-brand px-12px pb-8px pt-36px">
         <span
           aria-hidden="true"
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-white/20 text-caption font-semibold text-white"
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-white/20 text-12 font-medium leading-100 text-white"
         >
           {initials(screen.title)}
         </span>
 
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-caption font-semibold text-white">
+          <span className="block truncate text-12 font-medium leading-130 text-white">
             {screen.title}
           </span>
-          <span className="block truncate text-[0.5rem] leading-tight text-white/75">
+          <span className="block truncate text-8 leading-130 text-white/75">
             {screen.subtitle}
           </span>
         </span>
 
-        <span className="shrink-0 rounded-pill bg-white/20 px-2 py-0.5 text-[0.5rem] font-medium text-white">
+        <span className="shrink-0 rounded-pill bg-white/20 px-8px py-2px text-8 font-medium leading-130 text-white">
           {screen.streakLabel}
         </span>
       </header>
 
       {/* Message list */}
-      <ul className="flex flex-1 flex-col justify-end gap-1.5 overflow-hidden px-2.5 py-3">
+      <ul className="flex flex-1 flex-col justify-end gap-6px overflow-hidden px-10px py-12px">
         {screen.messages.map((message) => (
           <MessageBubble key={message.id} message={message} />
         ))}
@@ -148,7 +149,7 @@ export default function ChatScreenContent({ screen }: ChatScreenContentProps) {
           <li className="flex justify-start">
             <span
               aria-hidden="true"
-              className="flex items-center gap-1 rounded-xl rounded-bl-sm bg-bubble-received px-2.5 py-2 shadow-2xs"
+              className="flex items-center gap-4px rounded-8 bg-bubble-received px-10px py-8px"
             >
               {[0, 150, 300].map((delay) => (
                 <span
@@ -163,7 +164,7 @@ export default function ChatScreenContent({ screen }: ChatScreenContentProps) {
       </ul>
 
       {/* Composer */}
-      <div className="flex shrink-0 items-center gap-2 border-t border-hairline-divider bg-surface px-2.5 py-2">
+      <div className="flex shrink-0 items-center gap-8px bg-surface px-10px py-8px shadow-hairline-12">
         <span className="h-5 flex-1 rounded-pill bg-surface-alt" aria-hidden="true" />
         <span
           aria-hidden="true"

@@ -1,7 +1,9 @@
-import Section from "@/components/Section";
+import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import DownloadButton from "@/components/DownloadButton";
+import { Reveal, RevealGroup } from "@/components/Reveal";
 import { PLATFORM_LABEL } from "@/config/app";
+import { cn } from "@/lib/utils";
 
 /**
  * Closing download section (design §3.5, Requirements 3.1, 7.1, 7.3, 7.6).
@@ -12,23 +14,32 @@ import { PLATFORM_LABEL } from "@/config/app";
  * platform availability is stated with the shared `PLATFORM_LABEL` so it cannot
  * drift from the rest of the site (Req 7.6).
  *
- * Rendered last in the section registry order (Req 3.1).
+ * Rendered last in the section registry order (Req 3.1). Band 0 — `newsletter`
+ * before it sits on band 1 (Req 3.8). As the page's closing moment it gets the
+ * largest centred heading and the most generous rhythm of any non-hero section.
  */
 export default function DownloadClose() {
   return (
-    <Section id="download">
-      <div className="mx-auto max-w-2xl text-center">
-        <SectionHeading sectionId="download">Get GupShupGo on Android</SectionHeading>
+    <Section id="download" band={0}>
+      <RevealGroup className={cn(MEASURE_CLASSES[644], "mx-auto text-center")}>
+        <Reveal>
+          {/* Level 2 already resolves to text-h2-sm / bp810:text-h2 — the
+              largest non-hero heading on the page, which is what the closing
+              moment wants. */}
+          <SectionHeading sectionId="download">
+            Get GupShupGo on Android
+          </SectionHeading>
+        </Reveal>
 
-        <p className="mt-4 text-body-lg text-ink-mid">
+        <Reveal as="p" className="mt-24px text-lead text-ink-secondary">
           Private messaging, HD video and voice calls, offline mesh chat, and Gup Arcade in
           one app. {PLATFORM_LABEL}.
-        </p>
+        </Reveal>
 
-        <div className="mt-8 flex justify-center">
+        <Reveal className="mt-40px flex justify-center">
           <DownloadButton variant="closing" />
-        </div>
-      </div>
+        </Reveal>
+      </RevealGroup>
     </Section>
   );
 }

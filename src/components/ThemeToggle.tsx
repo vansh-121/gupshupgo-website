@@ -26,8 +26,11 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
 
   const buttonClasses = cn(
     "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-pill",
-    "border border-hairline bg-surface text-ink-high",
-    "transition-colors hover:bg-surface-alt",
+    // The boundary is this control's sole visual affordance, so it takes the
+    // lightest hairline step that clears 3:1 (Req 4.4) as an inset shadow —
+    // never the `border` property (Req 4.3).
+    "bg-layer-0 text-ink-high shadow-hairline-56",
+    "transition-standard hover:bg-layer-1 motion-reduce:transition-none",
     className,
   );
 

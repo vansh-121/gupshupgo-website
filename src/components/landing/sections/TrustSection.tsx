@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 import { KeyRound, ShieldCheck, SlidersHorizontal, Store, UserX } from "lucide-react";
 import { Link } from "react-router-dom";
-import Section from "@/components/Section";
+import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import { Reveal, RevealGroup } from "@/components/Reveal";
 import {
   Accordion,
   AccordionContent,
@@ -10,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { PLATFORM_LABEL } from "@/config/app";
+import { cn } from "@/lib/utils";
 
 /**
  * Social-proof-and-trust section (design §3.6/§3.7, Requirement 3.1).
@@ -19,12 +21,20 @@ import { PLATFORM_LABEL } from "@/config/app";
  * App_Feature_Set supports (end-to-end encryption on the Signal protocol, the
  * PIN-protected Vault, last-seen and read-receipt privacy controls, device
  * session management, publication on Google Play) plus an FAQ answering real
- * questions. Nothing in this file claims a number, a quote, or an award.
+ * questions. Nothing in this file claims a number, a quote, or an award
+ * (Req 1.4).
+ *
+ * Band 0 — the base band, immediately after the one tinted band on `pro`, so
+ * adjacent sections differ (Req 3.8). The pillar cards and FAQ items therefore
+ * take `bg-layer-1` to read as raised, with a Hairline inset shadow and never a
+ * `border` (Req 4.2, 4.3).
  *
  * The FAQ uses the retained Radix Accordion (design §5, `accordion-down` /
  * `accordion-up` keyframes). `AccordionTrigger` wraps its button in Radix's
  * `Accordion.Header`, which renders an `<h3>`, so the outline stays
- * h2 → h3 with no skipped level (Requirement 12.3).
+ * h2 → h3 with no skipped level (Requirement 12.3). The trigger keeps
+ * `ring-brand` as its focus indicator: `brand` measures 3.41:1 at worst against
+ * the bands, clearing the 3:1 of Req 16.8.
  *
  * Requirements: 3.1, 12.8 (no informative image is rendered; the pillar icons
  * are `aria-hidden` glyphs, not images), 14.3 / 14.4 (no raster asset is
@@ -110,7 +120,7 @@ const FAQ_ENTRIES: readonly FaqEntry[] = [
         your data afterwards, are on the{" "}
         <Link
           to="/delete-account"
-          className="font-medium text-brand-dark underline underline-offset-4 hover:text-brand"
+          className="font-medium text-ink-accent underline underline-offset-4 transition-standard hover:text-ink-high"
         >
           delete your account
         </Link>{" "}
@@ -125,45 +135,53 @@ const INTRO =
 
 export default function TrustSection() {
   return (
-    <Section id="trust" background="surface-alt">
-      <div className="mx-auto max-w-3xl text-center">
+    <Section id="trust" band={0}>
+      <div className={cn(MEASURE_CLASSES[644], "mx-auto text-center")}>
         <SectionHeading sectionId="trust">Built to be trusted</SectionHeading>
-        <p className="mt-4 text-body-lg text-ink-high">{INTRO}</p>
+        <p className="mt-20px text-lead text-ink-high">{INTRO}</p>
       </div>
 
-      <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <RevealGroup
+        as="ul"
+        className="mt-48px grid grid-cols-1 gap-24px bp810:grid-cols-2 bp1200:grid-cols-3"
+      >
         {TRUST_PILLARS.map(({ id, Icon, title, body }) => (
-          <li
+          <Reveal
+            as="li"
             key={id}
             data-pillar={id}
-            className="rounded-xl border border-hairline bg-surface p-6"
+            className="rounded-8 bg-layer-1 p-24px shadow-hairline-12"
           >
             <span
               aria-hidden="true"
-              className="flex h-11 w-11 items-center justify-center rounded-pill bg-brand text-white"
+              className="flex h-44px w-44px items-center justify-center rounded-full bg-brand text-white"
             >
               <Icon className="h-5 w-5" />
             </span>
-            <h3 className="mt-4 text-h3 font-semibold text-ink-high">{title}</h3>
-            <p className="mt-2 text-body text-ink-high">{body}</p>
-          </li>
+            <h3 className="mt-16px text-25 font-medium leading-120 text-ink-high">{title}</h3>
+            <p className="mt-8px text-16 leading-140 text-ink-secondary">{body}</p>
+          </Reveal>
         ))}
-      </ul>
+      </RevealGroup>
 
-      <div className="mx-auto mt-16 max-w-3xl">
-        <h3 className="text-h3 font-semibold text-ink-high">Frequently asked questions</h3>
-        <Accordion type="single" collapsible className="mt-4">
+      <div className={cn(MEASURE_CLASSES[809], "mx-auto mt-64px")}>
+        <h3 className="text-25 font-medium leading-120 text-ink-high">
+          Frequently asked questions
+        </h3>
+        <Accordion type="single" collapsible className="mt-20px space-y-12px">
           {FAQ_ENTRIES.map((entry) => (
             <AccordionItem
               key={entry.id}
               value={entry.id}
               data-faq={entry.id}
-              className="border-b border-hairline-divider last:border-b-0"
+              className="border-b-0 rounded-8 bg-layer-1 px-20px shadow-hairline-12"
             >
-              <AccordionTrigger className="min-h-[44px] gap-4 text-left text-body-lg font-semibold text-ink-high hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2">
+              <AccordionTrigger className="min-h-[44px] gap-16px py-16px text-left text-19 font-medium leading-130 text-ink-high transition-standard hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2">
                 {entry.question}
               </AccordionTrigger>
-              <AccordionContent className="max-w-prose text-body text-ink-high">
+              <AccordionContent
+                className={cn(MEASURE_CLASSES[644], "pb-16px text-16 leading-140 text-ink-secondary")}
+              >
                 {entry.answer}
               </AccordionContent>
             </AccordionItem>

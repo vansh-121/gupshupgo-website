@@ -2,32 +2,115 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fonts are loaded via <link rel="preconnect"> + <link rel="stylesheet"> in index.html
-   (single Inter family, display=swap) — no @import here so the font request is not
-   serialised behind this stylesheet. */
+/* Inter is loaded via <link rel="preconnect"> + <link rel="stylesheet"> in index.html
+   (single family, display=swap) — no @import here so the font request is not
+   serialised behind this stylesheet. Inter stays as the fallback family. */
+
+/* ---- Display typeface: Geist (Requirement 2) ----
+   General Sans is distributed under the ITF Free Font License, which does not
+   grant redistribution or font-serving rights, so its binaries cannot be
+   committed to this repository. Geist (SIL OFL 1.1) is the metric substitute:
+   it is within 3% of General Sans on x-height, cap-height and advance widths at
+   both 400 and 500. Rationale, measurements and licence: docs/FONTS.md.
+
+   One self-hosted latin-subset variable file (29,400 bytes) covers both weights;
+   the `font-weight: 400 500` range is what restricts usage to those two weights
+   (Requirement 2.5). Geist exposes no `cvNN` character variants, so no
+   font-feature-settings are declared. */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/geist-latin-400-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 @layer base {
   :root {
     color-scheme: light;
 
     /* ---- App palette (authoritative, Requirement 1.2) ---- */
-    --gsg-primary:         #6C5CE7;
-    --gsg-primary-dark:    #5246BE;
-    --gsg-primary-light:   #EDE9FE;
-    --gsg-surface:         #FFFFFF;
-    --gsg-surface-alt:     #F5F3FF;
+    --gsg-primary: #6C5CE7;
+    --gsg-primary-dark: #5246BE;
+    --gsg-primary-light: #EDE9FE;
+    --gsg-surface: #FFFFFF;
+    --gsg-surface-alt: #F5F3FF;
     --gsg-chat-background: #F2F1FA;
-    --gsg-text-high:       #1E293B;
-    --gsg-text-mid:        #64748B;
-    --gsg-text-low:        #94A3B8;
-    --gsg-border:          #E4E1F5;
-    --gsg-divider:         #F1F0F9;
+    --gsg-text-high: #1E293B;
+    --gsg-text-mid: #64748B;
+    --gsg-text-low: #94A3B8;
+    --gsg-border: #E4E1F5;
+    --gsg-divider: #F1F0F9;
     --gsg-received-bubble: #F0EFF8;
 
     /* ---- Status tokens (Requirement 1.4, theme-invariant) ---- */
-    --gsg-error:   #EF4444;
+    --gsg-error: #EF4444;
     --gsg-success: #10B981;
     --gsg-warning: #F59E0B;
+
+    /* ================================================================
+       Surface-band layer (landing-ui-polish Requirements 3, 4, 5, 11).
+       Purely additive: every --gsg-* token above is unchanged because
+       DeviceMockup reproduces the Flutter app palette from them exactly.
+       ================================================================ */
+
+    /* ---- Surface bands (Req 3.1–3.4) ----
+       `layer-0` is the base page background. Each ascending index is one step
+       more RAISED. The luminance direction is theme-dependent: raised goes
+       DARKER in Light_Theme and LIGHTER in Dark_Theme, so one `bg-layer-2`
+       class reads as raised in both themes with no per-theme override.
+       `layer-tint` is not a step in that ramp — it is the single
+       Brand_Accent-tinted band (Req 3.10) and sits outside the ordering. */
+    --layer-0: #FFFFFF;
+    --layer-1: #F3F3F3;
+    --layer-2: #E6E6E6;
+    --layer-3: #D8D8D8;
+    /* relative luminance 0.7818 vs Nova's #E2E4F6 at 0.7831 → Δ 0.0013 (Req 3.3) */
+    --layer-tint: #E6E2FB;
+
+    /* ---- Text on bands (Req 3.9, 16.7) ----
+       Alpha rather than hex so the value composites onto whichever band it
+       lands on. Measured 5.74 / 5.56 / 5.36 / 5.12 / 5.34 across
+       layer-0…layer-3 and layer-tint. --gsg-text-mid (#64748B) is NOT usable
+       for body copy on these bands — it measures 4.29 on layer-1 — so it stays
+       reserved for DeviceMockup internals. */
+    --text-secondary: rgba(0, 0, 0, 0.6);
+    /* Accent-coloured text. --gsg-primary clears 4.5:1 on layer-0 only
+       (4.86, then 4.38 / 3.89 / 3.41 / 3.85), so accent text resolves to the
+       darker brand tone: 7.05 / 6.35 / 5.65 / 4.95 / 5.59. */
+    --text-accent: #5246BE;
+
+    /* ---- Hairline alpha steps (Req 4.1, 4.4) ----
+       Consumed as `box-shadow: inset 0 0 0 1px …`, never as `border`.
+       Against the bands only -56 (4.94…4.48) and -76 (10.83…8.76) clear 3:1,
+       so WHERE a boundary is a control's sole affordance it must use
+       --hairline-56. -08/-12/-24 are decorative only. */
+    --hairline-08: rgba(0, 0, 0, 0.08);
+    --hairline-12: rgba(0, 0, 0, 0.12);
+    --hairline-24: rgba(0, 0, 0, 0.24);
+    --hairline-56: rgba(0, 0, 0, 0.56);
+    --hairline-76: rgba(0, 0, 0, 0.76);
+
+    /* ---- Semantic pill palette (Req 11) ----
+       Three Brand_Accent-derived tints, each with its paired foreground.
+       Measured foreground-on-background 7.01 / 7.08 / 6.73. Choose the tint one
+       step above the band the pill sits on so the pill body reads as a shape. */
+    --pill-soft-bg: #EDE9FE;
+    --pill-soft-fg: #4A3AB0;
+    --pill-mid-bg: #DED9FC;
+    --pill-mid-fg: #453398;
+    --pill-strong-bg: #CFC8FA;
+    --pill-strong-fg: #3E2E8C;
+
+    /* ---- The only two permitted outer elevations (Req 5.1, 5.3, 5.4) ----
+       --elevation-mockup is for phone-frame mockups and nothing else. */
+    --elevation: 0 2px 14px rgba(0, 0, 0, 0.05);
+    --elevation-mockup:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 8px 16px rgba(0, 0, 0, 0.06),
+      0 24px 48px rgba(0, 0, 0, 0.1),
+      0 48px 96px rgba(0, 0, 0, 0.12);
 
     /* ---- DERIVED shadcn/ui HSL triplets ----
        Derived from the app palette above. Do not edit independently:
@@ -53,7 +136,8 @@
     --destructive-foreground: 0 0% 100%;
     --radius: 0.75rem;
 
-    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Display_Typeface first, then Inter, then the system fallbacks (Req 2.1, 2.8) */
+    --font-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     /* ---- Elevation scale, tinted from --gsg-primary at low alpha ---- */
     --shadow-2xs: 0 1px 2px 0px hsl(247 74% 63% / 0.04);
@@ -70,20 +154,63 @@
     color-scheme: dark;
 
     /* ---- App palette (Requirement 1.3) ---- */
-    --gsg-primary:         #7C5CFC;
-    --gsg-primary-dark:    #6342E8;
-    --gsg-primary-light:   #1E1A3D;
-    --gsg-surface:         #0A0B10;
-    --gsg-surface-alt:     #12141D;
+    --gsg-primary: #7C5CFC;
+    --gsg-primary-dark: #6342E8;
+    --gsg-primary-light: #1E1A3D;
+    --gsg-surface: #0A0B10;
+    --gsg-surface-alt: #12141D;
     --gsg-chat-background: #07080D;
-    --gsg-text-high:       #F1F3F9;
-    --gsg-text-mid:        #808A9D;
-    --gsg-text-low:        #4A5264;
-    --gsg-border:          #1F2232;
-    --gsg-divider:         #161824;
+    --gsg-text-high: #F1F3F9;
+    --gsg-text-mid: #808A9D;
+    --gsg-text-low: #4A5264;
+    --gsg-border: #1F2232;
+    --gsg-divider: #161824;
     --gsg-received-bubble: #181A26;
 
     /* status tokens intentionally not overridden — identical in both themes */
+
+    /* ---- Surface bands (Req 3.4) ----
+       Same semantics as Light_Theme: ascending index = more raised. Here that
+       means LIGHTER, which is the inverse luminance direction of Light_Theme. */
+    --layer-0: #07080D;
+    --layer-1: #0A0B10;
+    --layer-2: #12141D;
+    --layer-3: #181A26;
+    /* Brand_Accent-derived and darker than layer-2: luminance 0.00426 vs 0.00718 */
+    --layer-tint: #0E0B1E;
+
+    /* ---- Text on bands (Req 3.9, 16.7) ----
+       Measured 10.30 / 10.21 / 9.80 / 9.40 / 10.11 across the five bands. */
+    --text-secondary: rgba(255, 255, 255, 0.72);
+    /* --gsg-primary (#7C5CFC) misses 4.5:1 on layer-1/2/3 (4.49 / 4.19 / 3.95),
+       so accent text lifts to a brighter violet: 5.87 / 5.77 / 5.39 / 5.07 / 5.68. */
+    --text-accent: #8E76FD;
+
+    /* ---- Hairline alpha steps (Req 4.1) ----
+       Only -56 (6.46…6.18) and -76 (11.44…10.35) clear 3:1 against the bands. */
+    --hairline-08: rgba(255, 255, 255, 0.08);
+    --hairline-12: rgba(255, 255, 255, 0.12);
+    --hairline-24: rgba(255, 255, 255, 0.24);
+    --hairline-56: rgba(255, 255, 255, 0.56);
+    --hairline-76: rgba(255, 255, 255, 0.76);
+
+    /* ---- Semantic pill palette, Dark_Theme variant for every tint (Req 11.4) ----
+       Measured foreground-on-background 9.15 / 9.17 / 8.99. */
+    --pill-soft-bg: #211C3D;
+    --pill-soft-fg: #C7BAFE;
+    --pill-mid-bg: #2A2350;
+    --pill-mid-fg: #D2C7FE;
+    --pill-strong-bg: #342B63;
+    --pill-strong-fg: #DDD5FF;
+
+    /* ---- Standard_Elevation is a fixed literal (Req 5.1) and is NOT overridden
+       here. Only the mockup shadow opens up, because the dark bands are
+       near-black and would otherwise swallow it entirely. ---- */
+    --elevation-mockup:
+      0 1px 2px rgba(0, 0, 0, 0.4),
+      0 8px 16px rgba(0, 0, 0, 0.45),
+      0 24px 48px rgba(0, 0, 0, 0.5),
+      0 48px 96px rgba(0, 0, 0, 0.55);
 
     /* ---- DERIVED shadcn/ui HSL triplets — do not edit independently ---- */
     --background: 230 23% 5%;
@@ -155,5 +282,121 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   MOTION SECTION — Appear_Animation, Standard_Transition, Marquee
+   (landing-ui-polish Requirements 13.3–13.6, 14, 15)
+
+   Everything here is CSS-only: no animation library, so the 300 KB chunk
+   budget is untouched (Req 14.4, 17.1). No parallax and no scroll-scrubbed
+   timeline is defined, because none is permitted (Req 14.6).
+
+   Reveal state is a class pair driven by `useReveal` / `<Reveal>`:
+     .reveal      initial state — opacity 0.001 (NOT 0: a real but
+                  imperceptible paint avoids the repaint flash a 0 → 1 jump
+                  causes on some compositors) and translateY(10px)
+     .reveal-in   revealed state — opacity 1, translateY(0), and nothing ever
+                  removes it, so an element stays revealed for the session
+                  (Req 14.7)
+
+   Stagger (Req 14.2) is `--reveal-index` × `--reveal-step`. The index is set
+   per child by <Reveal>/<RevealGroup>, which is what lets one observer on a
+   parent stagger N children instead of N observers.
+   ========================================================================== */
+
+@layer utilities {
+  .reveal {
+    /* Fixed 80ms stagger interval — inside the permitted 40–120ms band. */
+    --reveal-step: 80ms;
+    --reveal-duration: 0.6s;
+    --reveal-ease: cubic-bezier(0.44, 0, 0.56, 1);
+
+    opacity: 0.001;
+    transform: translateY(10px);
+    transition-property: opacity, transform;
+    transition-duration: var(--reveal-duration);
+    transition-timing-function: var(--reveal-ease);
+    transition-delay: calc(var(--reveal-index, 0) * var(--reveal-step));
+    will-change: opacity, transform;
+  }
+
+  .reveal-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Standard_Transition (Req 14.5): the single transition for every hover,
+     focus and active change of colour, background, opacity and transform. */
+  .transition-standard {
+    transition-property: color, background-color, border-color, text-decoration-color, fill,
+      stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.44, 0, 0.56, 1);
+  }
+
+  /* ---- Marquee (Req 13.3–13.6) ----
+     Structure a consumer is expected to render:
+
+       <div class="marquee marquee-mask">
+         <div class="marquee-track">…items…{duplicate of the same items}…</div>
+       </div>
+
+     The track holds the item row twice, so translating it by -50% lands
+     exactly on the start of the duplicate and the loop is seamless. */
+  .marquee-track {
+    animation: marquee-scroll var(--marquee-duration, 40s) linear infinite;
+    will-change: transform;
+  }
+
+  /* 270deg edge mask fading both ends into the section background (Req 13.3). */
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(270deg,
+        transparent 0%,
+        #000 12%,
+        #000 88%,
+        transparent 100%);
+    mask-image: linear-gradient(270deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+
+  /* Pause on keyboard focus entering the marquee (Req 13.5). */
+  .marquee:focus-within .marquee-track,
+  .marquee-track:focus-within {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---- Reduced-motion kill switch (Req 15.1–15.4) ----
+   Declared in CSS as well as in the JS path so there is no window in which
+   content is hidden: even before `useReveal` runs, `.reveal` resolves to
+   opacity 1 / translateY(0) here, and no reveal is ever gated on scrolling. */
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal,
+  .reveal-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .transition-standard {
+    transition: none !important;
   }
 }

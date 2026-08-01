@@ -5,26 +5,28 @@ import { Button } from '@/components/ui/button';
 import { PLAY_STORE_URL } from '@/config/app';
 
 /**
- * The single Download call-to-action component (design §3.5).
+ * The single Download call-to-action component (Req 1.6).
  *
  * This is the ONLY module in the app that imports `PLAY_STORE_URL`; every other
  * consumer renders this component instead, so the store URL cannot drift.
  *
  * All variants are solid `bg-brand` fills. In dark theme the fill switches to
  * `brand-dark` (#6342E8) so the white label keeps a ~6.0:1 contrast ratio —
- * white on the dark-theme `brand` (#7C5CFC) would fail at body size (design §6.5).
+ * white on the dark-theme `brand` (#7C5CFC) would fail at body size (Req 16.1).
  *
- * Every variant is at least 44x44 CSS pixels (Requirement 11.5).
+ * Nova styling: pill radius, weight 500, Standard_Elevation as the only outer
+ * shadow, and Standard_Transition on every state change (Req 5.2, 6.9, 7.9,
+ * 14.5). Every variant is at least 44x44 CSS pixels (Req 8.6).
  */
 export type DownloadButtonVariant = 'hero' | 'header' | 'closing';
 
 const VARIANT_CLASSES: Record<DownloadButtonVariant, string> = {
   // Largest; stretches to the full container width below 640px.
-  hero: 'h-14 min-h-[44px] w-full px-8 text-body-lg sm:w-auto',
+  hero: 'h-14 min-h-[44px] w-full px-32px text-19 sm:w-auto',
   // Compact, for the sticky site header.
-  header: 'h-11 min-h-[44px] min-w-[44px] px-4 text-body-sm',
+  header: 'h-11 min-h-[44px] min-w-[44px] px-16px text-14',
   // Large, for the closing download section.
-  closing: 'h-[3.25rem] min-h-[44px] px-8 text-body-lg',
+  closing: 'h-[3.25rem] min-h-[44px] px-32px text-19',
 };
 
 export interface DownloadButtonProps {
@@ -45,9 +47,11 @@ export function DownloadButton({
     <Button
       asChild
       className={cn(
-        'rounded-pill bg-brand font-semibold text-white shadow-sm transition-colors',
+        'rounded-pill bg-brand font-medium leading-120 text-white shadow-elevation',
+        // Standard_Transition (Req 14.5); neutralised under reduced motion (Req 15.3).
+        'transition duration-200 ease-standard motion-reduce:transition-none',
         'hover:bg-brand-dark',
-        'dark:bg-brand-dark dark:text-white dark:hover:bg-brand-dark dark:hover:shadow-md',
+        'dark:bg-brand-dark dark:text-white dark:hover:bg-brand-dark',
         VARIANT_CLASSES[variant],
         className,
       )}

@@ -63,12 +63,25 @@ export default {
 				},
 				ink: {
 					high: "var(--gsg-text-high)",
+					// `mid` is DeviceMockup-only: it measures 4.29:1 on layer-1.
+					// Body copy on a surface band uses `ink-secondary` instead.
 					mid: "var(--gsg-text-mid)",
 					low: "var(--gsg-text-low)",
+					// Named `ink-secondary` rather than `secondary` because
+					// `text-secondary` is already taken by the shadcn colour group.
+					secondary: "var(--text-secondary)",
+					accent: "var(--text-accent)",
 				},
 				hairline: {
 					DEFAULT: "var(--gsg-border)",
 					divider: "var(--gsg-divider)",
+					// Alpha steps (Req 4.1). Consumed through the `shadow-hairline-*`
+					// utilities below; exposed as colours for ring/outline use only.
+					"08": "var(--hairline-08)",
+					12: "var(--hairline-12)",
+					24: "var(--hairline-24)",
+					56: "var(--hairline-56)",
+					76: "var(--hairline-76)",
 				},
 				bubble: {
 					received: "var(--gsg-received-bubble)",
@@ -78,30 +91,162 @@ export default {
 					success: "var(--gsg-success)",
 					warning: "var(--gsg-warning)",
 				},
+
+				// Surface bands (Req 3.1). layer-0 is the base page background;
+				// ascending index = more raised in BOTH themes.
+				layer: {
+					0: "var(--layer-0)",
+					1: "var(--layer-1)",
+					2: "var(--layer-2)",
+					3: "var(--layer-3)",
+					tint: "var(--layer-tint)",
+				},
+
+				// Semantic pill palette (Req 11): bg-pill-soft / text-pill-soft-fg.
+				pill: {
+					soft: "var(--pill-soft-bg)",
+					"soft-fg": "var(--pill-soft-fg)",
+					mid: "var(--pill-mid-bg)",
+					"mid-fg": "var(--pill-mid-fg)",
+					strong: "var(--pill-strong-bg)",
+					"strong-fg": "var(--pill-strong-fg)",
+				},
+			},
+			// Explicit breakpoints (Req 7.8). Declared under `extend` so Tailwind's
+			// own sm/md/lg/xl/2xl stay intact for the sections that still use them.
+			screens: {
+				bp810: "810px",
+				bp1200: "1200px",
 			},
 			fontSize: {
-				display: ["clamp(2.25rem, 5vw, 3.75rem)", { lineHeight: "1.05", letterSpacing: "-0.03em" }],
-				h1: ["clamp(2rem, 4vw, 3rem)", { lineHeight: "1.1", letterSpacing: "-0.025em" }],
-				h2: ["clamp(1.625rem, 3vw, 2.25rem)", { lineHeight: "1.2", letterSpacing: "-0.02em" }],
-				h3: ["1.25rem", { lineHeight: "1.35", letterSpacing: "-0.015em" }],
-				"body-lg": ["1.125rem", { lineHeight: "1.7", letterSpacing: "0" }],
-				body: ["1rem", { lineHeight: "1.65", letterSpacing: "0" }],
-				"body-sm": ["0.875rem", { lineHeight: "1.6", letterSpacing: "0" }],
-				caption: ["0.75rem", { lineHeight: "1.5", letterSpacing: "0.01em" }],
+				// ---- Type_Scale, 19 steps, one named utility per step (Req 6.1) ----
+				// `text-8` … `text-68`, values in CSS pixels.
+				8: "8px",
+				9: "9px",
+				10: "10px",
+				11: "11px",
+				12: "12px",
+				13: "13px",
+				14: "14px",
+				16: "16px",
+				19: "19px",
+				21: "21px",
+				23: "23px",
+				24: "24px",
+				25: "25px",
+				33: "33px",
+				39: "39px",
+				42: "42px",
+				48: "48px",
+				57: "57px",
+				68: "68px",
+
+				// ---- Heading composites (Req 6.3–6.7, 6.11) ----
+				// `-sm` is the below-Breakpoint_Small variant; sections pair them as
+				// `text-h1-sm bp810:text-h1`.
+				h1: ["68px", { lineHeight: "1", letterSpacing: "-0.04em" }],
+				"h1-sm": ["57px", { lineHeight: "1", letterSpacing: "-0.04em" }],
+				h2: ["48px", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
+				"h2-sm": ["39px", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
+				h3: ["39px", { lineHeight: "1.2", letterSpacing: "-0.03em" }],
+				lead: ["23px", { lineHeight: "1.2", letterSpacing: "-0.02em" }],
+
+				// The pre-Nova keys `display`, `body-lg`, `body`, `body-sm` and
+				// `caption` are gone: their 1.5–1.7 line-heights sit outside the
+				// permitted set (Req 6.10) and nothing in src/ references them any
+				// more. Use the ramp above — `text-16 leading-140` for body copy,
+				// `text-14 leading-140`, `text-12 leading-130`, `text-lead` for a
+				// section lead, `text-h1-sm bp810:text-h1` for the display step.
+			},
+			// Permitted line-heights (Req 6.10) as named utilities: `leading-100` …
+			// `leading-140`. Tailwind's defaults are left in place so existing
+			// `leading-*` usages keep compiling until their section migrates.
+			// Standard_Transition easing as a named token (Req 14.5). Named rather
+			// than written as `ease-[cubic-bezier(...)]`, which Tailwind reports as
+			// an ambiguous arbitrary value.
+			transitionTimingFunction: {
+				standard: "cubic-bezier(0.44, 0, 0.56, 1)",
+			},
+			lineHeight: {
+				100: "1",
+				110: "1.1",
+				120: "1.2",
+				130: "1.3",
+				140: "1.4",
 			},
 			spacing: {
-				section: "5rem",
-				"section-lg": "7.5rem",
-				gutter: "1.5rem",
+				// ---- Gap_Scale, 21 steps (Req 7.7) ----
+				// Keys carry an explicit `px` suffix so they cannot collide with
+				// Tailwind's own numeric spacing scale, where `2` means 0.5rem.
+				// Usage: `py-128px`, `px-36px`, `gap-20px`.
+				"2px": "2px",
+				"4px": "4px",
+				"6px": "6px",
+				"8px": "8px",
+				"10px": "10px",
+				"12px": "12px",
+				"16px": "16px",
+				"20px": "20px",
+				"24px": "24px",
+				"28px": "28px",
+				"32px": "32px",
+				"36px": "36px",
+				"40px": "40px",
+				"44px": "44px",
+				"48px": "48px",
+				"60px": "60px",
+				"64px": "64px",
+				"80px": "80px",
+				"112px": "112px",
+				"128px": "128px",
+				"164px": "164px",
+
+				// ---- Aliases keeping the shipped sections working ----
+				// Each now points at a step of the ramp above. `section-lg` moves
+				// 120px → 128px, the nearest step; the other two are unchanged.
+				// Later slices replace `py-section` with `py-64px bp810:py-128px`
+				// and `px-gutter` with `px-20px bp810:px-36px`.
+				section: "80px",
+				"section-lg": "128px",
+				gutter: "24px",
 			},
 			borderRadius: {
+				// The two permitted radii (Req 7.9)
+				8: "8px",
+				pill: "80px",
+				// Retained so the shipped sections keep compiling.
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",
 				sm: "calc(var(--radius) - 4px)",
 				xl: "calc(var(--radius) * 1.5)",
-				pill: "9999px",
 			},
 			boxShadow: {
+				// ---- The two outer elevations (Req 5.1, 5.3, 5.4) ----
+				elevation: "var(--elevation)",
+				mockup: "var(--elevation-mockup)",
+
+				// ---- Hairline boundaries (Req 4.2, 4.3): an inset shadow, never a
+				// `border`. `-elevated` composes the inset hairline and the outer
+				// elevation in ONE box-shadow declaration (Req 4.5), which is why
+				// these are boxShadow keys rather than `ring` utilities — Tailwind's
+				// ring utilities cannot express inset + outer in one declaration.
+				// Use `hairline-56` where the boundary is a control's sole
+				// affordance; it is the lightest step that clears 3:1 (Req 4.4). ----
+				hairline: "inset 0 0 0 1px var(--hairline-12)",
+				"hairline-08": "inset 0 0 0 1px var(--hairline-08)",
+				"hairline-12": "inset 0 0 0 1px var(--hairline-12)",
+				"hairline-24": "inset 0 0 0 1px var(--hairline-24)",
+				"hairline-56": "inset 0 0 0 1px var(--hairline-56)",
+				"hairline-76": "inset 0 0 0 1px var(--hairline-76)",
+				"hairline-elevated": "inset 0 0 0 1px var(--hairline-12), var(--elevation)",
+				"hairline-08-elevated": "inset 0 0 0 1px var(--hairline-08), var(--elevation)",
+				"hairline-12-elevated": "inset 0 0 0 1px var(--hairline-12), var(--elevation)",
+				"hairline-24-elevated": "inset 0 0 0 1px var(--hairline-24), var(--elevation)",
+				"hairline-56-elevated": "inset 0 0 0 1px var(--hairline-56), var(--elevation)",
+				"hairline-76-elevated": "inset 0 0 0 1px var(--hairline-76), var(--elevation)",
+
+				// ---- Retained so the shipped sections keep compiling. Later slices
+				// collapse every one of these onto `elevation` / `mockup`. ----
 				"2xs": "var(--shadow-2xs)",
 				xs: "var(--shadow-xs)",
 				sm: "var(--shadow-sm)",
@@ -130,7 +275,10 @@ export default {
 				"fade-in-up": "fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
 			},
 			fontFamily: {
+				// Display_Typeface first, Inter second, system fallbacks after
+				// (Req 2.1, 2.8). Mirrors --font-sans in src/index.css.
 				sans: [
+					"Geist",
 					"Inter",
 					"ui-sans-serif",
 					"system-ui",

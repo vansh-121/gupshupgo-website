@@ -20,10 +20,10 @@ export default function SkipLink({ className }: SkipLinkProps) {
       href="#main-content"
       className={cn(
         "sr-only",
-        "focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100]",
-        "focus-visible:rounded-lg focus-visible:bg-brand focus-visible:px-4 focus-visible:py-3",
-        "focus-visible:text-body-sm focus-visible:font-medium focus-visible:text-white",
-        "focus-visible:shadow-lg",
+        "focus-visible:not-sr-only focus-visible:fixed focus-visible:left-16px focus-visible:top-16px focus-visible:z-[100]",
+        "focus-visible:rounded-8 focus-visible:bg-brand focus-visible:px-16px focus-visible:py-12px",
+        "focus-visible:text-14 focus-visible:font-medium focus-visible:leading-140 focus-visible:text-white",
+        "focus-visible:shadow-elevation",
         className,
       )}
     >
