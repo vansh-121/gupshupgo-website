@@ -165,6 +165,7 @@ export default function LoadingSkeleton() {
   return (
     <div
       aria-hidden="true"
+      data-testid="loading-skeleton"
       className="min-h-screen animate-pulse bg-surface text-ink-high motion-reduce:animate-none"
     >
       <HeaderSkeleton />
