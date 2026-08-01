@@ -2,6 +2,7 @@ import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import DeviceMockup from "@/components/DeviceMockup/DeviceMockup";
 import { getMockupScreen } from "@/data/mockupScreens";
+import { bandFor } from "@/data/sections";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
 
@@ -11,12 +12,12 @@ import { cn } from "@/lib/utils";
  * Phrase contract: Gup Points, challenges, leaderboard, chat streaks (bonds)
  * with streak restore. Embeds the `arcade` device mockup screen.
  *
- * Band 1 — its neighbours (`mesh` before, `privacy` after) sit on band 0, so
- * adjacent sections differ (Req 3.8).
+ * The band comes from `bandFor("arcade")` — derived from this section's position
+ * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
  */
 export default function ArcadeSection() {
   return (
-    <Section id="arcade" band={1}>
+    <Section id="arcade" band={bandFor("arcade")}>
       <RevealGroup className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
         <Reveal className={cn(MEASURE_CLASSES[644])}>
           <SectionHeading sectionId="arcade">

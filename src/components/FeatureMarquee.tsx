@@ -1,13 +1,14 @@
 import Pill from "@/components/Pill";
 import { cn } from "@/lib/utils";
-import { FEATURES } from "@/data/features";
+import { VISIBLE_FEATURES } from "@/data/features";
 import type { PillTint } from "@/components/Pill";
 
 /**
  * The Landing_Page's one and only Marquee (Req 13.1).
  *
- * Content is the 17 feature *names* read straight from `@/data/features`
- * (Req 13.2) and rendered as Semantic_Pills. Nothing else lives here: no
+ * Content is the visible feature *names* read straight from `@/data/features`
+ * (Req 13.2) and rendered as Semantic_Pills — `VISIBLE_FEATURES`, so the sweep
+ * cannot advertise Pro while `PRO_LAUNCHED` is false. Nothing else lives here: no
  * partner or customer logos, no testimonial text, no rating values (Req 13.7).
  *
  * Motion is entirely CSS, from the `.marquee*` utilities in `src/index.css`
@@ -33,7 +34,9 @@ import type { PillTint } from "@/components/Pill";
  * decoration in place of it.
  */
 
-const FEATURE_MARQUEE_NAMES: readonly string[] = FEATURES.map((feature) => feature.name);
+const FEATURE_MARQUEE_NAMES: readonly string[] = VISIBLE_FEATURES.map(
+  (feature) => feature.name,
+);
 
 function MarqueeRow({
   tint,

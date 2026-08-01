@@ -3,6 +3,7 @@ import SectionHeading from "@/components/SectionHeading";
 import Pill from "@/components/Pill";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { PRO_BENEFITS } from "@/data/proBenefits";
+import { bandFor } from "@/data/sections";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -14,10 +15,15 @@ import { cn } from "@/lib/utils";
  * purchase path are stated as static copy (Req 6.3, 6.4), and no currency
  * symbol or monetary amount appears anywhere in this file (Req 6.5).
  *
- * Band `tint` — this is the one Tinted_Band the page is allowed (Req 3.10), and
- * Pro is the brand-emphasis moment that earns it. Its neighbours (`anonymous`
- * before, `trust` after) sit on other bands, so adjacent sections differ
- * (Req 3.8). Because the comparison surface sits on the tint band it uses
+ * Gating: this section is rendered by `Index.tsx` only when `PRO_LAUNCHED`
+ * (`src/config/app.ts`) is true. While the app's `pro_enabled` Remote Config
+ * flag is false the module still builds into its own chunk but is never fetched,
+ * so the content below is dormant rather than deleted.
+ *
+ * The band comes from `bandFor("pro")`, which returns `tint` — the one
+ * Tinted_Band the page is allowed (Req 3.10), and Pro is the brand-emphasis
+ * moment that earns it. Its neighbours take position-derived bands, so adjacent
+ * sections differ (Req 3.8). Because the comparison surface sits on the tint band it uses
  * `bg-layer-0` to read as raised against it, and its pills take the `strong`
  * tint, one step above the band (docs/TOKENS.md).
  *
@@ -40,7 +46,7 @@ export default function ProSection() {
   const isMobile = useIsMobile();
 
   return (
-    <Section id="pro" band="tint">
+    <Section id="pro" band={bandFor("pro")}>
       <div className={cn(MEASURE_CLASSES[644], "mx-auto text-center")}>
         <SectionHeading sectionId="pro">GupShupGo Pro</SectionHeading>
         <p className="mt-20px text-lead text-ink-high">{INTRO}</p>

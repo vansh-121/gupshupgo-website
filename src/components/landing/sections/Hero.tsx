@@ -11,8 +11,8 @@ import {
   type MockupCallScreen,
   type MockupChatScreen,
 } from "@/data/mockupScreens";
-import { SECTIONS } from "@/data/sections";
-import { PLATFORM_LABEL } from "@/config/app";
+import { SECTIONS, bandFor } from "@/data/sections";
+import { PLATFORM_LABEL, PRO_LAUNCHED } from "@/config/app";
 import { useSectionNavigation } from "@/hooks/useSectionNavigation";
 import { cn } from "@/lib/utils";
 
@@ -69,7 +69,7 @@ export default function Hero() {
   const navigateToSection = useSectionNavigation();
 
   return (
-    <Section id="hero" band={0} hero>
+    <Section id="hero" band={bandFor("hero")} hero>
       <RevealGroup as="div" className="flex flex-col items-center text-center">
         <Reveal as="div">
           <Pill tint="soft">{PLATFORM_LABEL}</Pill>
@@ -119,8 +119,12 @@ export default function Hero() {
             "mt-20px text-14 leading-140 text-ink-secondary",
           )}
         >
-          {PLATFORM_LABEL} — free to download, with an optional Pro
-          subscription inside the app.
+          {/* Gated on PRO_LAUNCHED: while the app's `pro_enabled` flag is off
+              the site says nothing about tiers, only that the download itself
+              is free. */}
+          {PRO_LAUNCHED
+            ? `${PLATFORM_LABEL} — free to download, with an optional Pro subscription inside the app.`
+            : `${PLATFORM_LABEL} — free to download from Google Play.`}
         </Reveal>
       </RevealGroup>
 

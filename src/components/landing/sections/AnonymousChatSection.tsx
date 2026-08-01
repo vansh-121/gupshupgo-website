@@ -2,6 +2,7 @@ import { Shuffle, UserRound, Users } from "lucide-react";
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import { Reveal, RevealGroup } from "@/components/Reveal";
+import { bandFor } from "@/data/sections";
 import { cn } from "@/lib/utils";
 
 /**
@@ -9,12 +10,13 @@ import { cn } from "@/lib/utils";
  *
  * Phrase contract: chat without revealing your identity, matching lobby.
  *
- * Band 0 — its neighbours (`calling` before on band 1, `pro` after on the tint
- * band) both differ, so adjacent sections never share a band (Req 3.8).
+ * The band comes from `bandFor("anonymous")` — derived from this section's
+ * position in `VISIBLE_SECTIONS`, so it differs from both neighbours whatever
+ * the Pro flag does to the order (Req 3.8).
  */
 export default function AnonymousChatSection() {
   return (
-    <Section id="anonymous" band={0}>
+    <Section id="anonymous" band={bandFor("anonymous")}>
       <div className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
         <RevealGroup
           aria-hidden="true"

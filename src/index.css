@@ -350,14 +350,23 @@
     will-change: transform;
   }
 
-  /* 270deg edge mask fading both ends into the section background (Req 13.3). */
+  /* 270deg edge mask fading both ends into the section background (Req 13.3).
+     The ramp is expressed in px, not %, so it stays a fade at every viewport:
+     a percentage ramp narrows as the container narrows and starts hard-clipping
+     the leading pill mid-glyph, which reads as a bug rather than a fade. 96px is
+     wider than a pill's leading word, so a pill always fades out before its
+     edge is cut. */
   .marquee-mask {
     -webkit-mask-image: linear-gradient(270deg,
-        transparent 0%,
-        #000 12%,
-        #000 88%,
+        transparent 0,
+        #000 96px,
+        #000 calc(100% - 96px),
         transparent 100%);
-    mask-image: linear-gradient(270deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(270deg,
+        transparent 0,
+        #000 96px,
+        #000 calc(100% - 96px),
+        transparent 100%);
   }
 
   /* Pause on keyboard focus entering the marquee (Req 13.5). */

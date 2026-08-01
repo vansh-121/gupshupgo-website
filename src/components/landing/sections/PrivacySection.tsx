@@ -2,6 +2,7 @@ import { KeyRound, Lock, ShieldCheck } from "lucide-react";
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import { Reveal, RevealGroup } from "@/components/Reveal";
+import { bandFor } from "@/data/sections";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,12 +11,12 @@ import { cn } from "@/lib/utils";
  * Phrase contract: end-to-end encryption (Signal protocol), safety-number
  * verification, PIN-protected Vault.
  *
- * Band 0 — the base band. Its neighbours (`arcade` before, `calling` after)
- * both sit on band 1, so adjacent sections differ (Req 3.8).
+ * The band comes from `bandFor("privacy")` — derived from this section's position
+ * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
  */
 export default function PrivacySection() {
   return (
-    <Section id="privacy" band={0}>
+    <Section id="privacy" band={bandFor("privacy")}>
       <div className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
         <RevealGroup className={cn(MEASURE_CLASSES[644])}>
           <Reveal>

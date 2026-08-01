@@ -6,6 +6,7 @@ import SectionHeading from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { MESH_STEPS, type MeshStep, type MeshStepVisualId } from "@/data/meshSteps";
+import { bandFor } from "@/data/sections";
 import { cn } from "@/lib/utils";
 
 /**
@@ -32,6 +33,9 @@ import { cn } from "@/lib/utils";
  *
  * Phrase contract: messages travel between nearby devices over Bluetooth and
  * Wi-Fi Direct with no internet connection, and relaying is multi-hop.
+ *
+ * The band comes from `bandFor("mesh")` — derived from this section's position in
+ * `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
  */
 
 const VISUAL_ICONS: Record<MeshStepVisualId, LucideIcon> = {
@@ -148,7 +152,7 @@ export default function MeshChatSection() {
   const activeStep = MESH_STEPS[activeIndex] ?? MESH_STEPS[0];
 
   return (
-    <Section id="mesh" band={0}>
+    <Section id="mesh" band={bandFor("mesh")}>
       <Reveal className={MEASURE_CLASSES[644]}>
         <SectionHeading sectionId="mesh">Chat with no internet at all</SectionHeading>
         <p className="mt-20px text-lead text-ink-secondary">

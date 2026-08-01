@@ -20,6 +20,7 @@ import {
   Video,
 } from 'lucide-react';
 
+import { PRO_LAUNCHED } from '@/config/app';
 import type { SectionId } from '@/data/sections';
 
 /**
@@ -28,6 +29,13 @@ import type { SectionId } from '@/data/sections';
  *
  * Every description states only capabilities that the Android app ships today.
  * No claim here may go beyond App_Feature_Set.
+ *
+ * ## Pro gating
+ *
+ * `FEATURES` always holds all 17 entries so nothing is lost while the app's
+ * `pro_enabled` flag is off. Consumers render `VISIBLE_FEATURES` and ask
+ * `showProLabel(feature)` before drawing a Pro badge, so the whole Pro surface
+ * follows `PRO_LAUNCHED` (see `src/config/app.ts`) rather than being deleted.
  */
 
 export type FeatureCategory =
@@ -44,8 +52,13 @@ export interface Feature {
   readonly id: string;
   /** Rendered heading text. */
   readonly name: string;
-  /** Exactly one sentence. */
+  /** Exactly one sentence. Never mentions Pro — see `proNote`. */
   readonly description: string;
+  /**
+   * The Pro-only part of this capability, kept out of `description` so the base
+   * copy makes no Pro claim. Surfaced only when `PRO_LAUNCHED`.
+   */
+  readonly proNote?: string;
   /** Requirement 4.2 — every entry carries an icon. */
   readonly Icon: LucideIcon;
   readonly category: FeatureCategory;
@@ -116,8 +129,8 @@ export const FEATURES: readonly Feature[] = [
   {
     id: 'status',
     name: 'Status updates',
-    description:
-      'Post text statuses and watch updates in the status viewer, with Pro for media because photo and video statuses require GupShupGo Pro.',
+    description: 'Post text statuses and watch updates in the status viewer.',
+    proNote: 'Photo and video statuses require GupShupGo Pro.',
     Icon: CirclePlay,
     category: 'social',
     isPro: false,
@@ -213,8 +226,32 @@ export const FEATURES: readonly Feature[] = [
   },
 ];
 
-/** Requirement 4.4 — wholly Pro-gated features. */
+/**
+ * Requirement 4.4 — wholly Pro-gated features. Kept exported for the Pro
+ * surfaces that come back when `PRO_LAUNCHED` flips to `true`.
+ */
 export const PRO_FEATURES: readonly Feature[] = FEATURES.filter((f) => f.isPro);
 
-/** Consumed by the JSON-LD `featureList` consistency check (Requirement 13.5). */
-export const FEATURE_NAMES: readonly string[] = FEATURES.map((f) => f.name);
+/**
+ * The entries the site is allowed to render right now: all 17 once Pro has
+ * launched, otherwise every entry except the `GupShupGo Pro` capability itself.
+ * This is what every renderer should map over.
+ */
+export const VISIBLE_FEATURES: readonly Feature[] = PRO_LAUNCHED
+  ? FEATURES
+  : FEATURES.filter((f) => f.id !== 'pro');
+
+/**
+ * The only permitted way to decide whether a Pro badge is drawn, so no consumer
+ * reads `isPro` directly for display. While `PRO_LAUNCHED` is false this is
+ * always `false`, which is why `screen-share` renders no badge today.
+ */
+export function showProLabel(feature: Feature): boolean {
+  return PRO_LAUNCHED && feature.isPro;
+}
+
+/**
+ * Consumed by the JSON-LD `featureList` consistency check (Requirement 13.5).
+ * Derived from `VISIBLE_FEATURES` so the structured data follows the flag.
+ */
+export const FEATURE_NAMES: readonly string[] = VISIBLE_FEATURES.map((f) => f.name);
