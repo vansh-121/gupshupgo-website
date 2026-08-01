@@ -2,117 +2,119 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+/* Fonts are loaded via <link rel="preconnect"> + <link rel="stylesheet"> in index.html
+   (single Inter family, display=swap) — no @import here so the font request is not
+   serialised behind this stylesheet. */
 
 @layer base {
   :root {
+    color-scheme: light;
+
+    /* ---- App palette (authoritative, Requirement 1.2) ---- */
+    --gsg-primary:         #6C5CE7;
+    --gsg-primary-dark:    #5246BE;
+    --gsg-primary-light:   #EDE9FE;
+    --gsg-surface:         #FFFFFF;
+    --gsg-surface-alt:     #F5F3FF;
+    --gsg-chat-background: #F2F1FA;
+    --gsg-text-high:       #1E293B;
+    --gsg-text-mid:        #64748B;
+    --gsg-text-low:        #94A3B8;
+    --gsg-border:          #E4E1F5;
+    --gsg-divider:         #F1F0F9;
+    --gsg-received-bubble: #F0EFF8;
+
+    /* ---- Status tokens (Requirement 1.4, theme-invariant) ---- */
+    --gsg-error:   #EF4444;
+    --gsg-success: #10B981;
+    --gsg-warning: #F59E0B;
+
+    /* ---- DERIVED shadcn/ui HSL triplets ----
+       Derived from the app palette above. Do not edit independently:
+       change the hex source of truth and re-derive. */
     --background: 0 0% 100%;
-    --foreground: 265 4% 12.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 265 4% 12.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 265 4% 12.9%;
-    --primary: 266 4% 20.8%;
-    --primary-foreground: 248 0.3% 98.4%;
-    --secondary: 248 0.7% 96.8%;
-    --secondary-foreground: 266 4% 20.8%;
-    --muted: 248 0.7% 96.8%;
-    --muted-foreground: 257 4.6% 55.4%;
-    --accent: 248 0.7% 96.8%;
-    --accent-foreground: 266 4% 20.8%;
-    --destructive: 27 24.5% 57.7%;
+    --foreground: 217 33% 17%;
+    --card: 250 100% 98%;
+    --card-foreground: 217 33% 17%;
+    --popover: 250 100% 98%;
+    --popover-foreground: 217 33% 17%;
+    --primary: 247 74% 63%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 251 91% 96%;
+    --secondary-foreground: 246 48% 51%;
+    --muted: 247 43% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 247 47% 96%;
+    --accent-foreground: 217 33% 17%;
+    --border: 249 50% 92%;
+    --input: 249 50% 92%;
+    --ring: 247 74% 63%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 256 1.3% 92.9%;
-    --input: 256 1.3% 92.9%;
-    --ring: 257 4% 70.4%;
-    --radius: 0.375rem;
-    --surface: 0 0% 97%;
-    --surface-border: 0 0% 89%;
-    --indigo: 263 70% 50.4%;
-    --indigo-deep: 239 84% 67%;
-    --teal: 187 92% 41%;
-    --sidebar-background: 0 0% 97%;
-    --sidebar-foreground: 265 4% 12.9%;
-    --sidebar-primary: 266 4% 20.8%;
-    --sidebar-primary-foreground: 248 0.3% 98.4%;
-    --sidebar-accent: 248 0.7% 96.8%;
-    --sidebar-accent-foreground: 266 4% 20.8%;
-    --sidebar-border: 256 1.3% 92.9%;
-    --sidebar-ring: 257 4% 70.4%;
-    --chart-1: 41 22.2% 64.6%;
-    --chart-2: 185 11.8% 60%;
-    --chart-3: 227 7% 39.8%;
-    --chart-4: 84 18.9% 82.8%;
-    --chart-5: 70 18.8% 76.9%;
-    --sidebar: 248 0.3% 98.4%;
-    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-    --tracking-normal: 0em;
-    --spacing: 0.25rem;
+    --radius: 0.75rem;
+
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* ---- Elevation scale, tinted from --gsg-primary at low alpha ---- */
+    --shadow-2xs: 0 1px 2px 0px hsl(247 74% 63% / 0.04);
+    --shadow-xs: 0 1px 3px 0px hsl(247 74% 63% / 0.06);
+    --shadow-sm: 0 1px 3px 0px hsl(247 74% 63% / 0.08), 0 1px 2px -1px hsl(247 74% 63% / 0.08);
+    --shadow: 0 1px 3px 0px hsl(247 74% 63% / 0.1), 0 1px 2px -1px hsl(247 74% 63% / 0.08);
+    --shadow-md: 0 2px 6px 0px hsl(247 74% 63% / 0.12), 0 2px 4px -1px hsl(247 74% 63% / 0.08);
+    --shadow-lg: 0 4px 12px 0px hsl(247 74% 63% / 0.14), 0 4px 6px -1px hsl(247 74% 63% / 0.08);
+    --shadow-xl: 0 8px 24px 0px hsl(247 74% 63% / 0.16), 0 8px 10px -1px hsl(247 74% 63% / 0.1);
+    --shadow-2xl: 0 16px 40px 0px hsl(247 74% 63% / 0.2);
   }
 
   .dark {
-    --background: 0 0% 3.5%;
-    --foreground: 0 0% 95%;
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 0 0% 95%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 55%;
-    --accent: 0 0% 12%;
-    --accent-foreground: 0 0% 95%;
-    --destructive: 0 62% 55%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 263 70% 50%;
-    --surface: 0 0% 5%;
-    --surface-border: 0 0% 12%;
-    --indigo: 263 70% 58%;
-    --indigo-deep: 239 84% 70%;
-    --teal: 187 92% 48%;
-    --sidebar-background: 0 0% 3%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 263 70% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 14%;
-    --sidebar-ring: 263 70% 50%;
-    --chart-1: 263 70% 58%;
-    --chart-2: 187 92% 48%;
-    --chart-3: 70 18.8% 76.9%;
-    --chart-4: 304 26.5% 62.7%;
-    --chart-5: 16 24.6% 64.5%;
-    --sidebar: 0 0% 5%;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.2);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.2);
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.3), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.3), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.4), 0 2px 4px -1px hsl(0 0% 0% / 0.3);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.4), 0 4px 6px -1px hsl(0 0% 0% / 0.3);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.5), 0 8px 10px -1px hsl(0 0% 0% / 0.4);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.6);
+    color-scheme: dark;
+
+    /* ---- App palette (Requirement 1.3) ---- */
+    --gsg-primary:         #7C5CFC;
+    --gsg-primary-dark:    #6342E8;
+    --gsg-primary-light:   #1E1A3D;
+    --gsg-surface:         #0A0B10;
+    --gsg-surface-alt:     #12141D;
+    --gsg-chat-background: #07080D;
+    --gsg-text-high:       #F1F3F9;
+    --gsg-text-mid:        #808A9D;
+    --gsg-text-low:        #4A5264;
+    --gsg-border:          #1F2232;
+    --gsg-divider:         #161824;
+    --gsg-received-bubble: #181A26;
+
+    /* status tokens intentionally not overridden — identical in both themes */
+
+    /* ---- DERIVED shadcn/ui HSL triplets — do not edit independently ---- */
+    --background: 230 23% 5%;
+    --foreground: 225 40% 96%;
+    --card: 229 23% 9%;
+    --card-foreground: 225 40% 96%;
+    --popover: 229 23% 9%;
+    --popover-foreground: 225 40% 96%;
+    --primary: 252 96% 67%;
+    --primary-foreground: 230 23% 5%;
+    --secondary: 247 40% 17%;
+    --secondary-foreground: 225 40% 96%;
+    --muted: 231 24% 11%;
+    --muted-foreground: 219 13% 56%;
+    --accent: 231 23% 12%;
+    --accent-foreground: 225 40% 96%;
+    --border: 231 23% 16%;
+    --input: 231 23% 16%;
+    --ring: 252 96% 67%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* ---- Elevation scale, tinted from --gsg-primary at low alpha ---- */
+    --shadow-2xs: 0 1px 2px 0px hsl(252 96% 67% / 0.12);
+    --shadow-xs: 0 1px 3px 0px hsl(252 96% 67% / 0.14);
+    --shadow-sm: 0 1px 3px 0px hsl(252 96% 67% / 0.16), 0 1px 2px -1px hsl(252 96% 67% / 0.14);
+    --shadow: 0 1px 3px 0px hsl(252 96% 67% / 0.18), 0 1px 2px -1px hsl(252 96% 67% / 0.14);
+    --shadow-md: 0 2px 6px 0px hsl(252 96% 67% / 0.2), 0 2px 4px -1px hsl(252 96% 67% / 0.16);
+    --shadow-lg: 0 4px 12px 0px hsl(252 96% 67% / 0.24), 0 4px 6px -1px hsl(252 96% 67% / 0.16);
+    --shadow-xl: 0 8px 24px 0px hsl(252 96% 67% / 0.28), 0 8px 10px -1px hsl(252 96% 67% / 0.18);
+    --shadow-2xl: 0 16px 40px 0px hsl(252 96% 67% / 0.32);
   }
 }
 
@@ -127,125 +129,31 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-}
 
-@layer utilities {
-  /* Grain texture overlay */
-  .grain {
-    position: relative;
-  }
-  .grain::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .grain > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Animated gradient text */
-  .gradient-text {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--foreground)) 0%,
-      hsl(var(--indigo)) 40%,
-      hsl(var(--teal)) 60%,
-      hsl(var(--indigo-deep)) 80%,
-      hsl(var(--foreground)) 100%
-    );
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient-shift 8s ease-in-out infinite;
-  }
-
-  /* Dot grid pattern */
-  .dot-grid {
-    background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
-    background-size: 32px 32px;
-  }
-
-  /* Glow card border */
-  .glow-card {
-    position: relative;
-    overflow: hidden;
-  }
-  .glow-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      transparent 0%,
-      hsl(var(--indigo) / 0.3) 50%,
-      transparent 100%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-  .glow-card:hover::before {
-    opacity: 1;
-  }
-
-  /* Neon pulse */
-  .neon-glow {
-    box-shadow: 0 0 20px hsl(var(--indigo) / 0.15), 0 0 60px hsl(var(--indigo) / 0.05);
-  }
-
-  /* Spotlight effect */
-  .spotlight {
-    position: relative;
-    overflow: hidden;
-  }
-  .spotlight::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      hsl(var(--indigo) / 0.06) 0%,
-      transparent 50%
-    );
-    pointer-events: none;
-  }
-
-  .display-font {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
+  /* Requirement 12.5 — a single global focus indicator so no control can omit it. */
+  :focus-visible {
+    outline: 2px solid var(--gsg-primary);
+    outline-offset: 2px;
   }
 }
 
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
+/* Requirement 12.6 — honour the OS reduced-motion preference for Tailwind
+   utilities, third-party primitives, and inline styles alike. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-@keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 0.2; }
-  100% { transform: scale(0.9); opacity: 0.6; }
-}
-
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

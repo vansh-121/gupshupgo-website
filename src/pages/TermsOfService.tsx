@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import SiteShell from "@/components/layout/SiteShell";
+
 export default function TermsOfService() {
   useEffect(() => {
     document.title = "Terms of Service — GupShupGo";
@@ -9,27 +11,27 @@ export default function TermsOfService() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="container mx-auto max-w-3xl px-6 py-16">
+    <SiteShell>
+      <div className="mx-auto w-full max-w-3xl px-gutter py-section">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-10"
+          className="mb-10 inline-flex items-center gap-2 text-body-sm text-ink-mid transition-colors hover:text-ink-high"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Back to Home
         </Link>
 
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Terms of Service</h1>
-        <p className="text-muted-foreground mb-12">Last Updated: February 20, 2026</p>
+        <h1 className="mb-2 text-h1 font-bold tracking-tight text-ink-high">Terms of Service</h1>
+        <p className="mb-12 text-body-sm text-ink-mid">Last Updated: February 20, 2026</p>
 
-        <div className="space-y-10 text-[15px] leading-relaxed text-muted-foreground">
+        <div className="space-y-10 text-body text-ink-mid">
           <Section title="1. Acceptance of Terms">
             <p>
               By downloading, installing, or using the GupShupGo application ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the App.
             </p>
             <p>
               GupShupGo is developed and maintained by vansh-121 ("Developer") as an open-source project available at{" "}
-              <a href="https://github.com/vansh-121/GupShupGo" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              <a href="https://github.com/vansh-121/GupShupGo" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">
                 github.com/vansh-121/GupShupGo
               </a>.
             </p>
@@ -37,7 +39,7 @@ export default function TermsOfService() {
 
           <Section title="2. Description of Service">
             <p>GupShupGo is a mobile communication application that provides:</p>
-            <ul className="list-disc pl-5 space-y-1 mt-2">
+            <ul className="mt-2 list-disc space-y-1 pl-5">
               <li>Real-time one-to-one text messaging</li>
               <li>HD video calling and audio-only voice calling via Agora RTC</li>
               <li>WhatsApp-style 24-hour status updates</li>
@@ -51,7 +53,7 @@ export default function TermsOfService() {
 
           <Section title="3. Eligibility">
             <p>You must be at least 13 years of age to use this App. By using GupShupGo, you represent and warrant that:</p>
-            <ul className="list-disc pl-5 space-y-1 mt-2">
+            <ul className="mt-2 list-disc space-y-1 pl-5">
               <li>You are at least 13 years old.</li>
               <li>You have the legal capacity to enter into these Terms.</li>
               <li>Your use of the App complies with all applicable laws and regulations.</li>
@@ -59,25 +61,25 @@ export default function TermsOfService() {
           </Section>
 
           <Section title="4. User Accounts">
-            <h4 className="text-foreground font-medium mt-4 mb-2">4.1 Registration</h4>
+            <h3 className="mb-2 mt-4 text-h3 font-medium text-ink-high">4.1 Registration</h3>
             <p>To use GupShupGo, you must register using a valid phone number. OTP verification is required. You may also sign in as a Guest for limited functionality.</p>
 
-            <h4 className="text-foreground font-medium mt-4 mb-2">4.2 Account Responsibility</h4>
-            <ul className="list-disc pl-5 space-y-1">
+            <h3 className="mb-2 mt-4 text-h3 font-medium text-ink-high">4.2 Account Responsibility</h3>
+            <ul className="list-disc space-y-1 pl-5">
               <li>All activity that occurs under your account.</li>
               <li>Maintaining the confidentiality of your device and session.</li>
               <li>Notifying us immediately of any unauthorized use of your account.</li>
             </ul>
 
-            <h4 className="text-foreground font-medium mt-4 mb-2">4.3 Accurate Information</h4>
+            <h3 className="mb-2 mt-4 text-h3 font-medium text-ink-high">4.3 Accurate Information</h3>
             <p>You agree to provide accurate, current, and complete information during registration and to keep your profile updated.</p>
           </Section>
 
           <Section title="5. Acceptable Use">
             <p>You agree to use GupShupGo only for lawful, respectful, and personal communication purposes.</p>
 
-            <h4 className="text-foreground font-medium mt-4 mb-2">5.1 Prohibited Content</h4>
-            <ul className="list-disc pl-5 space-y-1">
+            <h3 className="mb-2 mt-4 text-h3 font-medium text-ink-high">5.1 Prohibited Content</h3>
+            <ul className="list-disc space-y-1 pl-5">
               <li>Content that is illegal, obscene, defamatory, threatening, harassing, hateful, or abusive.</li>
               <li>Child sexual abuse material (CSAM) or any content that exploits minors.</li>
               <li>Spam, unsolicited bulk messages, or commercial solicitations.</li>
@@ -85,8 +87,8 @@ export default function TermsOfService() {
               <li>Impersonation of another person, entity, or organization.</li>
             </ul>
 
-            <h4 className="text-foreground font-medium mt-4 mb-2">5.2 Prohibited Actions</h4>
-            <ul className="list-disc pl-5 space-y-1">
+            <h3 className="mb-2 mt-4 text-h3 font-medium text-ink-high">5.2 Prohibited Actions</h3>
+            <ul className="list-disc space-y-1 pl-5">
               <li>Reverse-engineering, decompiling, or tampering with the App's backend configuration.</li>
               <li>Exploiting vulnerabilities to access other users' data.</li>
               <li>Using automated bots, scrapers, or scripts.</li>
@@ -94,7 +96,7 @@ export default function TermsOfService() {
               <li>Interfering with or disrupting the App's servers.</li>
             </ul>
 
-            <h4 className="text-foreground font-medium mt-4 mb-2">5.3 Call Conduct</h4>
+            <h3 className="mb-2 mt-4 text-h3 font-medium text-ink-high">5.3 Call Conduct</h3>
             <p>You may only initiate calls to users who have consented. Recording calls without consent may be illegal in your jurisdiction.</p>
           </Section>
 
@@ -104,16 +106,16 @@ export default function TermsOfService() {
           </Section>
 
           <Section title="7. Third-Party Services">
-            <div className="overflow-x-auto mt-2">
-              <table className="w-full text-sm">
+            <div className="mt-2 overflow-x-auto rounded-xl border border-hairline shadow-sm">
+              <table className="w-full text-body-sm">
                 <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-2 pr-4 text-foreground font-medium">Service</th>
-                    <th className="text-left py-2 pr-4 text-foreground font-medium">Provider</th>
-                    <th className="text-left py-2 text-foreground font-medium">Purpose</th>
+                  <tr className="border-b border-hairline">
+                    <th className="px-4 py-2 text-left font-medium text-ink-high">Service</th>
+                    <th className="px-4 py-2 text-left font-medium text-ink-high">Provider</th>
+                    <th className="px-4 py-2 text-left font-medium text-ink-high">Purpose</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border">
+                <tbody className="divide-y divide-hairline-divider">
                   {[
                     ["Firebase Auth", "Google LLC", "Phone OTP authentication"],
                     ["Firestore", "Google LLC", "Database for messages, users, logs"],
@@ -122,9 +124,9 @@ export default function TermsOfService() {
                     ["Agora RTC", "Agora.io", "Real-time audio/video streaming"],
                   ].map(([service, provider, purpose]) => (
                     <tr key={service}>
-                      <td className="py-2 pr-4 text-foreground font-medium">{service}</td>
-                      <td className="py-2 pr-4">{provider}</td>
-                      <td className="py-2">{purpose}</td>
+                      <td className="px-4 py-2 font-medium text-ink-high">{service}</td>
+                      <td className="px-4 py-2">{provider}</td>
+                      <td className="px-4 py-2">{purpose}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -136,14 +138,14 @@ export default function TermsOfService() {
             <p>GupShupGo source code is released under the MIT License. The MIT License applies to the source code only — these Terms govern your use of the running application.</p>
             <p className="mt-2">
               Full license:{" "}
-              <a href="https://github.com/vansh-121/GupShupGo/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              <a href="https://github.com/vansh-121/GupShupGo/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">
                 github.com/vansh-121/GupShupGo/LICENSE
               </a>
             </p>
           </Section>
 
           <Section title="9. Disclaimers">
-            <p className="uppercase text-xs tracking-wider text-foreground font-semibold mb-2">
+            <p className="mb-2 text-caption font-semibold uppercase tracking-wider text-ink-high">
               "As Is" Provision
             </p>
             <p>
@@ -156,7 +158,7 @@ export default function TermsOfService() {
             <p>
               To the maximum extent permitted by law, the Developer shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of data, unauthorized access, service interruptions, or damages from reliance on information transmitted via the App.
             </p>
-            <p className="mt-2 text-foreground font-medium">
+            <p className="mt-2 font-medium text-ink-high">
               Total liability shall not exceed the amount you paid to use the App (which is zero).
             </p>
           </Section>
@@ -166,10 +168,10 @@ export default function TermsOfService() {
           </Section>
 
           <Section title="12. Account Termination">
-            <ul className="list-disc pl-5 space-y-1">
-              <li><strong className="text-foreground">By You:</strong> You may stop using the App at any time. Contact us via GitHub Issues to delete your account.</li>
-              <li><strong className="text-foreground">By Us:</strong> We may suspend or terminate access for users who violate these Terms or compromise security.</li>
-              <li><strong className="text-foreground">Effect:</strong> Upon termination, your right to use the App ceases. Data may be retained briefly before full deletion.</li>
+            <ul className="list-disc space-y-1 pl-5">
+              <li><strong className="text-ink-high">By You:</strong> You may stop using the App at any time. Contact us via GitHub Issues to delete your account.</li>
+              <li><strong className="text-ink-high">By Us:</strong> We may suspend or terminate access for users who violate these Terms or compromise security.</li>
+              <li><strong className="text-ink-high">Effect:</strong> Upon termination, your right to use the App ceases. Data may be retained briefly before full deletion.</li>
             </ul>
           </Section>
 
@@ -183,35 +185,35 @@ export default function TermsOfService() {
 
           <Section title="15. Contact">
             <p>For questions, abuse reports, or legal inquiries:</p>
-            <ul className="list-disc pl-5 space-y-1 mt-2">
+            <ul className="mt-2 list-disc space-y-1 pl-5">
               <li>
                 GitHub Issues:{" "}
-                <a href="https://github.com/vansh-121/GupShupGo/issues" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                <a href="https://github.com/vansh-121/GupShupGo/issues" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">
                   github.com/vansh-121/GupShupGo/issues
                 </a>
               </li>
               <li>
                 GitHub Profile:{" "}
-                <a href="https://github.com/vansh-121" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                <a href="https://github.com/vansh-121" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">
                   github.com/vansh-121
                 </a>
               </li>
             </ul>
           </Section>
 
-          <div className="pt-6 border-t border-border text-sm">
+          <div className="border-t border-hairline pt-6 text-body-sm">
             <p>By using GupShupGo, you acknowledge that you have read, understood, and agreed to these Terms of Service.</p>
           </div>
         </div>
       </div>
-    </div>
+    </SiteShell>
   );
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-xl font-semibold text-foreground mb-3">{title}</h2>
+      <h2 className="mb-3 text-h2 font-semibold text-ink-high">{title}</h2>
       <div className="space-y-2">{children}</div>
     </section>
   );
