@@ -7,9 +7,14 @@ import { Menu, X } from "lucide-react";
 import { NAV_SECTIONS } from "@/data/sections";
 import type { SectionId, SectionMeta } from "@/data/sections";
 import { useSectionNavigation } from "@/hooks/useSectionNavigation";
+import { useActiveSection, useNavCondensed } from "@/hooks/useNavScrollState";
 import ThemeToggle from "@/components/ThemeToggle";
 import DownloadButton from "@/components/DownloadButton";
+import { PILL_NAV_SURFACE_ALPHA, type PillNavState } from "@/lib/contrast";
 import { cn } from "@/lib/utils";
+
+/** The pill's two scroll states: airy at the top, tightened once past the hero. */
+type PillState = PillNavState;
 
 const MOBILE_PANEL_ID = "site-header-mobile-nav";
 
@@ -64,6 +69,27 @@ const HOVER_CLASSES: Record<NavForeground, string> = {
 };
 
 /**
+ * The same wash as `HOVER_CLASSES`, applied persistently, marking the section
+ * currently in view (Req 8.5).
+ *
+ * Deliberately the hover wash and nothing else: it is contrast-safe by
+ * construction — the label keeps whichever `FOREGROUND_CLASSES` variant the pill
+ * resolved, and the wash is the alpha already verified for hover — and it
+ * inverts with the pill for free. A dedicated colour such as `text-ink-accent`
+ * would be an unverified pairing: `CONTRAST_PAIRS` only declares the pill's
+ * foreground for `ink-high` (light) and `white` (dark) against the pill's
+ * translucent blend.
+ *
+ * The wash is never the only signal — the active link also carries
+ * `aria-current="location"`, which is what assistive tech and anyone who cannot
+ * pick the wash out actually rely on.
+ */
+const ACTIVE_CLASSES: Record<NavForeground, string> = {
+  "on-light": "bg-black/[0.06]",
+  "on-dark": "bg-white/[0.12]",
+};
+
+/**
  * Band → foreground variant (Req 8.4).
  *
  * The table is intentionally exhaustive and intentionally uniform per theme:
@@ -82,15 +108,61 @@ const BAND_FOREGROUND: Record<"light" | "dark", Record<string, NavForeground>> =
 };
 
 /**
- * The pill's own surface: the base layer token at 72% alpha so the
- * `backdrop-filter` blur is actually visible (Req 8.1, 5.5). Applied inline
- * rather than as a utility because Tailwind's `/opacity` modifier cannot add
- * alpha to a bare `var()` colour, and because an inline value the browser
- * cannot parse is dropped, leaving the opaque `bg-layer-0` class as the
- * fallback. No new colour is introduced — the hue is whatever `--layer-0`
- * resolves to in the active theme.
+ * The pill's own surface: the base layer token at the alpha for the current
+ * state — 72% at rest, 88% condensed — so the `backdrop-filter` blur stays
+ * visible in both (Req 8.1, 5.5). Applied inline rather than as a utility
+ * because Tailwind's `/opacity` modifier cannot add alpha to a bare `var()`
+ * colour, and because an inline value the browser cannot parse is dropped,
+ * leaving the opaque `bg-layer-0` class as the fallback. No new colour is
+ * introduced — the hue is whatever `--layer-0` resolves to in the active theme.
+ *
+ * The alphas live in `src/lib/contrast.ts` as `PILL_NAV_SURFACE_ALPHA`, next to
+ * the pairing table that measures label text against the resulting blend, so the
+ * component and the contrast assertion cannot drift apart.
  */
-const PILL_BACKGROUND = "color-mix(in srgb, var(--layer-0) 72%, transparent)";
+const PILL_BACKGROUND: Record<PillState, string> = {
+  rest: `color-mix(in srgb, var(--layer-0) ${PILL_NAV_SURFACE_ALPHA.rest * 100}%, transparent)`,
+  condensed: `color-mix(in srgb, var(--layer-0) ${PILL_NAV_SURFACE_ALPHA.condensed * 100}%, transparent)`,
+};
+
+/**
+ * Rest → condensed geometry (Feature: condense on scroll).
+ *
+ * One ramp step tighter padding, the denser surface above, and one hairline step
+ * deeper on the composed inset+elevation shadow. That is the whole transition:
+ * the logo icon is now fixed at 28px in both states (see `LOGO_CLASSES`) and the
+ * wordmark is NOT touched either — it stays visible in both states at
+ * Breakpoint_Small and up.
+ *
+ * What deliberately does NOT change: the pill's own `height` / `width` are never
+ * animated, and `transform: scale` is not used on it either — scaling would
+ * soften every label and drag all six 44px controls below the minimum target
+ * size. The 12px blur is unchanged too; 6/10/11/12 are the only permitted blur
+ * radii (Req 5.5).
+ */
+const PILL_STATE_CLASSES: Record<PillState, string> = {
+  rest: "p-8px shadow-hairline-12-elevated",
+  condensed: "p-6px shadow-hairline-24-elevated",
+};
+
+/**
+ * The logo icon's painted box: 28px in BOTH states.
+ *
+ * It used to animate 36px → 28px alongside the pill's padding, which was the
+ * one piece of the condense transition that changed a *painted bitmap* rather
+ * than a box: the icon resampled mid-scroll and read as a wobble next to the
+ * static wordmark. Pinned at the condensed size, the lockup is stable the whole
+ * way down the page.
+ *
+ * The `<img>` carries `width={28} height={28}`, matching the painted box
+ * exactly, so the box reserved before the bitmap decodes is the box it lands in
+ * and there is no layout shift (Req 17.4).
+ *
+ * The link around it keeps its `min-h-[44px]`, so the tap target stays 44px tall
+ * (Req 8.8) and the pill's height maths is unchanged: the 44px minimum control
+ * height, not the icon, is what sets the pill's height in both states.
+ */
+const LOGO_CLASSES = "h-7 w-7";
 
 function readForegroundOverride(value: string | undefined): NavForeground | null {
   return value === "on-dark" || value === "on-light" ? value : null;
@@ -318,14 +390,32 @@ const PANEL_BASE =
  * - every control is a native `<button>` / `<a>` at 44x44 CSS px or larger and
  *   inherits the global `:focus-visible` outline (Req 8.8)
  *
- * The pill is 60px tall and inset 12px below 810px, so it clears the hero's
- * 72px top padding exactly and no shell spacer is needed — `main#main-content`
- * stays the untouched skip-link target.
+ * The pill is 60px tall at rest (44px minimum control height + 2×8px padding)
+ * — the 28px logo is well inside that, so pinning it changes no geometry —
+ * and 56px condensed (44 + 2×6), inset 12px below 810px, so at rest it clears
+ * the hero's 72px top padding exactly and condensing only widens that clearance.
+ * No shell spacer is needed — `main#main-content` stays the untouched skip-link
+ * target.
+ *
+ * Two scroll behaviours, both `IntersectionObserver`-driven, no scroll handler:
+ *  - the pill condenses once the hero fold is behind you (`useNavCondensed`,
+ *    watching the zero-height sentinel `SiteShell` puts at the top of `main`);
+ *  - the desktop link for the section under the viewport centre is marked
+ *    `aria-current="location"` and carries the pill's own hover wash
+ *    (`useActiveSection`).
  */
 export default function SiteHeader() {
   const navigateToSection = useSectionNavigation();
   const navRef = useRef<HTMLDivElement>(null);
   const foreground = useNavForeground(navRef);
+
+  /*
+    Both of these are IntersectionObserver-driven (see `useNavScrollState`); the
+    header adds no scroll event listener.
+  */
+  const condensed = useNavCondensed();
+  const activeSection = useActiveSection(DESKTOP_SECTION_IDS);
+  const pillState: PillState = condensed ? "condensed" : "rest";
 
   const mobileMenu = useDisclosure();
 
@@ -343,14 +433,19 @@ export default function SiteHeader() {
     <header className="pointer-events-none fixed inset-x-0 top-12px z-50 px-20px bp810:top-16px bp810:px-36px">
       <div
         ref={navRef}
-        style={{ backgroundColor: PILL_BACKGROUND }}
+        data-pill-state={pillState}
+        style={{ backgroundColor: PILL_BACKGROUND[pillState] }}
         className={cn(
           // Full width below 810px, where the collapsed row needs it; above,
           // `w-fit` sizes the pill to its content and `mx-auto` centres it.
           "pointer-events-auto relative mx-auto flex w-full items-center gap-8px",
           "bp810:w-fit bp810:max-w-full bp810:gap-12px",
-          "rounded-pill p-8px bg-layer-0 shadow-hairline-12-elevated",
+          "rounded-pill bg-layer-0",
           "backdrop-blur-[12px]",
+          // Padding / surface / shadow are the only things that move between the
+          // two states, and the state itself survives `reduce` — only the
+          // transition duration is dropped (Req 15.3).
+          PILL_STATE_CLASSES[pillState],
           "transition-standard motion-reduce:transition-none",
           FOREGROUND_CLASSES[foreground],
         )}
@@ -368,12 +463,20 @@ export default function SiteHeader() {
           <img
             src="/app_icon.png"
             alt="GupShupGo app icon"
-            width={36}
-            height={36}
+            width={28}
+            height={28}
             loading="eager"
             decoding="async"
-            className="h-9 w-9 rounded-8"
+            /* Fixed size in both states, so no transition on the icon either. */
+            className={cn("rounded-8", LOGO_CLASSES)}
           />
+          {/*
+            The wordmark is state-independent: it shows at Breakpoint_Small and
+            up in BOTH the rest and condensed states. Hiding it while scrolling
+            was tried and reverted — the pill is `w-fit` above 810px, so keeping
+            the text only leaves the pill a little wider than it would otherwise
+            have been, and the brand stays legible the whole way down the page.
+          */}
           <span className="hidden bp810:inline">GupShupGo</span>
         </Link>
 
@@ -392,17 +495,28 @@ export default function SiteHeader() {
         >
           {/* Desktop section links (>=810px), flat */}
           <ul className="hidden items-center gap-2px bp810:flex">
-            {DESKTOP_SECTIONS.map((section) => (
-              <li key={section.id}>
-                <a
-                  href={`#${section.id}`}
-                  onClick={handleLinkClick(section.id)}
-                  className={linkClasses}
-                >
-                  {section.navLabel}
-                </a>
-              </li>
-            ))}
+            {DESKTOP_SECTIONS.map((section) => {
+              const isActive = section.id === activeSection;
+
+              return (
+                <li key={section.id}>
+                  <a
+                    href={`#${section.id}`}
+                    onClick={handleLinkClick(section.id)}
+                    /*
+                      `location` rather than `page`: these are in-page anchors
+                      into the current document, not links to the current route.
+                      This is the primary signal — the wash below is the visual
+                      echo of it, never a colour-only indicator.
+                    */
+                    aria-current={isActive ? "location" : undefined}
+                    className={cn(linkClasses, isActive && ACTIVE_CLASSES[foreground])}
+                  >
+                    {section.navLabel}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Mobile disclosure (<810px) — every section anchor */}

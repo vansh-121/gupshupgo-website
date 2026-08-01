@@ -45,7 +45,11 @@ const NotFound = () => {
         </p>
         <Button
           asChild
-          className="mt-40px h-12 min-h-[44px] rounded-pill bg-brand px-32px text-16 font-medium leading-140 text-white shadow-elevation transition-standard hover:bg-brand-dark dark:bg-brand-dark dark:hover:bg-brand-dark"
+          /*
+            `py-0 leading-100`: the primitive's default size adds `py-2`, which
+            inside this fixed `h-12` shrank the box the label centres in.
+          */
+          className="mt-40px h-12 min-h-[44px] rounded-pill bg-brand px-32px py-0 text-16 font-medium leading-100 text-white shadow-elevation transition-standard hover:bg-brand-dark dark:bg-brand-dark dark:hover:bg-brand-dark"
         >
           <Link to="/">Back to home</Link>
         </Button>
