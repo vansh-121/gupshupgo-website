@@ -17,26 +17,27 @@ import { cn } from "@/lib/utils";
  * The band comes from `bandFor("anonymous")` — derived from this section's
  * position in `VISIBLE_SECTIONS`, so it differs from both neighbours whatever
  * the Pro flag does to the order (Req 3.8).
+ *
+ * ## Column order: DOM is text-first, desktop swaps with `order`
+ *
+ * Desktop keeps the mockup on the LEFT and the copy on the right, but that is
+ * now done with `bp810:order-*` rather than by putting the mockup first in the
+ * DOM. Ordering the DOM mockup-first meant that in the single-column layout
+ * this section opened with a phone frame directly beneath `calling`'s two-phone
+ * pair — three frames stacked with only a band change between them, reading as
+ * one undifferentiated strip of mockups rather than two sections.
+ *
+ * Text-first DOM gives every deep-dive section the same collapsed rhythm
+ * (heading → copy → visual), so each section's own copy separates its mockup
+ * from the previous section's, and the heading precedes the image it describes
+ * for assistive tech and tab order.
  */
 export default function AnonymousChatSection() {
   return (
     <Section id="anonymous" band={bandFor("anonymous")}>
       <div className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
-        {/* Screenshot mockup — anonymous chat */}
-        <RevealGroup as="div" className="flex justify-center">
-          <Reveal as="div" className="w-full max-w-[300px]">
-            <ScreenshotMockup
-              lightSrc="/website-screenshots/anonymous_chat_light.jpeg"
-              darkSrc="/website-screenshots/anonymous_chat_dark.jpeg"
-              alt="GupShupGo anonymous chat screen showing a temporary identity in the matching lobby."
-              size="md"
-              tilt3d
-              tiltDirection="left"
-            />
-          </Reveal>
-        </RevealGroup>
-
-        <RevealGroup className={cn(MEASURE_CLASSES[644])}>
+        {/* Copy — first in the DOM, second column on desktop. */}
+        <RevealGroup className={cn(MEASURE_CLASSES[644], "bp810:order-2")}>
           <Reveal>
             <SectionHeading sectionId="anonymous">Talk to someone new, anonymously</SectionHeading>
             <p className="mt-20px text-lead text-ink-high">
@@ -71,6 +72,22 @@ export default function AnonymousChatSection() {
                 line. The same end-to-end encryption applies here too.
               </p>
             </div>
+          </Reveal>
+        </RevealGroup>
+
+        {/* Screenshot mockup — anonymous chat. Second in the DOM, first column
+            on desktop. The frame carries its own responsive `max-width` ramp,
+            so the wrapper only needs to centre it. */}
+        <RevealGroup as="div" className="flex justify-center bp810:order-1">
+          <Reveal as="div" className="w-full max-w-[320px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/anonymous_chat_light.jpeg"
+              darkSrc="/website-screenshots/anonymous_chat_dark.jpeg"
+              alt="GupShupGo anonymous chat screen showing a temporary identity in the matching lobby."
+              size="md"
+              tilt3d
+              tiltDirection="left"
+            />
           </Reveal>
         </RevealGroup>
       </div>

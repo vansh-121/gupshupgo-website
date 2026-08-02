@@ -18,49 +18,33 @@ import { cn } from "@/lib/utils";
  *
  * The band comes from `bandFor("calling")` — derived from this section's position
  * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
+ *
+ * ## Column order: DOM is text-first, desktop swaps with `order`
+ *
+ * On desktop this section is the mirror of its neighbours — mockup on the LEFT,
+ * copy on the right — which is what gives the run of deep-dive sections its
+ * zigzag. That mirroring used to be done by putting the mockup FIRST in the
+ * DOM, and it broke the single-column layout: `privacy` ends with its two-phone
+ * pair and `calling` then opened with another two-phone pair, so a phone or
+ * tablet showed four stacked frames in a row with nothing but a band change
+ * between them, and the two sections read as one long strip of mockups.
+ *
+ * So the DOM order is now the MOBILE reading order — heading, copy, then the
+ * mockup that illustrates it — and the desktop mirror is applied with
+ * `bp810:order-*` instead. Every deep-dive section therefore collapses to the
+ * same "heading → copy → visual" rhythm, and each section's copy separates its
+ * own mockup from the previous section's.
+ *
+ * Keeping the heading ahead of the image it describes is also the better
+ * reading order for assistive tech and for tab order, so the DOM is no longer
+ * carrying a purely visual decision.
  */
 export default function CallingSection() {
   return (
     <Section id="calling" band={bandFor("calling")}>
       <RevealGroup className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
-        {/* Two-phone composition — call screen in front, screen sharing behind.
-            The pair stays fanned at EVERY width rather than splitting into two
-            separate stacked screenshots on a phone: the overlap is the visual.
-
-            It fits a ~337px tablet column and a 320px phone because it is sized
-            in percentages of the group, not in pixels — 55% front, 50% rear,
-            overlapping by 5% — so the whole composition scales as one object
-            and the rear frame can never be pushed out of the column. */}
-        <Reveal
-          as="div"
-          className="mx-auto flex w-full max-w-[500px] items-start justify-center"
-        >
-          {/* Call screen — left, tilted left */}
-          <div className="relative z-10 -mr-[5%] w-[55%] max-w-[260px]">
-            <ScreenshotMockup
-              lightSrc="/website-screenshots/call_screen_both_light_dark.jpeg"
-              alt="GupShupGo call screen showing an end-to-end encrypted HD video call with screen sharing active."
-              size="md"
-              tilt3d
-              tiltDirection="left"
-            />
-          </div>
-
-          {/* Screen sharing — right, tilted right, pushed down by a percentage
-              of the group width so the drop scales with the pair. */}
-          <div className="pointer-events-none z-0 mt-[7%] w-[50%] max-w-[240px]">
-            <ScreenshotMockup
-              lightSrc="/website-screenshots/screen_sharing_both_light_dark.jpeg"
-              alt="GupShupGo screen sharing view during a video call."
-              size="sm"
-              tilt3d
-              tiltDirection="right"
-            />
-          </div>
-        </Reveal>
-
-
-        <Reveal className={cn(MEASURE_CLASSES[644])}>
+        {/* Copy — first in the DOM, second column on desktop. */}
+        <Reveal className={cn(MEASURE_CLASSES[644], "bp810:order-2")}>
           <SectionHeading sectionId="calling">HD video and voice calls</SectionHeading>
           <p className="mt-20px text-lead text-ink-secondary">
             Calls feel like being in the same room. HD video calls and voice calls run encrypted
@@ -99,6 +83,43 @@ export default function CallingSection() {
                 setting instead of describing it.
               </p>
             </div>
+          </div>
+        </Reveal>
+
+        {/* Two-phone composition — call screen in front, screen sharing behind.
+            Second in the DOM, first column on desktop.
+
+            The pair stays fanned at EVERY width rather than splitting into two
+            separate stacked screenshots on a phone: the overlap is the visual.
+            It fits a ~337px tablet column and a 320px phone because it is sized
+            in percentages of the group, not in pixels — 55% front, 50% rear,
+            overlapping by 5% — so the whole composition scales as one object
+            and the rear frame can never be pushed out of the column. */}
+        <Reveal
+          as="div"
+          className="mx-auto flex w-full max-w-[500px] items-start justify-center bp810:order-1"
+        >
+          {/* Call screen — left, tilted left */}
+          <div className="relative z-10 -mr-[5%] w-[55%] max-w-[260px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/call_screen_both_light_dark.jpeg"
+              alt="GupShupGo call screen showing an end-to-end encrypted HD video call with screen sharing active."
+              size="md"
+              tilt3d
+              tiltDirection="left"
+            />
+          </div>
+
+          {/* Screen sharing — right, tilted right, pushed down by a percentage
+              of the group width so the drop scales with the pair. */}
+          <div className="pointer-events-none z-0 mt-[7%] w-[50%] max-w-[240px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/screen_sharing_both_light_dark.jpeg"
+              alt="GupShupGo screen sharing view during a video call."
+              size="sm"
+              tilt3d
+              tiltDirection="right"
+            />
           </div>
         </Reveal>
       </RevealGroup>
