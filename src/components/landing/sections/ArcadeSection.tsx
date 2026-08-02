@@ -1,7 +1,6 @@
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
-import DeviceMockup from "@/components/DeviceMockup/DeviceMockup";
-import { getMockupScreen } from "@/data/mockupScreens";
+import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { bandFor } from "@/data/sections";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
@@ -10,7 +9,8 @@ import { cn } from "@/lib/utils";
  * Gup Arcade deep dive (design §3.7, Requirement 5.2).
  *
  * Phrase contract: Gup Points, challenges, leaderboard, chat streaks (bonds)
- * with streak restore. Embeds the `arcade` device mockup screen.
+ * with streak restore. Shows a real app screenshot of the Arcade screen inside
+ * a 3D phone mockup.
  *
  * The band comes from `bandFor("arcade")` — derived from this section's position
  * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
@@ -64,9 +64,13 @@ export default function ArcadeSection() {
         </Reveal>
 
         <Reveal>
-          <DeviceMockup
-            screen={getMockupScreen("arcade")}
+          <ScreenshotMockup
+            lightSrc="/website-screenshots/gup_arcade_light.jpeg"
+            darkSrc="/website-screenshots/gup_arcade_dark.jpeg"
+            alt="GupShupGo Gup Arcade screen showing a Gup Points total, a chat streak counter, and the top three leaderboard places."
             size="md"
+            tilt3d
+            tiltDirection="right"
             className="mx-auto max-w-[320px]"
           />
         </Reveal>

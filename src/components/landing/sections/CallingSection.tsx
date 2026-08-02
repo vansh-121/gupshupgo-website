@@ -1,7 +1,6 @@
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
-import DeviceMockup from "@/components/DeviceMockup/DeviceMockup";
-import { getMockupScreen } from "@/data/mockupScreens";
+import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { bandFor } from "@/data/sections";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { cn } from "@/lib/utils";
@@ -10,7 +9,12 @@ import { cn } from "@/lib/utils";
  * Calling deep dive (design §3.7, Requirement 5.4).
  *
  * Phrase contract: HD video calls, voice calls, incoming calls in the
- * background, screen sharing. Embeds the `call` device mockup screen.
+ * background, screen sharing. Shows two real app screenshots in overlapping
+ * 3D phone frames — the call screen in front and the screen-sharing view
+ * behind it.
+ *
+ * Both screenshots use the same image for light and dark modes (exception
+ * requested by the user for calling/screen-sharing content).
  *
  * The band comes from `bandFor("calling")` — derived from this section's position
  * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
@@ -19,12 +23,30 @@ export default function CallingSection() {
   return (
     <Section id="calling" band={bandFor("calling")}>
       <RevealGroup className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
-        <Reveal>
-          <DeviceMockup
-            screen={getMockupScreen("call")}
-            size="md"
-            className="mx-auto max-w-[320px]"
-          />
+        {/* Two overlapping phone frames — call screen in front, screen sharing behind */}
+        {/* Fanned-out two-phone composition — both clearly visible */}
+        <Reveal as="div" className="flex flex-col items-center gap-24px bp810:flex-row bp810:justify-center bp810:gap-0">
+          {/* Call screen — left, tilted left */}
+          <div className="relative z-10 w-full max-w-[280px] bp810:-mr-12px bp810:max-w-[260px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/call_screen_both_light_dark.jpeg"
+              alt="GupShupGo call screen showing an end-to-end encrypted HD video call with screen sharing active."
+              size="md"
+              tilt3d
+              tiltDirection="left"
+            />
+          </div>
+
+          {/* Screen sharing — right, tilted right, slightly pushed down */}
+          <div className="z-0 w-full max-w-[260px] bp810:-ml-12px bp810:translate-y-32px bp810:max-w-[240px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/screen_sharing_both_light_dark.jpeg"
+              alt="GupShupGo screen sharing view during a video call."
+              size="sm"
+              tilt3d
+              tiltDirection="right"
+            />
+          </div>
         </Reveal>
 
         <Reveal className={cn(MEASURE_CLASSES[644])}>

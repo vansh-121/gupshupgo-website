@@ -1,16 +1,12 @@
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import DownloadButton from "@/components/DownloadButton";
-import DeviceMockup from "@/components/DeviceMockup/DeviceMockup";
+import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import FloatingChip from "@/components/DeviceMockup/FloatingChip";
 import Pill from "@/components/Pill";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { FEATURES } from "@/data/features";
-import {
-  getMockupScreen,
-  type MockupCallScreen,
-  type MockupChatScreen,
-} from "@/data/mockupScreens";
+import { getMockupScreen, type MockupCallScreen, type MockupChatScreen } from "@/data/mockupScreens";
 import { SECTIONS, bandFor } from "@/data/sections";
 import { PLATFORM_LABEL, PRO_LAUNCHED } from "@/config/app";
 import { useSectionNavigation } from "@/hooks/useSectionNavigation";
@@ -30,24 +26,16 @@ import { cn } from "@/lib/utils";
  * state, which is how visual dominance is made structural rather than a
  * judgement call.
  *
- * Mockups (Req 9.2, 9.3): two frames whose bounding boxes overlap
- * horizontally. The forward frame is `size="lg"`, centred, `z-10`; the rear
- * frame is `size="md"`, shifted left past the forward frame's left edge, pushed
- * down 40px and rotated, at `z-0`. Below Breakpoint_Small the rear frame is not
- * rendered at all, so the composition can never exceed the viewport width
- * (Req 9.6, 7.10) — a translated, rotated 320px frame is exactly the thing that
- * would force a horizontal scrollbar at 320px.
+ * Mockups: two `ScreenshotMockup` phone frames showing real app screenshots.
+ * The forward frame uses the chat screenshot (theme-aware), the rear frame
+ * uses the call screenshot (same image in both modes). Both get a 3D
+ * perspective tilt for a premium showcase feel.
  *
  * Chips (Req 9.4, 9.5): both chip labels come from `src/data/` —
  * `chat.streakLabel` and `call.encryptionLabel` — with their icons taken from
  * the matching `FEATURES` entries. They sit inside the forward frame's
  * horizontal bounds on small viewports and only break the edge from
  * Breakpoint_Small up, again to keep the section overflow-free.
- *
- * Req 9.8: nothing here waits on a network request. Copy is inline or from
- * `src/data/`, the mockups are CSS-rendered, and there is no `<img>` and no
- * fetch — so the heading, lead and CTA paint from the entry bundle alone. This
- * component is imported eagerly by `Index.tsx`.
  */
 
 /** Heading copy lives in the shared section registry so nav/tests cannot drift. */
@@ -132,40 +120,59 @@ export default function Hero() {
         </Reveal>
       </RevealGroup>
 
-      <RevealGroup as="div" className="relative mt-64px flex justify-center">
-        {/* Rear frame: offset left, pushed down, rotated, behind (z-0).
+      {/* Fanned-out two-phone showcase: both phones clearly visible.
+          On mobile only the chat phone renders; the call phone appears from bp810. */}
+      <RevealGroup
+        as="div"
+        className="relative mt-64px flex justify-center bp810:gap-0"
+        style={{ perspective: "1400px" }}
+      >
+        {/* Front phone (chat) — slightly left of center, tilted left */}
+        <Reveal
+          as="div"
+          className="relative z-10 w-full max-w-[320px] bp810:-mr-16px bp810:max-w-[340px]"
+        >
+          <ScreenshotMockup
+            lightSrc="/website-screenshots/chat_screen_light.jpeg"
+            darkSrc="/website-screenshots/chat_screen_dark.jpeg"
+            alt={CHAT_SCREEN.altText}
+            size="lg"
+            tilt3d
+            tiltDirection="left"
+          />
+
+          {/* Floating chips — positioned over the frame, outside role="img" */}
+          <div className="pointer-events-none absolute inset-0 z-10">
+            <FloatingChip
+              className="absolute left-8px top-64px bp810:-left-32px"
+              icon={ARCADE_ICON ? <ARCADE_ICON className="h-4 w-4" /> : null}
+            >
+              {CHAT_SCREEN.streakLabel}
+            </FloatingChip>
+
+            <FloatingChip
+              className="absolute bottom-80px right-8px bp810:-right-32px"
+              icon={
+                ENCRYPTION_ICON ? <ENCRYPTION_ICON className="h-4 w-4" /> : null
+              }
+            >
+              {CALL_SCREEN.encryptionLabel}
+            </FloatingChip>
+          </div>
+        </Reveal>
+
+        {/* Rear phone (call) — right of center, tilted right, pushed down.
             Not rendered below Breakpoint_Small (Req 9.6). */}
         <Reveal
           as="div"
-          className="pointer-events-none absolute left-1/2 top-0 z-0 hidden w-full max-w-[320px] -translate-x-[92%] translate-y-40px -rotate-6 bp810:block"
+          className="pointer-events-none z-0 hidden w-full max-w-[280px] translate-y-48px bp810:-ml-16px bp810:block"
         >
-          <DeviceMockup screen={CALL_SCREEN} size="md" />
-        </Reveal>
-
-        {/* Forward frame: centred, above (z-10), carries both chips. */}
-        <Reveal as="div" className="relative z-10 w-full max-w-[380px]">
-          <DeviceMockup
-            screen={CHAT_SCREEN}
-            size="lg"
-            chips={
-              <>
-                <FloatingChip
-                  className="absolute left-8px top-64px bp810:-left-32px"
-                  icon={ARCADE_ICON ? <ARCADE_ICON className="h-4 w-4" /> : null}
-                >
-                  {CHAT_SCREEN.streakLabel}
-                </FloatingChip>
-
-                <FloatingChip
-                  className="absolute bottom-80px right-8px bp810:-right-32px"
-                  icon={
-                    ENCRYPTION_ICON ? <ENCRYPTION_ICON className="h-4 w-4" /> : null
-                  }
-                >
-                  {CALL_SCREEN.encryptionLabel}
-                </FloatingChip>
-              </>
-            }
+          <ScreenshotMockup
+            lightSrc="/website-screenshots/call_screen_both_light_dark.jpeg"
+            alt={CALL_SCREEN.altText}
+            size="md"
+            tilt3d
+            tiltDirection="right"
           />
         </Reveal>
       </RevealGroup>

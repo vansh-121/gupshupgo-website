@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { Bluetooth, Lock, Radio, ShieldCheck, Smartphone, type LucideIcon } from "lucide-react";
 
 import Section, { MEASURE_CLASSES } from "@/components/Section";
@@ -173,9 +174,33 @@ export default function MeshChatSection() {
             data-testid="mesh-pinned-visual"
             className="hidden bp810:sticky bp810:top-112px bp810:block"
           >
+            {/* Real offline chat screenshot above the step diagram */}
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/offline_chat_light.jpeg"
+              darkSrc="/website-screenshots/offline_chat_dark.jpeg"
+              alt="GupShupGo offline nearby chat screen showing messages delivered over Bluetooth and Wi-Fi Direct with no internet connection."
+              size="md"
+              tilt3d
+              tiltDirection="left"
+              className="mx-auto mb-32px max-w-[280px]"
+            />
             <MeshStepVisual step={activeStep} />
           </div>
         ) : null}
+
+        {/* Offline chat screenshot on mobile / reduced motion — shown once above the steps */}
+        {!pinned && (
+          <div className="flex justify-center">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/offline_chat_light.jpeg"
+              darkSrc="/website-screenshots/offline_chat_dark.jpeg"
+              alt="GupShupGo offline nearby chat screen showing messages delivered over Bluetooth and Wi-Fi Direct with no internet connection."
+              size="md"
+              tilt3d={false}
+              className="mx-auto max-w-[280px]"
+            />
+          </div>
+        )}
 
         <ol className="space-y-48px">
           {MESH_STEPS.map((step, index) => {

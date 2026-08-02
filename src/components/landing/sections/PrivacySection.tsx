@@ -1,6 +1,6 @@
-import { KeyRound, Lock, ShieldCheck } from "lucide-react";
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { bandFor } from "@/data/sections";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,10 @@ import { cn } from "@/lib/utils";
  *
  * Phrase contract: end-to-end encryption (Signal protocol), safety-number
  * verification, PIN-protected Vault.
+ *
+ * Shows two overlapping real app screenshots — the E2E encryption screen
+ * in front and the Vault screen behind — replacing the previous icon grid.
+ * Both swap between light/dark variants based on site theme.
  *
  * The band comes from `bandFor("privacy")` — derived from this section's position
  * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
@@ -59,25 +63,34 @@ export default function PrivacySection() {
           </Reveal>
         </RevealGroup>
 
+        {/* Fanned-out two-phone composition — both clearly visible */}
         <RevealGroup
-          aria-hidden="true"
-          className="grid gap-16px rounded-8 bg-layer-1 p-32px shadow-hairline-12-elevated"
+          as="div"
+          className="flex flex-col items-center gap-24px bp810:flex-row bp810:justify-center bp810:gap-0"
         >
-          {[
-            { Icon: Lock, label: "End-to-end encrypted" },
-            { Icon: ShieldCheck, label: "Safety number verified" },
-            { Icon: KeyRound, label: "Vault locked" },
-          ].map(({ Icon, label }) => (
-            <Reveal
-              key={label}
-              className="flex items-center gap-16px rounded-8 bg-layer-2 px-16px py-12px shadow-hairline-12"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-white">
-                <Icon className="h-5 w-5" />
-              </span>
-              <span className="text-14 leading-140 text-ink-high">{label}</span>
-            </Reveal>
-          ))}
+          {/* E2E encryption screenshot — left, tilted right */}
+          <Reveal as="div" className="relative z-10 w-full max-w-[280px] bp810:-mr-12px bp810:max-w-[260px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/e2e_light.jpeg"
+              darkSrc="/website-screenshots/e2e_dark.jpeg"
+              alt="GupShupGo end-to-end encryption screen showing the Signal protocol safety verification."
+              size="md"
+              tilt3d
+              tiltDirection="right"
+            />
+          </Reveal>
+
+          {/* Vault screenshot — right, tilted left, slightly pushed down */}
+          <Reveal as="div" className="z-0 w-full max-w-[260px] bp810:-ml-12px bp810:translate-y-32px bp810:max-w-[240px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/vault_light.jpeg"
+              darkSrc="/website-screenshots/vault_dark.jpeg"
+              alt="GupShupGo PIN-protected Vault screen showing locked private chats and media."
+              size="sm"
+              tilt3d
+              tiltDirection="left"
+            />
+          </Reveal>
         </RevealGroup>
       </div>
     </Section>

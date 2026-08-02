@@ -1,6 +1,6 @@
-import { Shuffle, UserRound, Users } from "lucide-react";
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
+import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { bandFor } from "@/data/sections";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,10 @@ import { cn } from "@/lib/utils";
  *
  * Phrase contract: chat without revealing your identity, matching lobby.
  *
+ * Shows a real app screenshot of the anonymous chat screen in a 3D phone
+ * mockup, replacing the previous icon composition (UserRound, Shuffle, Users).
+ * The screenshot swaps between light/dark variants based on the site theme.
+ *
  * The band comes from `bandFor("anonymous")` — derived from this section's
  * position in `VISIBLE_SECTIONS`, so it differs from both neighbours whatever
  * the Pro flag does to the order (Req 3.8).
@@ -18,23 +22,17 @@ export default function AnonymousChatSection() {
   return (
     <Section id="anonymous" band={bandFor("anonymous")}>
       <div className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
-        <RevealGroup
-          aria-hidden="true"
-          className="rounded-8 bg-layer-1 p-32px shadow-hairline-12-elevated"
-        >
-          <Reveal className="flex items-center justify-center gap-24px">
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-layer-2 text-ink-high shadow-hairline-12">
-              <UserRound className="h-7 w-7" />
-            </span>
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white">
-              <Shuffle className="h-5 w-5" />
-            </span>
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-layer-2 text-ink-high shadow-hairline-12">
-              <Users className="h-7 w-7" />
-            </span>
-          </Reveal>
-          <Reveal as="p" className="mt-24px text-center text-14 leading-140 text-ink-secondary">
-            Two strangers, one matching lobby
+        {/* Screenshot mockup — anonymous chat */}
+        <RevealGroup as="div" className="flex justify-center">
+          <Reveal as="div" className="w-full max-w-[300px]">
+            <ScreenshotMockup
+              lightSrc="/website-screenshots/anonymous_chat_light.jpeg"
+              darkSrc="/website-screenshots/anonymous_chat_dark.jpeg"
+              alt="GupShupGo anonymous chat screen showing a temporary identity in the matching lobby."
+              size="md"
+              tilt3d
+              tiltDirection="left"
+            />
           </Reveal>
         </RevealGroup>
 
