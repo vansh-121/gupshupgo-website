@@ -216,31 +216,6 @@ export default function ScreenshotMockup({
             className="relative h-full w-full overflow-hidden"
             style={{ borderRadius: "2.3rem" }}
           >
-            {/* Dynamic Island — camera cutout */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 z-10 flex -translate-x-1/2 items-center justify-center"
-              style={{
-                top: "8px",
-                width: "30%",
-                height: "24px",
-                borderRadius: "80px",
-                background: "#0a0a0a",
-                boxShadow: "inset 0 0 2px 1px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3)",
-              }}
-            >
-              {/* Front camera lens */}
-              <span
-                style={{
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "50%",
-                  background: "radial-gradient(circle, #1a2040 30%, #0a0a1a 70%)",
-                  boxShadow: "inset 0 0 1px rgba(255,255,255,0.15), 0 0 2px rgba(0,0,0,0.5)",
-                }}
-              />
-            </div>
-
             {/* Screenshot image */}
             <img
               src={src}
