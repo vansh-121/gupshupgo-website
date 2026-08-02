@@ -3,6 +3,7 @@ import SectionHeading from "@/components/SectionHeading";
 import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { bandFor } from "@/data/sections";
 import { Reveal, RevealGroup } from "@/components/Reveal";
+import { DEEP_DIVE_MIRRORED } from "./deepDiveLayout";
 import { cn } from "@/lib/utils";
 
 /**
@@ -19,39 +20,32 @@ import { cn } from "@/lib/utils";
  * The band comes from `bandFor("calling")` — derived from this section's position
  * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
  *
- * ## Column order: DOM is text-first, desktop swaps with `order`
- *
- * On desktop this section is the mirror of its neighbours — mockup on the LEFT,
- * copy on the right — which is what gives the run of deep-dive sections its
- * zigzag. That mirroring used to be done by putting the mockup FIRST in the
- * DOM, and it broke the single-column layout: `privacy` ends with its two-phone
- * pair and `calling` then opened with another two-phone pair, so a phone or
- * tablet showed four stacked frames in a row with nothing but a band change
- * between them, and the two sections read as one long strip of mockups.
- *
- * So the DOM order is now the MOBILE reading order — heading, copy, then the
- * mockup that illustrates it — and the desktop mirror is applied with
- * `bp810:order-*` instead. Every deep-dive section therefore collapses to the
- * same "heading → copy → visual" rhythm, and each section's copy separates its
- * own mockup from the previous section's.
- *
- * Keeping the heading ahead of the image it describes is also the better
- * reading order for assistive tech and for tab order, so the DOM is no longer
- * carrying a purely visual decision.
+ * Layout: the MIRRORED variant of the shared contract in `deepDiveLayout.ts` —
+ * desktop keeps the mockup on the LEFT and the copy on the right, which is what
+ * gives the run of deep dives its zigzag. The mirroring is grid placement, not
+ * DOM order, so collapsed the section still reads heading → lead → screenshots
+ * → detail blocks. That matters here in particular: this section follows
+ * `privacy`, which also ends in a two-phone pair, and the two pairs used to
+ * stack back to back with only a band change between them.
  */
 export default function CallingSection() {
   return (
     <Section id="calling" band={bandFor("calling")}>
-      <RevealGroup className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
-        {/* Copy — first in the DOM, second column on desktop. */}
-        <Reveal className={cn(MEASURE_CLASSES[644], "bp810:order-2")}>
-          <SectionHeading sectionId="calling">HD video and voice calls</SectionHeading>
-          <p className="mt-20px text-lead text-ink-secondary">
-            Calls feel like being in the same room. HD video calls and voice calls run encrypted
-            end to end, and they hold up on ordinary mobile connections.
-          </p>
+      <RevealGroup className={DEEP_DIVE_MIRRORED.container}>
+        {/* Text column. `display: contents` below bp810 so the mockup can be
+            ordered between the lead and the details — see deepDiveLayout.ts. */}
+        <div className={DEEP_DIVE_MIRRORED.textGroup}>
+          <Reveal className={cn(MEASURE_CLASSES[644], DEEP_DIVE_MIRRORED.lead)}>
+            <SectionHeading sectionId="calling">HD video and voice calls</SectionHeading>
+            <p className="mt-20px text-lead text-ink-secondary">
+              Calls feel like being in the same room. HD video calls and voice calls run encrypted
+              end to end, and they hold up on ordinary mobile connections.
+            </p>
+          </Reveal>
 
-          <div className="mt-32px space-y-24px">
+          <Reveal
+            className={cn(MEASURE_CLASSES[644], DEEP_DIVE_MIRRORED.details, "space-y-24px")}
+          >
             <div>
               <h3 className="text-25 font-medium leading-120 text-ink-high">HD video calls</h3>
               <p className="mt-8px text-16 leading-140 text-ink-secondary">
@@ -83,12 +77,10 @@ export default function CallingSection() {
                 setting instead of describing it.
               </p>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
 
         {/* Two-phone composition — call screen in front, screen sharing behind.
-            Second in the DOM, first column on desktop.
-
             The pair stays fanned at EVERY width rather than splitting into two
             separate stacked screenshots on a phone: the overlap is the visual.
             It fits a ~337px tablet column and a 320px phone because it is sized
@@ -97,7 +89,10 @@ export default function CallingSection() {
             and the rear frame can never be pushed out of the column. */}
         <Reveal
           as="div"
-          className="mx-auto flex w-full max-w-[500px] items-start justify-center bp810:order-1"
+          className={cn(
+            "mx-auto flex w-full max-w-[500px] items-start justify-center",
+            DEEP_DIVE_MIRRORED.mockup,
+          )}
         >
           {/* Call screen — left, tilted left */}
           <div className="relative z-10 -mr-[5%] w-[55%] max-w-[260px]">

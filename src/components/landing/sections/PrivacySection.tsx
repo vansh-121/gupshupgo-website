@@ -3,6 +3,7 @@ import SectionHeading from "@/components/SectionHeading";
 import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { bandFor } from "@/data/sections";
+import { DEEP_DIVE } from "./deepDiveLayout";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,13 +18,20 @@ import { cn } from "@/lib/utils";
  *
  * The band comes from `bandFor("privacy")` — derived from this section's position
  * in `VISIBLE_SECTIONS`, so it always differs from its neighbours (Req 3.8).
+ *
+ * Layout: the shared contract in `deepDiveLayout.ts`. Desktop is the unchanged
+ * text-left, mockup-right pair; collapsed it reads heading → lead → screenshots
+ * → detail blocks, which is what stops this section's two-phone pair from
+ * landing directly against `calling`'s pair.
  */
 export default function PrivacySection() {
   return (
     <Section id="privacy" band={bandFor("privacy")}>
-      <div className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
-        <RevealGroup className={cn(MEASURE_CLASSES[644])}>
-          <Reveal>
+      <RevealGroup className={DEEP_DIVE.container}>
+        {/* Text column. `display: contents` below bp810 so the mockup can be
+            ordered between the lead and the details — see deepDiveLayout.ts. */}
+        <div className={DEEP_DIVE.textGroup}>
+          <Reveal className={cn(MEASURE_CLASSES[644], DEEP_DIVE.lead)}>
             <SectionHeading sectionId="privacy">Your conversations stay yours</SectionHeading>
             <p className="mt-20px text-lead text-ink-high">
               Privacy is the default, not a setting you have to hunt for. Every chat is protected
@@ -32,7 +40,7 @@ export default function PrivacySection() {
             </p>
           </Reveal>
 
-          <Reveal className="mt-32px space-y-24px">
+          <Reveal className={cn(MEASURE_CLASSES[644], DEEP_DIVE.details, "space-y-24px")}>
             <div>
               <h3 className="text-25 font-medium leading-120 text-ink-high">
                 End-to-end encryption on the Signal protocol
@@ -61,19 +69,21 @@ export default function PrivacySection() {
               </p>
             </div>
           </Reveal>
-        </RevealGroup>
+        </div>
 
         {/* Two-phone composition — both clearly visible, and fanned at EVERY
-            width. Same percentage sizing as CallingSection: the pair scales as
-            one object (55% front, 50% rear, 5% overlap) so it fits the ~337px
-            tablet column and a 320px phone without splitting into two separate
-            stacked screenshots. */}
-        <RevealGroup
+            width. The pair scales as one object (55% front, 50% rear, 5%
+            overlap) so it fits the ~337px tablet column and a 320px phone
+            without splitting into two separate stacked screenshots. */}
+        <Reveal
           as="div"
-          className="mx-auto flex w-full max-w-[500px] items-start justify-center"
+          className={cn(
+            "mx-auto flex w-full max-w-[500px] items-start justify-center",
+            DEEP_DIVE.mockup,
+          )}
         >
           {/* E2E encryption screenshot — left, tilted right */}
-          <Reveal as="div" className="relative z-10 -mr-[5%] w-[55%] max-w-[260px]">
+          <div className="relative z-10 -mr-[5%] w-[55%] max-w-[260px]">
             <ScreenshotMockup
               lightSrc="/website-screenshots/e2e_light.jpeg"
               darkSrc="/website-screenshots/e2e_dark.jpeg"
@@ -82,11 +92,11 @@ export default function PrivacySection() {
               tilt3d
               tiltDirection="right"
             />
-          </Reveal>
+          </div>
 
           {/* Vault screenshot — right, tilted left, pushed down by a percentage
               of the group width so the drop scales with the pair. */}
-          <Reveal as="div" className="pointer-events-none z-0 mt-[7%] w-[50%] max-w-[240px]">
+          <div className="pointer-events-none z-0 mt-[7%] w-[50%] max-w-[240px]">
             <ScreenshotMockup
               lightSrc="/website-screenshots/vault_light.jpeg"
               darkSrc="/website-screenshots/vault_dark.jpeg"
@@ -95,10 +105,9 @@ export default function PrivacySection() {
               tilt3d
               tiltDirection="left"
             />
-          </Reveal>
-        </RevealGroup>
-
-      </div>
+          </div>
+        </Reveal>
+      </RevealGroup>
     </Section>
   );
 }
