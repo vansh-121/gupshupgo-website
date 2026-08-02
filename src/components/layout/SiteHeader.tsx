@@ -16,6 +16,22 @@ import { cn } from "@/lib/utils";
 const MOBILE_PANEL_ID = "site-header-mobile-nav";
 
 /**
+ * Viewport at which the nav switches from the collapsed disclosure to the flat
+ * desktop row.
+ *
+ * This is `bp1024`, not `bp810`. The flat row is logo + wordmark + six section
+ * links + divider + theme toggle + "Get the app", which measures roughly 850px
+ * of content: between 810px and 1024px it was wider than the viewport, so the
+ * pill stopped hugging its content and the CTA was pushed past the right edge.
+ * Portrait tablets therefore keep the disclosure — which lists every section
+ * anyway — and the flat row only appears once there is room for it.
+ *
+ * Kept as a comment-level constant rather than a JS value because Tailwind
+ * needs the literal `bp1024:` prefix in the class strings to compile them.
+ */
+
+
+/**
  * The section links the desktop pill carries, flat, in this order (Req 8.5).
  *
  * The pill hugs its content rather than stretching to the container, so these
@@ -386,10 +402,11 @@ export default function SiteHeader() {
         ref={navRef}
         style={{ backgroundColor: PILL_BACKGROUND }}
         className={cn(
-          // Full width below 810px, where the collapsed row needs it; above,
+          // Full width below bp1024, where the collapsed row needs it; above,
           // `w-fit` sizes the pill to its content and `mx-auto` centres it.
           "pointer-events-auto relative mx-auto flex w-full items-center gap-8px",
-          "bp810:w-fit bp810:max-w-full bp810:gap-12px",
+          "bp1024:w-fit bp1024:max-w-full bp1024:gap-12px",
+
           "rounded-pill bg-layer-0",
           "backdrop-blur-[12px]",
           // One static appearance: 8px padding and the composed inset hairline +
@@ -427,25 +444,28 @@ export default function SiteHeader() {
             */
             className="h-7 w-7 rounded-8"
           />
-          {/* Wordmark shows at Breakpoint_Small and up. */}
-          <span className="hidden bp810:inline">GupShupGo</span>
+          {/* Wordmark shows once the flat nav does, so the collapsed pill spends
+              its width on the controls instead. */}
+          <span className="hidden bp1024:inline">GupShupGo</span>
+
         </Link>
 
         {/*
-          Below 810px `flex-1 justify-end` pushes the hamburger to the right of
+          Below bp1024 `flex-1 justify-end` pushes the hamburger to the right of
           the logo; above it the nav is its own width inside a content-sized
           pill, so it neither grows nor pins to an edge.
 
-          `bp810:ml-8px` widens only the logo-to-nav boundary — the pill's shared
-          `bp810:gap-12px` stays put, so nav / divider / toggle / CTA keep their
+          `bp1024:ml-8px` widens only the logo-to-nav boundary — the pill's shared
+          `bp1024:gap-12px` stays put, so nav / divider / toggle / CTA keep their
           existing rhythm. Total desktop logo-to-first-link gap: 4 + 12 + 8 = 24px.
         */}
         <nav
           aria-label="Main"
-          className="flex flex-1 items-center justify-end gap-4px bp810:ml-8px bp810:flex-none bp810:justify-start bp810:gap-2px"
+          className="flex flex-1 items-center justify-end gap-4px bp1024:ml-8px bp1024:flex-none bp1024:justify-start bp1024:gap-2px"
         >
-          {/* Desktop section links (>=810px), flat */}
-          <ul className="hidden items-center gap-2px bp810:flex">
+          {/* Desktop section links (>=1024px), flat */}
+          <ul className="hidden items-center gap-2px bp1024:flex">
+
             {DESKTOP_SECTIONS.map((section) => {
               const isActive = section.id === activeSection;
 
@@ -470,7 +490,10 @@ export default function SiteHeader() {
             })}
           </ul>
 
-          {/* Mobile disclosure (<810px) — every section anchor */}
+          {/* Collapsed disclosure (<1024px) — every section anchor.
+              This MUST hide at the same breakpoint the flat list appears at
+              (bp1024). Hiding it at bp810 while the list only appeared at
+              bp1024 would leave 810–1024px with no navigation at all. */}
           <button
             ref={mobileMenu.triggerRef}
             type="button"
@@ -478,8 +501,9 @@ export default function SiteHeader() {
             aria-controls={MOBILE_PANEL_ID}
             aria-label={mobileMenu.isOpen ? "Close main menu" : "Open main menu"}
             onClick={() => (mobileMenu.isOpen ? mobileMenu.close(false) : mobileMenu.open())}
-            className={cn(iconButtonClasses, "bp810:hidden")}
+            className={cn(iconButtonClasses, "bp1024:hidden")}
           >
+
             {mobileMenu.isOpen ? (
               <X aria-hidden="true" className="h-5 w-5" />
             ) : (
@@ -492,7 +516,8 @@ export default function SiteHeader() {
             ref={mobileMenu.panelRef}
             hidden={!mobileMenu.isOpen}
             onKeyDown={mobileMenu.onKeyDown}
-            className={cn(PANEL_BASE, "left-0 right-0 top-[calc(100%+12px)] bp810:hidden")}
+            className={cn(PANEL_BASE, "left-0 right-0 top-[calc(100%+12px)] bp1024:hidden")}
+
           >
             {/*
               Every section the page renders, in registry order. No legal links:
@@ -518,7 +543,9 @@ export default function SiteHeader() {
         {/*
           Hairline rule separating the nav group from the actions. A 1px element
           filled with the hairline token, never the `border` property (Req 4.3),
-          and gone below 810px where the row collapses.
+          and gone below bp1024 where the row collapses — with no flat link row
+          to divide, the rule would be separating the logo from the hamburger.
+
 
           Kept short at 20px — well under the 44px controls it sits between — so
           it recedes into a boundary instead of competing as a third mark.
@@ -529,8 +556,9 @@ export default function SiteHeader() {
         */}
         <span
           aria-hidden="true"
-          className="hidden h-20px w-px shrink-0 bg-hairline-12 bp810:block"
+          className="hidden h-20px w-px shrink-0 bg-hairline-12 bp1024:block"
         />
+
 
         <ThemeToggle
           className={cn(
@@ -543,9 +571,10 @@ export default function SiteHeader() {
           )}
         />
         {/* Extra breathing room between the toggle and the solid CTA. */}
-        <DownloadButton variant="header" className="bp810:ml-4px">
+        <DownloadButton variant="header" className="bp1024:ml-4px">
           Get the app
         </DownloadButton>
+
       </div>
     </header>
   );

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+
 
 export type ScreenshotFrameSize = "sm" | "md" | "lg";
 
@@ -34,12 +36,38 @@ interface ScreenshotMockupProps {
   className?: string;
 }
 
-/** `max-width` per size variant. */
+/**
+ * `max-width` per size variant, as a mobile → tablet → desktop ramp.
+ *
+ * The frame is `w-full` inside its column, so these caps are what stop a phone
+ * mockup from rendering larger than the column that holds it. They step up
+ * rather than being one fixed value because these frames appear both alone in a
+ * full-width mobile column AND two-at-a-time inside a ~340px half-column at
+ * Breakpoint_Small, where the desktop cap would overlap its sibling.
+ */
 const SIZE_MAX_WIDTH: Record<ScreenshotFrameSize, string> = {
-  sm: "max-w-[232px]",
-  md: "max-w-[320px]",
-  lg: "max-w-[380px]",
+  sm: "max-w-[184px] bp480:max-w-[208px] bp810:max-w-[232px]",
+  md: "max-w-[248px] bp480:max-w-[288px] bp810:max-w-[320px]",
+  // `lg`'s middle step is 340px, not 320px, so it clears the Hero front frame's
+  // 336px wrapper. A 320px cap there would leave the frame 8px narrower than
+  // the wrapper its floating chips are positioned against, pulling the chips
+  // off the frame's edge in the 480–810px band.
+  lg: "max-w-[272px] bp480:max-w-[340px] bp810:max-w-[380px]",
 };
+
+
+/**
+ * The tilt is only enabled where a pointer can actually hover.
+ *
+ * The effect's rest state is a rotated frame that flattens on `mouseenter`. A
+ * touch screen fires no `mouseenter`, so on a phone or tablet the mockup would
+ * be stuck in its skewed rest state permanently with no way to see the
+ * screenshot straight on — the tilt stops being a showcase and just reads as a
+ * distorted image. Gating on `hover: hover` and `pointer: fine` means touch
+ * devices get the frame flat and face-on, which is the point of a screenshot.
+ */
+const HOVER_CAPABLE_QUERY = "(hover: hover) and (pointer: fine)";
+
 
 /** Rest-state transforms per tilt direction. */
 const REST_TRANSFORM: Record<"left" | "right", string> = {
@@ -70,8 +98,17 @@ const FLAT_TRANSFORM = "rotateY(0deg) rotateX(0deg) scale(1.02)";
  *
  * When `tilt3d` is true (default) the frame starts with a subtle perspective
  * tilt that flattens on hover, creating a premium showcase feel. The effect
- * is disabled under `prefers-reduced-motion: reduce`.
+ * is disabled under `prefers-reduced-motion: reduce`, and also on any device
+ * that cannot hover (see `HOVER_CAPABLE_QUERY`) — there the frame renders flat
+ * and face-on, because the flatten gesture is unreachable by touch.
+ *
+ * ## Sizing
+ *
+ * The frame is fluid (`w-full`) and capped by a responsive `max-width` ramp per
+ * `size`, so the same mockup fits a full-width phone column and a half-width
+ * tablet column without a per-section override.
  */
+
 export default function ScreenshotMockup({
   lightSrc,
   darkSrc,
@@ -83,6 +120,7 @@ export default function ScreenshotMockup({
 }: ScreenshotMockupProps) {
   const { resolvedTheme } = useTheme();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const canHover = useMediaQuery(HOVER_CAPABLE_QUERY);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -92,7 +130,10 @@ export default function ScreenshotMockup({
   const isDark = mounted && resolvedTheme === "dark";
   const src = isDark && darkSrc ? darkSrc : lightSrc;
 
-  const enable3d = tilt3d && !prefersReducedMotion;
+  // `canHover` is the responsiveness gate: a touch device fires no
+  // `mouseenter`, so an enabled tilt there could never be flattened again.
+  const enable3d = tilt3d && !prefersReducedMotion && canHover;
+
   const restTransform = REST_TRANSFORM[tiltDirection];
 
   // Chassis colour varies by theme for realism

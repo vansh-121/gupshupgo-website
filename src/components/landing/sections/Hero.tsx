@@ -36,7 +36,22 @@ import { cn } from "@/lib/utils";
  * the matching `FEATURES` entries. They sit inside the forward frame's
  * horizontal bounds on small viewports and only break the edge from
  * Breakpoint_Small up, again to keep the section overflow-free.
+ *
+ * Responsive composition: the fanned two-phone pair is kept at EVERY width —
+ * it is the showcase, and splitting it into two separate stacked screens on a
+ * phone loses the whole effect.
+ *
+ * It survives on a 320px screen because the composition is sized in
+ * percentages rather than pixels: the group takes the column width, the front
+ * frame takes 56% of it, the rear 46%, and they overlap by 3%. Those ratios are
+ * fixed, so the pair scales as one object and the overlap stays proportional
+ * instead of the second frame being pushed out of the container. The `max-w`
+ * on the group is what stops it growing past its intended desktop size, and
+ * `ScreenshotMockup`'s own `max-width` ramp is only a ceiling — below it the
+ * frames are fluid, so nothing needs a per-breakpoint width here.
  */
+
+
 
 /** Heading copy lives in the shared section registry so nav/tests cannot drift. */
 const HERO_HEADING =
@@ -68,10 +83,13 @@ export default function Hero() {
           id="hero-heading"
           className={cn(
             MEASURE_CLASSES[872],
-            "mt-24px text-h1-sm font-medium text-ink-high bp810:text-h1",
+            // Three-step display ramp: 42px on small phones, 57px from bp480,
+            // 68px from Breakpoint_Small. See the `-xs` note in tailwind.config.ts.
+            "mt-24px text-h1-xs font-medium text-ink-high bp480:text-h1-sm bp810:text-h1",
           )}
         >
           {HERO_HEADING}
+
         </Reveal>
 
         <Reveal
@@ -120,18 +138,20 @@ export default function Hero() {
         </Reveal>
       </RevealGroup>
 
-      {/* Fanned-out two-phone showcase: both phones clearly visible.
-          On mobile only the chat phone renders; the call phone appears from bp810. */}
+      {/* Fanned two-phone showcase, held together at every width by the
+          percentage sizing described in the file header. */}
       <RevealGroup
         as="div"
-        className="relative mt-64px flex justify-center bp810:gap-0"
+        className="relative mx-auto mt-48px flex w-full max-w-[600px] items-start justify-center bp810:mt-64px"
         style={{ perspective: "1400px" }}
       >
-        {/* Front phone (chat) — slightly left of center, tilted left */}
+        {/* Front phone (chat) — left of centre, tilted left, overlapping its
+            sibling by 3% of the group width. */}
         <Reveal
           as="div"
-          className="relative z-10 w-full max-w-[320px] bp810:-mr-16px bp810:max-w-[340px]"
+          className="relative z-10 -mr-[3%] w-[56%] max-w-[340px]"
         >
+
           <ScreenshotMockup
             lightSrc="/website-screenshots/chat_screen_light.jpeg"
             darkSrc="/website-screenshots/chat_screen_dark.jpeg"
@@ -141,32 +161,69 @@ export default function Hero() {
             tiltDirection="left"
           />
 
-          {/* Floating chips — positioned over the frame, outside role="img" */}
+          {/* Floating chips — positioned over the frame, outside role="img".
+
+              Vertical placement is a percentage so it tracks the frame's height
+              as the pair scales (`top`/`bottom` percentages resolve against the
+              containing block's height, unlike the percentage margins above).
+
+              The chips also step DOWN in size below Breakpoint_Small: at the
+              desktop 14px/12px-padding size a chip is about two thirds the width
+              of the scaled-down frame, which reads as a label covering the
+              screenshot rather than floating over it. They only break outside
+              the frame's edge from bp810, where the section gutter has room for
+              the overhang. */}
           <div className="pointer-events-none absolute inset-0 z-10">
             <FloatingChip
-              className="absolute left-8px top-64px bp810:-left-32px"
-              icon={ARCADE_ICON ? <ARCADE_ICON className="h-4 w-4" /> : null}
+              className={cn(
+                "absolute left-4px top-[9%] gap-4px whitespace-nowrap px-8px py-4px text-11",
+                "bp480:text-12",
+                "bp810:-left-32px bp810:gap-8px bp810:px-12px bp810:py-8px bp810:text-14",
+              )}
+              icon={
+                ARCADE_ICON ? (
+                  <ARCADE_ICON className="h-3 w-3 bp810:h-4 bp810:w-4" />
+                ) : null
+              }
             >
               {CHAT_SCREEN.streakLabel}
             </FloatingChip>
 
             <FloatingChip
-              className="absolute bottom-80px right-8px bp810:-right-32px"
+              className={cn(
+                "absolute bottom-[11%] right-4px gap-4px whitespace-nowrap px-8px py-4px text-11",
+                "bp480:text-12",
+                "bp810:-right-32px bp810:gap-8px bp810:px-12px bp810:py-8px bp810:text-14",
+              )}
               icon={
-                ENCRYPTION_ICON ? <ENCRYPTION_ICON className="h-4 w-4" /> : null
+                ENCRYPTION_ICON ? (
+                  <ENCRYPTION_ICON className="h-3 w-3 bp810:h-4 bp810:w-4" />
+                ) : null
               }
             >
               {CALL_SCREEN.encryptionLabel}
             </FloatingChip>
           </div>
+
+
         </Reveal>
 
-        {/* Rear phone (call) — right of center, tilted right, pushed down.
-            Not rendered below Breakpoint_Small (Req 9.6). */}
+        {/* Rear phone (call) — right of centre, tilted right and dropped so it
+            reads as the back layer. `mt-[7%]` is a percentage margin, which
+            resolves against the GROUP'S WIDTH (percentage margins always use
+            the containing block's inline size, never its height), so the drop
+            scales with the composition instead of staying a fixed 48px on a
+            320px screen.
+
+            `pointer-events-none` at every width: it always sits under the front
+            frame here, so it must never intercept that frame's hover. */}
+
         <Reveal
           as="div"
-          className="pointer-events-none z-0 hidden w-full max-w-[280px] translate-y-48px bp810:-ml-16px bp810:block"
+          className="pointer-events-none z-0 mt-[8%] w-[46%] max-w-[280px]"
+
         >
+
           <ScreenshotMockup
             lightSrc="/website-screenshots/call_screen_both_light_dark.jpeg"
             alt={CALL_SCREEN.altText}

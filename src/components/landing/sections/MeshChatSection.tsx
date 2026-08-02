@@ -188,19 +188,28 @@ export default function MeshChatSection() {
           </div>
         ) : null}
 
-        {/* Offline chat screenshot on mobile / reduced motion — shown once above the steps */}
-        {!pinned && (
-          <div className="flex justify-center">
-            <ScreenshotMockup
-              lightSrc="/website-screenshots/offline_chat_light.jpeg"
-              darkSrc="/website-screenshots/offline_chat_dark.jpeg"
-              alt="GupShupGo offline nearby chat screen showing messages delivered over Bluetooth and Wi-Fi Direct with no internet connection."
-              size="md"
-              tilt3d={false}
-              className="mx-auto max-w-[280px]"
-            />
-          </div>
-        )}
+        {/* Offline chat screenshot for the unpinned single-column layout — that
+            is every viewport below Breakpoint_Small, plus every viewport under
+            reduced motion.
+
+            This is rendered unconditionally and hidden from bp810 up when the
+            column is pinned, rather than only when `!pinned`. Gating the whole
+            element on `!pinned` meant that a visitor who allows motion — the
+            default — got NO offline screenshot at all on a phone, because the
+            pinned copy above is itself `hidden` below bp810. The screenshot is
+            the only picture of the offline screen in this section, so it has to
+            survive in the mobile layout. */}
+        <div className={cn("flex justify-center", pinned && "bp810:hidden")}>
+          <ScreenshotMockup
+            lightSrc="/website-screenshots/offline_chat_light.jpeg"
+            darkSrc="/website-screenshots/offline_chat_dark.jpeg"
+            alt="GupShupGo offline nearby chat screen showing messages delivered over Bluetooth and Wi-Fi Direct with no internet connection."
+            size="md"
+            tilt3d={false}
+            className="mx-auto"
+          />
+        </div>
+
 
         <ol className="space-y-48px">
           {MESH_STEPS.map((step, index) => {

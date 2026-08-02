@@ -45,7 +45,10 @@ export default function DeleteAccount() {
 
         <div className="mb-8px flex items-center gap-12px">
           <Trash2 className="h-8 w-8 text-status-error" aria-hidden="true" />
-          <h1 className="text-h2-sm font-medium text-ink-high bp810:text-h2">Delete Account</h1>
+          <h1 className="text-h2-xs font-medium text-ink-high bp480:text-h2-sm bp810:text-h2">
+            Delete Account
+          </h1>
+
         </div>
         <p className="mb-48px text-14 leading-140 text-ink-secondary">Last Updated: March 9, 2026</p>
 

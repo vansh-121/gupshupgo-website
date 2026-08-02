@@ -23,11 +23,20 @@ export default function CallingSection() {
   return (
     <Section id="calling" band={bandFor("calling")}>
       <RevealGroup className="grid grid-cols-1 items-center gap-48px bp810:grid-cols-2 bp810:gap-64px">
-        {/* Two overlapping phone frames — call screen in front, screen sharing behind */}
-        {/* Fanned-out two-phone composition — both clearly visible */}
-        <Reveal as="div" className="flex flex-col items-center gap-24px bp810:flex-row bp810:justify-center bp810:gap-0">
+        {/* Two-phone composition — call screen in front, screen sharing behind.
+            The pair stays fanned at EVERY width rather than splitting into two
+            separate stacked screenshots on a phone: the overlap is the visual.
+
+            It fits a ~337px tablet column and a 320px phone because it is sized
+            in percentages of the group, not in pixels — 55% front, 50% rear,
+            overlapping by 5% — so the whole composition scales as one object
+            and the rear frame can never be pushed out of the column. */}
+        <Reveal
+          as="div"
+          className="mx-auto flex w-full max-w-[500px] items-start justify-center"
+        >
           {/* Call screen — left, tilted left */}
-          <div className="relative z-10 w-full max-w-[280px] bp810:-mr-12px bp810:max-w-[260px]">
+          <div className="relative z-10 -mr-[5%] w-[55%] max-w-[260px]">
             <ScreenshotMockup
               lightSrc="/website-screenshots/call_screen_both_light_dark.jpeg"
               alt="GupShupGo call screen showing an end-to-end encrypted HD video call with screen sharing active."
@@ -37,8 +46,9 @@ export default function CallingSection() {
             />
           </div>
 
-          {/* Screen sharing — right, tilted right, slightly pushed down */}
-          <div className="z-0 w-full max-w-[260px] bp810:-ml-12px bp810:translate-y-32px bp810:max-w-[240px]">
+          {/* Screen sharing — right, tilted right, pushed down by a percentage
+              of the group width so the drop scales with the pair. */}
+          <div className="pointer-events-none z-0 mt-[7%] w-[50%] max-w-[240px]">
             <ScreenshotMockup
               lightSrc="/website-screenshots/screen_sharing_both_light_dark.jpeg"
               alt="GupShupGo screen sharing view during a video call."
@@ -48,6 +58,7 @@ export default function CallingSection() {
             />
           </div>
         </Reveal>
+
 
         <Reveal className={cn(MEASURE_CLASSES[644])}>
           <SectionHeading sectionId="calling">HD video and voice calls</SectionHeading>

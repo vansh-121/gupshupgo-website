@@ -69,8 +69,17 @@ export default function ProSection() {
 /** `md` and up: the comparison as a semantic table. */
 function ProBenefitTable() {
   return (
-    <div className="overflow-hidden rounded-8 bg-layer-0 shadow-hairline-12">
+    /*
+      `overflow-x-auto` rather than `overflow-hidden`: the render branch switches
+      on a 768px probe while the rest of the page switches at 810px, so between
+      those two widths this three-column table renders in a container narrower
+      than the design assumes. Clipping would cut the Pro column off with no way
+      to reach it; scrolling keeps it reachable. `useIsMobile` also reports false
+      on its first pass, so the table paints for one frame even on a phone.
+    */
+    <div className="overflow-x-auto rounded-8 bg-layer-0 shadow-hairline-12">
       <table className="w-full border-collapse text-left">
+
         <caption className="sr-only">{CAPTION}</caption>
         <thead>
           {/*

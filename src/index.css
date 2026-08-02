@@ -252,7 +252,17 @@
 
   html {
     scroll-behavior: smooth;
+    /* Responsive overflow guard: the 3D-tilted phone mockups and the fanned
+       negative-margin compositions can extend a few pixels past their box, which
+       on a narrow viewport turns into a horizontal scrollbar and a page that
+       slides sideways under the thumb.
+
+       `clip` rather than `hidden` on purpose: `overflow: hidden` makes this a
+       scroll container, which breaks the `position: sticky` pinned column in
+       MeshChatSection. `clip` cuts the overflow without creating one. */
+    overflow-x: clip;
   }
+
 
   body {
     @apply bg-background text-foreground antialiased;
@@ -355,19 +365,39 @@
      a percentage ramp narrows as the container narrows and starts hard-clipping
      the leading pill mid-glyph, which reads as a bug rather than a fade. 96px is
      wider than a pill's leading word, so a pill always fades out before its
-     edge is cut. */
+     edge is cut.
+
+     The ramp width itself is responsive via `--marquee-fade`: two 96px fades on
+     a 320px phone leave only ~128px of legible track in the middle, so the
+     phone step drops to 40px and the full 96px ramp is restored from
+     Breakpoint_Small up, where there is width to spend on it. */
   .marquee-mask {
+    --marquee-fade: 40px;
+
     -webkit-mask-image: linear-gradient(270deg,
         transparent 0,
-        #000 96px,
-        #000 calc(100% - 96px),
+        #000 var(--marquee-fade),
+        #000 calc(100% - var(--marquee-fade)),
         transparent 100%);
     mask-image: linear-gradient(270deg,
         transparent 0,
-        #000 96px,
-        #000 calc(100% - 96px),
+        #000 var(--marquee-fade),
+        #000 calc(100% - var(--marquee-fade)),
         transparent 100%);
   }
+
+  @media (min-width: 480px) {
+    .marquee-mask {
+      --marquee-fade: 64px;
+    }
+  }
+
+  @media (min-width: 810px) {
+    .marquee-mask {
+      --marquee-fade: 96px;
+    }
+  }
+
 
   /* Pause on keyboard focus entering the marquee (Req 13.5). */
   .marquee:focus-within .marquee-track,

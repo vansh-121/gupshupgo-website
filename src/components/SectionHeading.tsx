@@ -18,16 +18,27 @@ interface SectionHeadingProps {
 /**
  * Level → size (Req 6.5–6.7).
  *
- * 2: 39px below Breakpoint_Small, 48px at and above it, line-height 110%.
+ * 2: 33px below bp480, 39px below Breakpoint_Small, 48px at and above it,
+ *    line-height 110%.
  * 3: 39px, line-height 120%.
  * 4: a Type_Scale step below h3 with line-height 120%; the composites stop at
  *    h3, so the step and the line-height are named separately.
+ *
+ * The extra `bp480` step on level 2 is a responsiveness fix: a 39px heading on a
+ * 320–360px phone breaks two- and three-word headings mid-phrase and eats most
+ * of the first screen, so the smallest tier drops one Type_Scale step. It is
+ * only added to level 2 on purpose — level 3 is size-overridden per cell by
+ * `FeatureOverview`, and adding a responsive step in this table would leak a
+ * larger breakpoint-prefixed size past those overrides, since `tailwind-merge`
+ * treats differently-prefixed sizes as non-conflicting.
  */
 const LEVEL_CLASSES: Record<HeadingLevel, string> = {
-  2: "text-h2-sm bp810:text-h2",
+  2: "text-h2-xs bp480:text-h2-sm bp810:text-h2",
   3: "text-h3",
   4: "text-25 leading-120",
 };
+
+
 
 /**
  * The only way a section heading is emitted (Req 1.7, 6.8).

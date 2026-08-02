@@ -63,13 +63,17 @@ export default function PrivacySection() {
           </Reveal>
         </RevealGroup>
 
-        {/* Fanned-out two-phone composition — both clearly visible */}
+        {/* Two-phone composition — both clearly visible, and fanned at EVERY
+            width. Same percentage sizing as CallingSection: the pair scales as
+            one object (55% front, 50% rear, 5% overlap) so it fits the ~337px
+            tablet column and a 320px phone without splitting into two separate
+            stacked screenshots. */}
         <RevealGroup
           as="div"
-          className="flex flex-col items-center gap-24px bp810:flex-row bp810:justify-center bp810:gap-0"
+          className="mx-auto flex w-full max-w-[500px] items-start justify-center"
         >
           {/* E2E encryption screenshot — left, tilted right */}
-          <Reveal as="div" className="relative z-10 w-full max-w-[280px] bp810:-mr-12px bp810:max-w-[260px]">
+          <Reveal as="div" className="relative z-10 -mr-[5%] w-[55%] max-w-[260px]">
             <ScreenshotMockup
               lightSrc="/website-screenshots/e2e_light.jpeg"
               darkSrc="/website-screenshots/e2e_dark.jpeg"
@@ -80,8 +84,9 @@ export default function PrivacySection() {
             />
           </Reveal>
 
-          {/* Vault screenshot — right, tilted left, slightly pushed down */}
-          <Reveal as="div" className="z-0 w-full max-w-[260px] bp810:-ml-12px bp810:translate-y-32px bp810:max-w-[240px]">
+          {/* Vault screenshot — right, tilted left, pushed down by a percentage
+              of the group width so the drop scales with the pair. */}
+          <Reveal as="div" className="pointer-events-none z-0 mt-[7%] w-[50%] max-w-[240px]">
             <ScreenshotMockup
               lightSrc="/website-screenshots/vault_light.jpeg"
               darkSrc="/website-screenshots/vault_dark.jpeg"
@@ -92,6 +97,7 @@ export default function PrivacySection() {
             />
           </Reveal>
         </RevealGroup>
+
       </div>
     </Section>
   );

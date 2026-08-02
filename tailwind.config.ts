@@ -114,10 +114,21 @@ export default {
 			},
 			// Explicit breakpoints (Req 7.8). Declared under `extend` so Tailwind's
 			// own sm/md/lg/xl/2xl stay intact for the sections that still use them.
+			//
+			// `bp480` and `bp1024` are the responsive tiers added so every layout
+			// has a mobile → tablet → desktop step instead of jumping straight from
+			// phone to desktop at bp810:
+			//   bp480  — small phones (stacked mockups, reduced display type)
+			//   bp810  — Breakpoint_Small (two-column sections, 48px headings)
+			//   bp1024 — tablet-to-desktop nav switch (flat pill vs disclosure)
+			//   bp1200 — wide desktop (12-col feature grid, fanned two-phone rows)
 			screens: {
+				bp480: "480px",
 				bp810: "810px",
+				bp1024: "1024px",
 				bp1200: "1200px",
 			},
+
 			fontSize: {
 				// ---- Type_Scale, 19 steps, one named utility per step (Req 6.1) ----
 				// `text-8` … `text-68`, values in CSS pixels.
@@ -144,10 +155,21 @@ export default {
 				// ---- Heading composites (Req 6.3–6.7, 6.11) ----
 				// `-sm` is the below-Breakpoint_Small variant; sections pair them as
 				// `text-h1-sm bp810:text-h1`.
+				//
+				// `-xs` is the small-phone variant, paired as
+				// `text-h1-xs bp480:text-h1-sm bp810:text-h1`. It exists because the
+				// `-sm` step is still display-scale type: 57px on a 320–360px screen
+				// breaks the hero heading into six or seven lines and pushes the CTA
+				// off the first screen. Each `-xs` step is one Type_Scale step below
+				// its `-sm` sibling and keeps that sibling's line-height and
+				// letter-spacing, so the ramp stays one continuous typographic system.
 				h1: ["68px", { lineHeight: "1", letterSpacing: "-0.04em" }],
 				"h1-sm": ["57px", { lineHeight: "1", letterSpacing: "-0.04em" }],
+				"h1-xs": ["42px", { lineHeight: "1", letterSpacing: "-0.04em" }],
 				h2: ["48px", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
 				"h2-sm": ["39px", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
+				"h2-xs": ["33px", { lineHeight: "1.1", letterSpacing: "-0.03em" }],
+
 				h3: ["39px", { lineHeight: "1.2", letterSpacing: "-0.03em" }],
 				lead: ["23px", { lineHeight: "1.2", letterSpacing: "-0.02em" }],
 

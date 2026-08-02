@@ -24,8 +24,9 @@ import { extendTailwindMerge } from "tailwind-merge";
 const FONT_SIZES = [
   "8", "9", "10", "11", "12", "13", "14", "16", "19", "21", "23", "24", "25",
   "33", "39", "42", "48", "57", "68",
-  "h1", "h1-sm", "h2", "h2-sm", "h3", "lead",
+  "h1", "h1-sm", "h1-xs", "h2", "h2-sm", "h2-xs", "h3", "lead",
 ];
+
 
 /**
  * `theme.extend.boxShadow`. `shadow-*` carries the same value-vs-colour

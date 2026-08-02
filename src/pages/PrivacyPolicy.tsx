@@ -34,7 +34,10 @@ export default function PrivacyPolicy() {
           Back to Home
         </Link>
 
-        <h1 className="mb-8px text-h2-sm font-medium text-ink-high bp810:text-h2">Privacy Policy</h1>
+        <h1 className="mb-8px text-h2-xs font-medium text-ink-high bp480:text-h2-sm bp810:text-h2">
+          Privacy Policy
+        </h1>
+
         <p className="mb-48px text-14 leading-140 text-ink-secondary">Last Updated: February 20, 2026</p>
 
         <div className="space-y-40px text-16 leading-140 text-ink-secondary">

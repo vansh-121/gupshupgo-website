@@ -32,7 +32,10 @@ const NotFound = () => {
         <p className="text-12 font-medium uppercase leading-130 tracking-wider text-ink-accent">
           Error 404
         </p>
-        <h1 className="mt-16px text-h1-sm font-medium text-ink-high bp810:text-h1">Page not found</h1>
+        <h1 className="mt-16px text-h1-xs font-medium text-ink-high bp480:text-h1-sm bp810:text-h1">
+          Page not found
+        </h1>
+
         <p className={`mt-24px ${MEASURE_CLASSES[644]} text-19 leading-140 text-ink-high`}>
           The page you are looking for does not exist, or it has moved. Head back to the home page
           to keep exploring GupShupGo.
