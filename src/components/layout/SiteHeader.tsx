@@ -490,6 +490,17 @@ export default function SiteHeader() {
             })}
           </ul>
 
+          {/* Theme toggle — visible on mobile/tablet (<1024px) only.
+              On desktop it renders outside the nav (after the hairline divider)
+              to preserve the logo → links → divider → toggle → CTA desktop rhythm. */}
+          <ThemeToggle
+            className={cn(
+              "bg-transparent shadow-none transition-standard motion-reduce:transition-none bp1024:hidden",
+              FOREGROUND_CLASSES[foreground],
+              HOVER_CLASSES[foreground],
+            )}
+          />
+
           {/* Collapsed disclosure (<1024px) — every section anchor.
               This MUST hide at the same breakpoint the flat list appears at
               (bp1024). Hiding it at bp810 while the list only appeared at
@@ -560,11 +571,13 @@ export default function SiteHeader() {
         />
 
 
+        {/* Desktop-only theme toggle — hidden on mobile/tablet where the one
+            inside the nav handles it, so the toggle is never rendered twice. */}
         <ThemeToggle
           className={cn(
             // The pill already carries the hairline and elevation, so the toggle
             // drops its own inset hairline and fill inside the nav.
-            "bg-transparent shadow-none transition-standard motion-reduce:transition-none",
+            "hidden bg-transparent shadow-none transition-standard motion-reduce:transition-none bp1024:inline-flex",
             // Wins over the toggle's own `text-ink-high` so it inverts with the pill.
             FOREGROUND_CLASSES[foreground],
             HOVER_CLASSES[foreground],
