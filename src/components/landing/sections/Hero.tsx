@@ -1,11 +1,9 @@
 import Section, { MEASURE_CLASSES } from "@/components/Section";
 import DownloadButton from "@/components/DownloadButton";
 import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
-import FloatingChip from "@/components/DeviceMockup/FloatingChip";
 import Pill from "@/components/Pill";
 import { Reveal, RevealGroup } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
-import { FEATURES } from "@/data/features";
 import { getMockupScreen, type MockupCallScreen, type MockupChatScreen } from "@/data/mockupScreens";
 import { SECTIONS, bandFor } from "@/data/sections";
 import { PLATFORM_LABEL, PRO_LAUNCHED } from "@/config/app";
@@ -61,12 +59,6 @@ const HERO_HEADING =
 /** Forward frame: the chat screen. Rear frame: the call screen. */
 const CHAT_SCREEN = getMockupScreen("chat") as MockupChatScreen;
 const CALL_SCREEN = getMockupScreen("call") as MockupCallScreen;
-
-/** Chip icons come from the same typed feature entries as the rest of the page. */
-const ARCADE_ICON = FEATURES.find((feature) => feature.id === "arcade")?.Icon;
-const ENCRYPTION_ICON = FEATURES.find(
-  (feature) => feature.id === "encryption",
-)?.Icon;
 
 export default function Hero() {
   const navigateToSection = useSectionNavigation();
@@ -160,52 +152,6 @@ export default function Hero() {
             tilt3d
             tiltDirection="left"
           />
-
-          {/* Floating chips — positioned over the frame, outside role="img".
-
-              Vertical placement is a percentage so it tracks the frame's height
-              as the pair scales (`top`/`bottom` percentages resolve against the
-              containing block's height, unlike the percentage margins above).
-
-              The chips also step DOWN in size below Breakpoint_Small: at the
-              desktop 14px/12px-padding size a chip is about two thirds the width
-              of the scaled-down frame, which reads as a label covering the
-              screenshot rather than floating over it. They only break outside
-              the frame's edge from bp810, where the section gutter has room for
-              the overhang. */}
-          <div className="pointer-events-none absolute inset-0 z-10">
-            <FloatingChip
-              className={cn(
-                "absolute left-4px top-[9%] gap-4px whitespace-nowrap px-8px py-4px text-11",
-                "bp480:text-12",
-                "bp810:-left-32px bp810:gap-8px bp810:px-12px bp810:py-8px bp810:text-14",
-              )}
-              icon={
-                ARCADE_ICON ? (
-                  <ARCADE_ICON className="h-3 w-3 bp810:h-4 bp810:w-4" />
-                ) : null
-              }
-            >
-              {CHAT_SCREEN.streakLabel}
-            </FloatingChip>
-
-            <FloatingChip
-              className={cn(
-                "absolute bottom-[11%] right-4px gap-4px whitespace-nowrap px-8px py-4px text-11",
-                "bp480:text-12",
-                "bp810:-right-32px bp810:gap-8px bp810:px-12px bp810:py-8px bp810:text-14",
-              )}
-              icon={
-                ENCRYPTION_ICON ? (
-                  <ENCRYPTION_ICON className="h-3 w-3 bp810:h-4 bp810:w-4" />
-                ) : null
-              }
-            >
-              {CALL_SCREEN.encryptionLabel}
-            </FloatingChip>
-          </div>
-
-
         </Reveal>
 
         {/* Rear phone (call) — right of centre, tilted right and dropped so it
