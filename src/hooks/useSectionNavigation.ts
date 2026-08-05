@@ -16,9 +16,20 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
  *  4. `history.replaceState` so the hash stays shareable without pushing a
  *     new history entry per nav click
  *
- * If the target section is not in the document the handler does nothing and
- * lets the click fall through to the native anchor behaviour.
+ * If the target section is not in the document yet (lazy chunk still loading),
+ * the handler writes the hash immediately and installs a MutationObserver on
+ * the app root that retries scroll+focus once the element appears. The observer
+ * disconnects after the first hit or after 5 seconds to prevent leaking.
  */
+
+function scrollToSection(target: HTMLElement, smooth: boolean) {
+  target.scrollIntoView({
+    behavior: smooth ? "smooth" : "auto",
+    block: "start",
+  });
+  target.focus({ preventScroll: true });
+}
+
 export function useSectionNavigation() {
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -29,23 +40,36 @@ export function useSectionNavigation() {
         return;
       }
 
-      const target = document.getElementById(sectionId);
-      if (!target) {
-        return;
-      }
-
       event.preventDefault();
 
-      target.scrollIntoView({
-        behavior: prefersReducedMotion ? "auto" : "smooth",
-        block: "start",
-      });
-
-      target.focus({ preventScroll: true });
-
+      // Update the hash immediately so the URL is shareable whether or not
+      // the target has mounted yet.
       if (typeof window !== "undefined" && window.history?.replaceState) {
         window.history.replaceState(null, "", `#${sectionId}`);
       }
+
+      const target = document.getElementById(sectionId);
+      if (target) {
+        scrollToSection(target, !prefersReducedMotion);
+        return;
+      }
+
+      // Target is not yet in the DOM (lazy chunk still loading behind Suspense).
+      // Observe the app root for the element appearing and retry once it does.
+      const root = document.getElementById("root") ?? document.body;
+      const observer = new MutationObserver(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          observer.disconnect();
+          scrollToSection(el, !prefersReducedMotion);
+        }
+      });
+
+      observer.observe(root, { childList: true, subtree: true });
+
+      // Safety valve: disconnect after 5s even if the element never appears
+      // (e.g. network error prevented the chunk from loading).
+      setTimeout(() => observer.disconnect(), 5_000);
     },
     [prefersReducedMotion],
   );
