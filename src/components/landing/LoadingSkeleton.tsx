@@ -1,246 +1,182 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
-function NavbarSkeleton() {
+/**
+ * Route/section loading fallback (design §5, Requirement 17.2).
+ *
+ * Retokenised onto the Nova layer: placeholder blocks are drawn with
+ * `bg-hairline-divider` on the surface bands, cards carry the hairline as an
+ * inset shadow rather than a `border` (Req 4.3), every radius is `rounded-8`
+ * (Req 7.9) and all spacing comes from the Gap_Scale (Req 7.7).
+ *
+ * The skeleton mirrors the real page's band alternation so the swap to loaded
+ * content does not flash a different background.
+ *
+ * It is purely decorative and is rendered inside the shell's existing `main`
+ * landmark, so it uses plain `div`s (no `nav` / `main` / `footer`) and is hidden
+ * from assistive technology — one landmark set only.
+ */
+
+const BLOCK = "bg-hairline-divider";
+
+function Block({ className }: { className?: string }) {
+  return <div className={cn("rounded-8", BLOCK, className)} />;
+}
+
+const CARD = "rounded-8 bg-layer-0 shadow-hairline-12";
+
+const SHELL = "px-20px bp810:px-36px";
+const RHYTHM = "py-64px bp810:py-128px";
+
+function HeaderSkeleton() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent py-5">
-      <div className="container mx-auto flex items-center justify-between px-6">
-        <div className="flex items-center gap-2.5">
-          <Skeleton className="h-8 w-8 rounded-lg" />
-          <Skeleton className="h-5 w-28" />
+    <div className={cn("bg-layer-0 py-12px shadow-hairline-12", SHELL)}>
+      <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-16px">
+        <div className="flex items-center gap-10px">
+          <Block className="h-9 w-9 rounded-8" />
+          <Block className="h-5 w-28" />
         </div>
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-24px bp810:flex">
           {[1, 2, 3, 4].map((i) => (
-            <Skeleton key={i} className="h-4 w-16" />
+            <Block key={i} className="h-4 w-16" />
           ))}
         </div>
-        <div className="hidden md:flex items-center gap-3">
-          <Skeleton className="h-9 w-9 rounded-xl" />
-          <Skeleton className="h-9 w-32 rounded-xl" />
+        <div className="flex items-center gap-12px">
+          <Block className="h-11 w-11 rounded-pill" />
+          <Block className="hidden h-11 w-32 rounded-pill bp810:block" />
         </div>
-        <Skeleton className="md:hidden h-9 w-9 rounded-xl" />
       </div>
-    </nav>
+    </div>
   );
 }
 
 function HeroSkeleton() {
   return (
-    <section className="relative min-h-screen flex items-center pt-24 pb-16">
-      <div className="w-full max-w-[1200px] mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          <div className="flex-1 text-center lg:text-left w-full">
-            <div className="flex justify-center lg:justify-start mb-6">
-              <Skeleton className="h-7 w-40 rounded-full" />
-            </div>
-            <div className="space-y-3 mb-6">
-              <Skeleton className="h-12 sm:h-14 w-[80%] mx-auto lg:mx-0" />
-              <Skeleton className="h-12 sm:h-14 w-[60%] mx-auto lg:mx-0" />
-            </div>
-            <div className="space-y-2 mb-10 max-w-lg mx-auto lg:mx-0">
-              <Skeleton className="h-5 w-full" />
-              <Skeleton className="h-5 w-[85%]" />
-            </div>
-            <div className="flex flex-wrap gap-3 mb-8 justify-center lg:justify-start">
-              <Skeleton className="h-11 w-36 rounded-lg" />
-              <Skeleton className="h-11 w-32 rounded-lg" />
-            </div>
-            <div className="flex justify-center lg:justify-start mb-8">
-              <Skeleton className="h-16 w-64 rounded-xl" />
-            </div>
-            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Skeleton key={i} className="h-7 w-20 rounded-full" />
-              ))}
-            </div>
-          </div>
-          <div className="flex-shrink-0">
-            <Skeleton className="w-[220px] h-[440px] sm:w-[260px] sm:h-[520px] rounded-[40px]" />
-          </div>
+    <div className={cn("bg-layer-0 py-72px bp810:py-164px", SHELL)}>
+      <div className="mx-auto flex w-full max-w-[1199px] flex-col items-center gap-48px">
+        <Block className="h-7 w-40 rounded-pill" />
+        <div className="flex w-full max-w-[872px] flex-col items-center gap-12px">
+          <Block className="h-12 w-[80%]" />
+          <Block className="h-12 w-[60%]" />
         </div>
+        <div className="flex w-full max-w-[644px] flex-col items-center gap-8px">
+          <Block className="h-5 w-full" />
+          <Block className="h-5 w-[85%]" />
+        </div>
+        <div className="flex flex-wrap justify-center gap-12px">
+          <Block className="h-14 w-36 rounded-pill" />
+          <Block className="h-14 w-32 rounded-pill" />
+        </div>
+        <Block className="h-[440px] w-full max-w-[320px] rounded-8" />
       </div>
-    </section>
+    </div>
   );
 }
 
-function WaitlistSkeleton() {
+function SectionHeadingSkeleton() {
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-6">
-        <div className="max-w-2xl mx-auto rounded-3xl border border-border p-8 sm:p-12 text-center">
-          <div className="flex justify-center mb-6">
-            <Skeleton className="h-7 w-48 rounded-full" />
-          </div>
-          <Skeleton className="h-10 w-[70%] mx-auto mb-3" />
-          <Skeleton className="h-5 w-[60%] mx-auto mb-8" />
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <Skeleton className="flex-1 h-12 rounded-xl" />
-            <Skeleton className="h-12 w-32 rounded-xl" />
-          </div>
-        </div>
-      </div>
-    </section>
+    <div className="mb-48px flex flex-col items-center gap-16px">
+      <Block className="h-7 w-24 rounded-pill" />
+      <Block className="h-10 w-[50%]" />
+      <Block className="h-5 w-72" />
+    </div>
   );
 }
 
-function FeatureGridSkeleton() {
+function CardGridSkeleton() {
   return (
-    <section className="py-28">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-20">
-          <Skeleton className="h-7 w-24 rounded-full mx-auto mb-4" />
-          <Skeleton className="h-12 w-[50%] mx-auto mb-4" />
-          <Skeleton className="h-5 w-72 mx-auto" />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className={cn("bg-layer-1", SHELL, RHYTHM)}>
+      <div className="mx-auto w-full max-w-[1199px]">
+        <SectionHeadingSkeleton />
+        <div className="grid grid-cols-1 gap-16px bp810:grid-cols-2 bp1200:grid-cols-4">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-            <div key={i} className="rounded-2xl border border-border p-6">
-              <Skeleton className="w-10 h-10 rounded-xl mb-5" />
-              <Skeleton className="h-4 w-28 mb-2" />
-              <Skeleton className="h-3 w-full" />
-              <Skeleton className="h-3 w-[80%] mt-1" />
+            <div key={i} className={cn(CARD, "p-24px")}>
+              <Block className="mb-20px h-10 w-10 rounded-8" />
+              <Block className="mb-8px h-4 w-28" />
+              <Block className="h-3 w-full" />
+              <Block className="mt-4px h-3 w-[80%]" />
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
-function ArchitectureSkeleton() {
+function SplitSectionSkeleton() {
   return (
-    <section className="py-28">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-20">
-          <Skeleton className="h-7 w-28 rounded-full mx-auto mb-4" />
-          <Skeleton className="h-12 w-[40%] mx-auto mb-4" />
-          <Skeleton className="h-5 w-80 mx-auto" />
+    <div className={cn("bg-layer-0", SHELL, RHYTHM)}>
+      <div className="mx-auto flex w-full max-w-[1199px] flex-col items-center gap-48px bp1200:flex-row bp1200:gap-80px">
+        <div className="shrink-0">
+          <Block className="h-[360px] w-[180px] rounded-8" />
         </div>
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-6">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="w-full sm:w-72 lg:w-80 rounded-2xl border border-border p-8 text-center">
-              <Skeleton className="w-14 h-14 rounded-2xl mx-auto mb-4" />
-              <Skeleton className="h-5 w-24 mx-auto mb-1" />
-              <Skeleton className="h-3 w-20 mx-auto mb-5" />
-              <div className="flex flex-wrap justify-center gap-2">
-                {[1, 2, 3].map((j) => (
-                  <Skeleton key={j} className="h-6 w-16 rounded-full" />
-                ))}
+        <div className="w-full flex-1">
+          <Block className="mb-16px h-7 w-36 rounded-pill" />
+          <Block className="mb-12px h-10 w-[60%]" />
+          <Block className="mb-40px h-5 w-[80%]" />
+          <div className="grid grid-cols-1 gap-20px bp810:grid-cols-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex items-center gap-12px">
+                <Block className="h-9 w-9 rounded-8" />
+                <Block className="h-4 w-24" />
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TechStackSkeleton() {
-  return (
-    <section className="py-28">
-      <div className="container mx-auto px-6 text-center">
-        <Skeleton className="h-7 w-24 rounded-full mx-auto mb-4" />
-        <Skeleton className="h-12 w-[50%] mx-auto mb-4" />
-        <Skeleton className="h-5 w-64 mx-auto mb-14" />
-        <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
-            <Skeleton key={i} className="h-11 w-28 rounded-2xl" />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function DemoHighlightSkeleton() {
-  return (
-    <section className="py-28">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          <div className="flex gap-4 sm:gap-6 flex-shrink-0">
-            <Skeleton className="w-[150px] h-[300px] sm:w-[180px] sm:h-[360px] rounded-[28px]" />
-            <Skeleton className="w-[150px] h-[300px] sm:w-[180px] sm:h-[360px] rounded-[28px] mt-8" />
-          </div>
-          <div className="flex-1 w-full">
-            <Skeleton className="h-7 w-36 rounded-full mb-4" />
-            <Skeleton className="h-12 w-[60%] mb-3" />
-            <Skeleton className="h-5 w-[80%] mb-10" />
-            <div className="grid grid-cols-2 gap-5">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <Skeleton className="w-9 h-9 rounded-xl" />
-                  <Skeleton className="h-4 w-24" />
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
-function CTASkeleton() {
+function PanelSkeleton() {
   return (
-    <section className="py-28">
-      <div className="container mx-auto px-6">
-        <div className="rounded-3xl border border-border p-8 py-20 text-center">
-          <Skeleton className="h-12 w-[60%] mx-auto mb-2" />
-          <Skeleton className="h-12 w-[40%] mx-auto mb-4" />
-          <Skeleton className="h-5 w-64 mx-auto mb-10" />
-          <div className="flex flex-wrap justify-center gap-3">
-            <Skeleton className="h-11 w-36 rounded-xl" />
-            <Skeleton className="h-11 w-48 rounded-xl" />
-          </div>
+    <div className={cn("bg-layer-1", SHELL, RHYTHM)}>
+      <div className={cn(CARD, "mx-auto w-full max-w-[644px] p-32px text-center bp810:p-48px")}>
+        <Block className="mx-auto mb-12px h-10 w-[70%]" />
+        <Block className="mx-auto mb-32px h-5 w-[60%]" />
+        <div className="mx-auto flex max-w-[448px] flex-col gap-12px bp810:flex-row">
+          <Block className="h-12 flex-1 rounded-8" />
+          <Block className="h-12 w-32 rounded-pill" />
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
 function FooterSkeleton() {
   return (
-    <footer className="border-t border-border py-16">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2.5">
-            <Skeleton className="h-7 w-7 rounded-lg" />
-            <Skeleton className="h-4 w-24" />
-          </div>
-          <div className="flex items-center gap-8">
-            {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} className="h-3 w-16" />
-            ))}
-          </div>
-          <div className="flex items-center gap-4">
-            <Skeleton className="h-8 w-8 rounded-lg" />
-            <Skeleton className="h-5 w-12 rounded-full" />
-          </div>
+    <div className={cn("bg-layer-2 shadow-hairline-12", SHELL, RHYTHM)}>
+      <div className="mx-auto w-full max-w-[1199px]">
+        <div className="grid gap-40px bp810:grid-cols-3">
+          {[1, 2, 3].map((column) => (
+            <div key={column} className="flex flex-col gap-12px">
+              <Block className="h-5 w-28" />
+              <Block className="h-3 w-40" />
+              <Block className="h-3 w-32" />
+              <Block className="h-3 w-36" />
+            </div>
+          ))}
         </div>
-        <div className="mt-10 flex flex-col items-center gap-3">
-          <div className="flex items-center gap-4">
-            <Skeleton className="h-3 w-24" />
-            <Skeleton className="h-3 w-28" />
-          </div>
-          <Skeleton className="h-3 w-48" />
+        <div className="mt-40px h-px w-full bg-hairline-divider" />
+        <div className="pt-24px">
+          <Block className="h-3 w-48" />
         </div>
       </div>
-    </footer>
+    </div>
   );
 }
 
 export default function LoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-background text-foreground animate-pulse">
-      <NavbarSkeleton />
-      <main>
-        <HeroSkeleton />
-        <WaitlistSkeleton />
-        <FeatureGridSkeleton />
-        <ArchitectureSkeleton />
-        <TechStackSkeleton />
-        <DemoHighlightSkeleton />
-        <CTASkeleton />
-      </main>
+    <div
+      aria-hidden="true"
+      data-testid="loading-skeleton"
+      className="min-h-screen animate-pulse bg-layer-0 text-ink-high motion-reduce:animate-none"
+    >
+      <HeaderSkeleton />
+      <HeroSkeleton />
+      <CardGridSkeleton />
+      <SplitSectionSkeleton />
+      <PanelSkeleton />
       <FooterSkeleton />
     </div>
   );

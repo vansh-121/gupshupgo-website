@@ -2,117 +2,246 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+/* Inter is loaded via <link rel="preconnect"> + <link rel="stylesheet"> in index.html
+   (single family, display=swap) — no @import here so the font request is not
+   serialised behind this stylesheet. Inter stays as the fallback family. */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+/* ---- Display typeface: Geist (Requirement 2) ----
+   General Sans is distributed under the ITF Free Font License, which does not
+   grant redistribution or font-serving rights, so its binaries cannot be
+   committed to this repository. Geist (SIL OFL 1.1) is the metric substitute:
+   it is within 3% of General Sans on x-height, cap-height and advance widths at
+   both 400 and 500. Rationale, measurements and licence: docs/FONTS.md.
 
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
-
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+   One self-hosted latin-subset variable file (29,400 bytes) covers both weights;
+   the `font-weight: 400 500` range is what restricts usage to those two weights
+   (Requirement 2.5). Geist exposes no `cvNN` character variants, so no
+   font-feature-settings are declared. */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/geist-latin-400-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 @layer base {
   :root {
+    color-scheme: light;
+
+    /* ---- App palette (authoritative, Requirement 1.2) ---- */
+    --gsg-primary: #6C5CE7;
+    --gsg-primary-dark: #5246BE;
+    --gsg-primary-light: #EDE9FE;
+    --gsg-surface: #FFFFFF;
+    --gsg-surface-alt: #F5F3FF;
+    --gsg-chat-background: #F2F1FA;
+    --gsg-text-high: #1E293B;
+    --gsg-text-mid: #64748B;
+    --gsg-text-low: #94A3B8;
+    --gsg-border: #E4E1F5;
+    --gsg-divider: #F1F0F9;
+    --gsg-received-bubble: #F0EFF8;
+
+    /* ---- Status tokens (Requirement 1.4, theme-invariant) ---- */
+    --gsg-error: #EF4444;
+    --gsg-success: #10B981;
+    --gsg-warning: #F59E0B;
+
+    /* ================================================================
+       Surface-band layer (landing-ui-polish Requirements 3, 4, 5, 11).
+       Purely additive: every --gsg-* token above is unchanged because
+       DeviceMockup reproduces the Flutter app palette from them exactly.
+       ================================================================ */
+
+    /* ---- Surface bands (Req 3.1–3.4) ----
+       `layer-0` is the base page background. Each ascending index is one step
+       more RAISED. The luminance direction is theme-dependent: raised goes
+       DARKER in Light_Theme and LIGHTER in Dark_Theme, so one `bg-layer-2`
+       class reads as raised in both themes with no per-theme override.
+       `layer-tint` is not a step in that ramp — it is the single
+       Brand_Accent-tinted band (Req 3.10) and sits outside the ordering. */
+    --layer-0: #FFFFFF;
+    --layer-1: #F3F3F3;
+    --layer-2: #E6E6E6;
+    --layer-3: #D8D8D8;
+    /* relative luminance 0.7818 vs Nova's #E2E4F6 at 0.7831 → Δ 0.0013 (Req 3.3) */
+    --layer-tint: #E6E2FB;
+
+    /* ---- Text on bands (Req 3.9, 16.7) ----
+       Alpha rather than hex so the value composites onto whichever band it
+       lands on. Measured 5.74 / 5.56 / 5.36 / 5.12 / 5.34 across
+       layer-0…layer-3 and layer-tint. --gsg-text-mid (#64748B) is NOT usable
+       for body copy on these bands — it measures 4.29 on layer-1 — so it stays
+       reserved for DeviceMockup internals. */
+    --text-secondary: rgba(0, 0, 0, 0.6);
+    /* Accent-coloured text. --gsg-primary clears 4.5:1 on layer-0 only
+       (4.86, then 4.38 / 3.89 / 3.41 / 3.85), so accent text resolves to the
+       darker brand tone: 7.05 / 6.35 / 5.65 / 4.95 / 5.59. */
+    --text-accent: #5246BE;
+
+    /* ---- Hairline alpha steps (Req 4.1, 4.4) ----
+       Consumed as `box-shadow: inset 0 0 0 1px …`, never as `border`.
+       Against the bands only -56 (4.94…4.48) and -76 (10.83…8.76) clear 3:1,
+       so WHERE a boundary is a control's sole affordance it must use
+       --hairline-56. -08/-12/-24 are decorative only. */
+    --hairline-08: rgba(0, 0, 0, 0.08);
+    --hairline-12: rgba(0, 0, 0, 0.12);
+    --hairline-24: rgba(0, 0, 0, 0.24);
+    --hairline-56: rgba(0, 0, 0, 0.56);
+    --hairline-76: rgba(0, 0, 0, 0.76);
+
+    /* ---- Semantic pill palette (Req 11) ----
+       Three Brand_Accent-derived tints, each with its paired foreground.
+       Measured foreground-on-background 7.01 / 7.08 / 6.73. Choose the tint one
+       step above the band the pill sits on so the pill body reads as a shape. */
+    --pill-soft-bg: #EDE9FE;
+    --pill-soft-fg: #4A3AB0;
+    --pill-mid-bg: #DED9FC;
+    --pill-mid-fg: #453398;
+    --pill-strong-bg: #CFC8FA;
+    --pill-strong-fg: #3E2E8C;
+
+    /* ---- The only two permitted outer elevations (Req 5.1, 5.3, 5.4) ----
+       --elevation-mockup is for phone-frame mockups and nothing else. */
+    --elevation: 0 2px 14px rgba(0, 0, 0, 0.05);
+    --elevation-mockup:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 8px 16px rgba(0, 0, 0, 0.06),
+      0 24px 48px rgba(0, 0, 0, 0.1),
+      0 48px 96px rgba(0, 0, 0, 0.12);
+
+    /* ---- DERIVED shadcn/ui HSL triplets ----
+       Derived from the app palette above. Do not edit independently:
+       change the hex source of truth and re-derive. */
     --background: 0 0% 100%;
-    --foreground: 265 4% 12.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 265 4% 12.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 265 4% 12.9%;
-    --primary: 266 4% 20.8%;
-    --primary-foreground: 248 0.3% 98.4%;
-    --secondary: 248 0.7% 96.8%;
-    --secondary-foreground: 266 4% 20.8%;
-    --muted: 248 0.7% 96.8%;
-    --muted-foreground: 257 4.6% 55.4%;
-    --accent: 248 0.7% 96.8%;
-    --accent-foreground: 266 4% 20.8%;
-    --destructive: 27 24.5% 57.7%;
+    --foreground: 217 33% 17%;
+    --card: 250 100% 98%;
+    --card-foreground: 217 33% 17%;
+    --popover: 250 100% 98%;
+    --popover-foreground: 217 33% 17%;
+    --primary: 247 74% 63%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 251 91% 96%;
+    --secondary-foreground: 246 48% 51%;
+    --muted: 247 43% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 247 47% 96%;
+    --accent-foreground: 217 33% 17%;
+    --border: 249 50% 92%;
+    --input: 249 50% 92%;
+    --ring: 247 74% 63%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 256 1.3% 92.9%;
-    --input: 256 1.3% 92.9%;
-    --ring: 257 4% 70.4%;
-    --radius: 0.375rem;
-    --surface: 0 0% 97%;
-    --surface-border: 0 0% 89%;
-    --indigo: 263 70% 50.4%;
-    --indigo-deep: 239 84% 67%;
-    --teal: 187 92% 41%;
-    --sidebar-background: 0 0% 97%;
-    --sidebar-foreground: 265 4% 12.9%;
-    --sidebar-primary: 266 4% 20.8%;
-    --sidebar-primary-foreground: 248 0.3% 98.4%;
-    --sidebar-accent: 248 0.7% 96.8%;
-    --sidebar-accent-foreground: 266 4% 20.8%;
-    --sidebar-border: 256 1.3% 92.9%;
-    --sidebar-ring: 257 4% 70.4%;
-    --chart-1: 41 22.2% 64.6%;
-    --chart-2: 185 11.8% 60%;
-    --chart-3: 227 7% 39.8%;
-    --chart-4: 84 18.9% 82.8%;
-    --chart-5: 70 18.8% 76.9%;
-    --sidebar: 248 0.3% 98.4%;
-    --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-    --tracking-normal: 0em;
-    --spacing: 0.25rem;
+    --radius: 0.75rem;
+
+    /* Display_Typeface first, then Inter, then the system fallbacks (Req 2.1, 2.8) */
+    --font-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* ---- Elevation scale, tinted from --gsg-primary at low alpha ---- */
+    --shadow-2xs: 0 1px 2px 0px hsl(247 74% 63% / 0.04);
+    --shadow-xs: 0 1px 3px 0px hsl(247 74% 63% / 0.06);
+    --shadow-sm: 0 1px 3px 0px hsl(247 74% 63% / 0.08), 0 1px 2px -1px hsl(247 74% 63% / 0.08);
+    --shadow: 0 1px 3px 0px hsl(247 74% 63% / 0.1), 0 1px 2px -1px hsl(247 74% 63% / 0.08);
+    --shadow-md: 0 2px 6px 0px hsl(247 74% 63% / 0.12), 0 2px 4px -1px hsl(247 74% 63% / 0.08);
+    --shadow-lg: 0 4px 12px 0px hsl(247 74% 63% / 0.14), 0 4px 6px -1px hsl(247 74% 63% / 0.08);
+    --shadow-xl: 0 8px 24px 0px hsl(247 74% 63% / 0.16), 0 8px 10px -1px hsl(247 74% 63% / 0.1);
+    --shadow-2xl: 0 16px 40px 0px hsl(247 74% 63% / 0.2);
   }
 
   .dark {
-    --background: 0 0% 3.5%;
-    --foreground: 0 0% 95%;
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 0 0% 95%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 55%;
-    --accent: 0 0% 12%;
-    --accent-foreground: 0 0% 95%;
-    --destructive: 0 62% 55%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 263 70% 50%;
-    --surface: 0 0% 5%;
-    --surface-border: 0 0% 12%;
-    --indigo: 263 70% 58%;
-    --indigo-deep: 239 84% 70%;
-    --teal: 187 92% 48%;
-    --sidebar-background: 0 0% 3%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 263 70% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 14%;
-    --sidebar-ring: 263 70% 50%;
-    --chart-1: 263 70% 58%;
-    --chart-2: 187 92% 48%;
-    --chart-3: 70 18.8% 76.9%;
-    --chart-4: 304 26.5% 62.7%;
-    --chart-5: 16 24.6% 64.5%;
-    --sidebar: 0 0% 5%;
-    --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.2);
-    --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.2);
-    --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.3), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
-    --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.3), 0 1px 2px -1px hsl(0 0% 0% / 0.2);
-    --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.4), 0 2px 4px -1px hsl(0 0% 0% / 0.3);
-    --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.4), 0 4px 6px -1px hsl(0 0% 0% / 0.3);
-    --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.5), 0 8px 10px -1px hsl(0 0% 0% / 0.4);
-    --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.6);
+    color-scheme: dark;
+
+    /* ---- App palette (Requirement 1.3) ---- */
+    --gsg-primary: #7C5CFC;
+    --gsg-primary-dark: #6342E8;
+    --gsg-primary-light: #1E1A3D;
+    --gsg-surface: #0A0B10;
+    --gsg-surface-alt: #12141D;
+    --gsg-chat-background: #07080D;
+    --gsg-text-high: #F1F3F9;
+    --gsg-text-mid: #808A9D;
+    --gsg-text-low: #4A5264;
+    --gsg-border: #1F2232;
+    --gsg-divider: #161824;
+    --gsg-received-bubble: #181A26;
+
+    /* status tokens intentionally not overridden — identical in both themes */
+
+    /* ---- Surface bands (Req 3.4) ----
+       Same semantics as Light_Theme: ascending index = more raised. Here that
+       means LIGHTER, which is the inverse luminance direction of Light_Theme. */
+    --layer-0: #07080D;
+    --layer-1: #0A0B10;
+    --layer-2: #12141D;
+    --layer-3: #181A26;
+    /* Brand_Accent-derived and darker than layer-2: luminance 0.00426 vs 0.00718 */
+    --layer-tint: #0E0B1E;
+
+    /* ---- Text on bands (Req 3.9, 16.7) ----
+       Measured 10.30 / 10.21 / 9.80 / 9.40 / 10.11 across the five bands. */
+    --text-secondary: rgba(255, 255, 255, 0.72);
+    /* --gsg-primary (#7C5CFC) misses 4.5:1 on layer-1/2/3 (4.49 / 4.19 / 3.95),
+       so accent text lifts to a brighter violet: 5.87 / 5.77 / 5.39 / 5.07 / 5.68. */
+    --text-accent: #8E76FD;
+
+    /* ---- Hairline alpha steps (Req 4.1) ----
+       Only -56 (6.46…6.18) and -76 (11.44…10.35) clear 3:1 against the bands. */
+    --hairline-08: rgba(255, 255, 255, 0.08);
+    --hairline-12: rgba(255, 255, 255, 0.12);
+    --hairline-24: rgba(255, 255, 255, 0.24);
+    --hairline-56: rgba(255, 255, 255, 0.56);
+    --hairline-76: rgba(255, 255, 255, 0.76);
+
+    /* ---- Semantic pill palette, Dark_Theme variant for every tint (Req 11.4) ----
+       Measured foreground-on-background 9.15 / 9.17 / 8.99. */
+    --pill-soft-bg: #211C3D;
+    --pill-soft-fg: #C7BAFE;
+    --pill-mid-bg: #2A2350;
+    --pill-mid-fg: #D2C7FE;
+    --pill-strong-bg: #342B63;
+    --pill-strong-fg: #DDD5FF;
+
+    /* ---- Standard_Elevation is a fixed literal (Req 5.1) and is NOT overridden
+       here. Only the mockup shadow opens up, because the dark bands are
+       near-black and would otherwise swallow it entirely. ---- */
+    --elevation-mockup:
+      0 1px 2px rgba(0, 0, 0, 0.4),
+      0 8px 16px rgba(0, 0, 0, 0.45),
+      0 24px 48px rgba(0, 0, 0, 0.5),
+      0 48px 96px rgba(0, 0, 0, 0.55);
+
+    /* ---- DERIVED shadcn/ui HSL triplets — do not edit independently ---- */
+    --background: 230 23% 5%;
+    --foreground: 225 40% 96%;
+    --card: 229 23% 9%;
+    --card-foreground: 225 40% 96%;
+    --popover: 229 23% 9%;
+    --popover-foreground: 225 40% 96%;
+    --primary: 252 96% 67%;
+    --primary-foreground: 230 23% 5%;
+    --secondary: 247 40% 17%;
+    --secondary-foreground: 225 40% 96%;
+    --muted: 231 24% 11%;
+    --muted-foreground: 219 13% 56%;
+    --accent: 231 23% 12%;
+    --accent-foreground: 225 40% 96%;
+    --border: 231 23% 16%;
+    --input: 231 23% 16%;
+    --ring: 252 96% 67%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* ---- Elevation scale, tinted from --gsg-primary at low alpha ---- */
+    --shadow-2xs: 0 1px 2px 0px hsl(252 96% 67% / 0.12);
+    --shadow-xs: 0 1px 3px 0px hsl(252 96% 67% / 0.14);
+    --shadow-sm: 0 1px 3px 0px hsl(252 96% 67% / 0.16), 0 1px 2px -1px hsl(252 96% 67% / 0.14);
+    --shadow: 0 1px 3px 0px hsl(252 96% 67% / 0.18), 0 1px 2px -1px hsl(252 96% 67% / 0.14);
+    --shadow-md: 0 2px 6px 0px hsl(252 96% 67% / 0.2), 0 2px 4px -1px hsl(252 96% 67% / 0.16);
+    --shadow-lg: 0 4px 12px 0px hsl(252 96% 67% / 0.24), 0 4px 6px -1px hsl(252 96% 67% / 0.16);
+    --shadow-xl: 0 8px 24px 0px hsl(252 96% 67% / 0.28), 0 8px 10px -1px hsl(252 96% 67% / 0.18);
+    --shadow-2xl: 0 16px 40px 0px hsl(252 96% 67% / 0.32);
   }
 }
 
@@ -123,129 +252,190 @@
 
   html {
     scroll-behavior: smooth;
+    /* Responsive overflow guard: the 3D-tilted phone mockups and the fanned
+       negative-margin compositions can extend a few pixels past their box, which
+       on a narrow viewport turns into a horizontal scrollbar and a page that
+       slides sideways under the thumb.
+
+       `clip` rather than `hidden` on purpose: `overflow: hidden` makes this a
+       scroll container, which breaks the `position: sticky` pinned column in
+       MeshChatSection. `clip` cuts the overflow without creating one. */
+    overflow-x: clip;
   }
+
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Requirement 12.5 — a single global focus indicator so no control can omit it. */
+  :focus-visible {
+    outline: 2px solid var(--gsg-primary);
+    outline-offset: 2px;
+  }
 }
+
+/* Requirement 12.6 — honour the OS reduced-motion preference for Tailwind
+   utilities, third-party primitives, and inline styles alike. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   MOTION SECTION — Appear_Animation, Standard_Transition, Marquee
+   (landing-ui-polish Requirements 13.3–13.6, 14, 15)
+
+   Everything here is CSS-only: no animation library, so the 300 KB chunk
+   budget is untouched (Req 14.4, 17.1). No parallax and no scroll-scrubbed
+   timeline is defined, because none is permitted (Req 14.6).
+
+   Reveal state is a class pair driven by `useReveal` / `<Reveal>`:
+     .reveal      initial state — opacity 0.001 (NOT 0: a real but
+                  imperceptible paint avoids the repaint flash a 0 → 1 jump
+                  causes on some compositors) and translateY(10px)
+     .reveal-in   revealed state — opacity 1, translateY(0), and nothing ever
+                  removes it, so an element stays revealed for the session
+                  (Req 14.7)
+
+   Stagger (Req 14.2) is `--reveal-index` × `--reveal-step`. The index is set
+   per child by <Reveal>/<RevealGroup>, which is what lets one observer on a
+   parent stagger N children instead of N observers.
+   ========================================================================== */
 
 @layer utilities {
-  /* Grain texture overlay */
-  .grain {
-    position: relative;
-  }
-  .grain::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .grain > * {
-    position: relative;
-    z-index: 2;
+  .reveal {
+    /* Fixed 80ms stagger interval — inside the permitted 40–120ms band. */
+    --reveal-step: 80ms;
+    --reveal-duration: 0.6s;
+    --reveal-ease: cubic-bezier(0.44, 0, 0.56, 1);
+
+    opacity: 0.001;
+    transform: translateY(10px);
+    transition-property: opacity, transform;
+    transition-duration: var(--reveal-duration);
+    transition-timing-function: var(--reveal-ease);
+    transition-delay: calc(var(--reveal-index, 0) * var(--reveal-step));
+    will-change: opacity, transform;
   }
 
-  /* Animated gradient text */
-  .gradient-text {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--foreground)) 0%,
-      hsl(var(--indigo)) 40%,
-      hsl(var(--teal)) 60%,
-      hsl(var(--indigo-deep)) 80%,
-      hsl(var(--foreground)) 100%
-    );
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient-shift 8s ease-in-out infinite;
-  }
-
-  /* Dot grid pattern */
-  .dot-grid {
-    background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
-    background-size: 32px 32px;
-  }
-
-  /* Glow card border */
-  .glow-card {
-    position: relative;
-    overflow: hidden;
-  }
-  .glow-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      transparent 0%,
-      hsl(var(--indigo) / 0.3) 50%,
-      transparent 100%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-  .glow-card:hover::before {
+  .reveal-in {
     opacity: 1;
+    transform: translateY(0);
   }
 
-  /* Neon pulse */
-  .neon-glow {
-    box-shadow: 0 0 20px hsl(var(--indigo) / 0.15), 0 0 60px hsl(var(--indigo) / 0.05);
+  /* Standard_Transition (Req 14.5): the single transition for every hover,
+     focus and active change of colour, background, opacity and transform. */
+  .transition-standard {
+    transition-property: color, background-color, border-color, text-decoration-color, fill,
+      stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.44, 0, 0.56, 1);
   }
 
-  /* Spotlight effect */
-  .spotlight {
-    position: relative;
-    overflow: hidden;
-  }
-  .spotlight::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      hsl(var(--indigo) / 0.06) 0%,
-      transparent 50%
-    );
-    pointer-events: none;
+  /* ---- Marquee (Req 13.3–13.6) ----
+     Structure a consumer is expected to render:
+
+       <div class="marquee marquee-mask">
+         <div class="marquee-track">…items…{duplicate of the same items}…</div>
+       </div>
+
+     The track holds the item row twice, so translating it by -50% lands
+     exactly on the start of the duplicate and the loop is seamless. */
+  .marquee-track {
+    animation: marquee-scroll var(--marquee-duration, 40s) linear infinite;
+    will-change: transform;
   }
 
-  .display-font {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
+  /* 270deg edge mask fading both ends into the section background (Req 13.3).
+     The ramp is expressed in px, not %, so it stays a fade at every viewport:
+     a percentage ramp narrows as the container narrows and starts hard-clipping
+     the leading pill mid-glyph, which reads as a bug rather than a fade. 96px is
+     wider than a pill's leading word, so a pill always fades out before its
+     edge is cut.
+
+     The ramp width itself is responsive via `--marquee-fade`: two 96px fades on
+     a 320px phone leave only ~128px of legible track in the middle, so the
+     phone step drops to 40px and the full 96px ramp is restored from
+     Breakpoint_Small up, where there is width to spend on it. */
+  .marquee-mask {
+    --marquee-fade: 40px;
+
+    -webkit-mask-image: linear-gradient(270deg,
+        transparent 0,
+        #000 var(--marquee-fade),
+        #000 calc(100% - var(--marquee-fade)),
+        transparent 100%);
+    mask-image: linear-gradient(270deg,
+        transparent 0,
+        #000 var(--marquee-fade),
+        #000 calc(100% - var(--marquee-fade)),
+        transparent 100%);
+  }
+
+  @media (min-width: 480px) {
+    .marquee-mask {
+      --marquee-fade: 64px;
+    }
+  }
+
+  @media (min-width: 810px) {
+    .marquee-mask {
+      --marquee-fade: 96px;
+    }
+  }
+
+
+  /* Pause on keyboard focus entering the marquee (Req 13.5). */
+  .marquee:focus-within .marquee-track,
+  .marquee-track:focus-within {
+    animation-play-state: paused;
   }
 }
 
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
-@keyframes pulse-ring {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 0.2; }
-  100% { transform: scale(0.9); opacity: 0.6; }
-}
+/* ---- Reduced-motion kill switch (Req 15.1–15.4) ----
+   Declared in CSS as well as in the JS path so there is no window in which
+   content is hidden: even before `useReveal` runs, `.reveal` resolves to
+   opacity 1 / translateY(0) here, and no reveal is ever gated on scrolling. */
+@media (prefers-reduced-motion: reduce) {
 
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+  .reveal,
+  .reveal-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .transition-standard {
+    transition: none !important;
+  }
 }

@@ -17,4 +17,30 @@ export default defineConfig(() => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    chunkSizeWarningLimit: 300,
+    rollupOptions: {
+      output: {
+        manualChunks(id: string) {
+          if (!id.includes("node_modules")) return undefined;
+          // Normalize Windows path separators so the matches below work everywhere.
+          const p = id.replace(/\\/g, "/");
+
+          if (/\/node_modules\/(react|react-dom|react-router|react-router-dom|scheduler)\//.test(p)) {
+            return "react-vendor";
+          }
+          if (p.includes("/node_modules/@tanstack/")) {
+            return "query";
+          }
+          if (p.includes("/node_modules/@supabase/")) {
+            return "supabase";
+          }
+          if (p.includes("/node_modules/@radix-ui/")) {
+            return "ui";
+          }
+          return undefined;
+        },
+      },
+    },
+  },
 }));
