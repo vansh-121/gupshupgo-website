@@ -38,7 +38,7 @@ export const SECTIONS: readonly SectionMeta[] = [
   {
     id: 'hero',
     navLabel: null,
-    headingText: 'Private messaging, HD calls, and offline chat for Android',
+    headingText: 'Stay Connected. Stay Private. Even Offline.',
   },
   {
     id: 'features',

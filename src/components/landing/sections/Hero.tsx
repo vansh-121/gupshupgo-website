@@ -56,7 +56,7 @@ import { cn } from "@/lib/utils";
 /** Heading copy lives in the shared section registry so nav/tests cannot drift. */
 const HERO_HEADING =
   SECTIONS.find((section) => section.id === "hero")?.headingText ??
-  "Private messaging, HD calls, and offline chat for Android";
+  "Stay Connected. Stay Private. Even Offline.";
 
 /** Forward frame: the chat screen. Rear frame: the call screen. */
 const CHAT_SCREEN = getMockupScreen("chat") as MockupChatScreen;
