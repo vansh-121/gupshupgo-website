@@ -32,7 +32,7 @@ const VARIANT_CLASSES: Record<DownloadButtonVariant, string> = {
 export interface DownloadButtonProps {
   /** Visual size/placement preset. Defaults to `header`. */
   variant?: DownloadButtonVariant;
-  /** Visible label. Defaults to "Get GupShupGo on Google Play". */
+  /** Visible label. Defaults to "Download on Google Play". */
   children?: ReactNode;
   /** Extra classes merged onto the anchor. */
   className?: string;
@@ -40,7 +40,7 @@ export interface DownloadButtonProps {
 
 export function DownloadButton({
   variant = 'header',
-  children = 'Get GupShupGo on Google Play',
+  children = 'Download on Google Play',
   className,
 }: DownloadButtonProps) {
   return (
