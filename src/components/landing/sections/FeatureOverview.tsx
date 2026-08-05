@@ -265,16 +265,18 @@ interface TierStyle {
 
 const TIER_STYLES: Record<CellTier, TierStyle> = {
   hero: {
-    cell: "gap-16px p-32px",
-    heading: "text-25 leading-120",
-    body: "text-19 leading-140",
-    icon: "h-24px w-24px",
+    // Mobile: compact sizing; hero sizing kicks in at the wide breakpoint.
+    cell: "gap-12px p-24px bp1200:gap-16px bp1200:p-32px",
+    heading: "text-19 leading-130 bp1200:text-25 bp1200:leading-120",
+    body: "text-16 leading-140 bp1200:text-19",
+    icon: "h-20px w-20px bp1200:h-24px bp1200:w-24px",
   },
   medium: {
+    // Mobile: compact sizing; medium sizing kicks in at the mid breakpoint.
     cell: "gap-12px p-24px",
-    heading: "text-21 leading-130",
+    heading: "text-19 leading-130 bp810:text-21 bp810:leading-130",
     body: "text-16 leading-140",
-    icon: "h-24px w-24px",
+    icon: "h-20px w-20px bp810:h-24px bp810:w-24px",
   },
   compact: {
     cell: "gap-12px p-24px",
@@ -304,12 +306,12 @@ function FeatureCell({ cell }: { cell: ResolvedCell }) {
         WIDE_SPAN_CLASSES[wideSpan],
       )}
     >
-      {/* Hero cells get a brand-tinted chip as their visual anchor; smaller
-          cells get the plain accent glyph. */}
+      {/* Hero cells get a brand-tinted chip as their visual anchor at bp1200+;
+          on mobile/tablet they use the plain accent glyph like other tiers. */}
       {tier === "hero" ? (
         <span
           aria-hidden="true"
-          className="inline-flex h-48px w-48px shrink-0 items-center justify-center rounded-8 bg-pill-soft text-pill-soft-fg"
+          className="inline-flex h-40px w-40px shrink-0 items-center justify-center rounded-8 bg-pill-soft text-pill-soft-fg bp1200:h-48px bp1200:w-48px"
         >
           <Icon className={style.icon} />
         </span>
