@@ -34,18 +34,9 @@ const MOBILE_PANEL_ID = "site-header-mobile-nav";
 /**
  * The section links the desktop pill carries, flat, in this order (Req 8.5).
  *
- * The pill hugs its content rather than stretching to the container, so these
- * six fit in one flat row and the old "More sections" overflow disclosure — a
- * workaround for a full-width bar's cramped middle — is gone.
- *
  * Resolved against `NAV_SECTIONS` rather than duplicated as label/href pairs, so
  * the row stays flag-aware: `pro` is absent from `NAV_SECTIONS` while
- * `PRO_LAUNCHED` is false and simply does not render, and a label edit in the
- * registry cannot drift from the pill.
- *
- * Deliberately not here: Anonymous chat, Trust, Updates, and Download — the
- * last redundant next to the "Get the app" button. All four remain in the
- * below-810px menu, which still lists every section, so nothing is unreachable.
+ * `PRO_LAUNCHED` is false and simply does not render.
  */
 const DESKTOP_SECTION_IDS: readonly SectionId[] = [
   "features",
@@ -53,6 +44,7 @@ const DESKTOP_SECTION_IDS: readonly SectionId[] = [
   "arcade",
   "privacy",
   "calling",
+  "anonymous",
   "pro",
 ];
 
