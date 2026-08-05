@@ -59,7 +59,7 @@ const DEPRECATED_BACKGROUND_TO_BAND: Record<SectionBackground, SectionBand> = {
  */
 const RHYTHM_CLASSES = {
   default: "py-64px px-20px bp810:py-128px bp810:px-36px",
-  hero: "py-72px px-20px bp810:py-164px bp810:px-36px",
+  hero: "pt-96px pb-72px px-20px bp810:py-164px bp810:px-36px",
 } as const;
 
 interface SectionProps {

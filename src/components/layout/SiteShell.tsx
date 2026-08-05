@@ -34,7 +34,7 @@ interface SiteShellProps {
  *    Breakpoint_Small (72px total) and 16px above it (76px total).
  *
  * Every page's first block already clears that — the hero at
- * `py-72px bp810:py-164px` and the legal/404 pages at `py-section` (80px). A
+ * `pt-96px bp810:py-164px` and the legal/404 pages at `py-section` (80px). A
  * spacer would also sit between `<main>` and its first child and blunt the
  * skip-link landing.
  */
