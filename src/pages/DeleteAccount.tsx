@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { ArrowLeft, Trash2, AlertTriangle, ShieldCheck, Mail, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import SiteShell from "@/components/layout/SiteShell";
 import { MEASURE_CLASSES } from "@/components/Section";
+import SEOHead from "@/components/seo/SEOHead";
 
 /**
  * Account-deletion route, migrated onto the Nova token layer (Req 2.1, 3, 4, 6, 7).
@@ -24,16 +24,14 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function DeleteAccount() {
-  useEffect(() => {
-    document.title = "Delete Account — GupShupGo";
-    document.querySelector('meta[name="description"]')?.setAttribute(
-      "content",
-      "Request deletion of your GupShupGo account and associated data. Learn what data is deleted, what is retained, and how to submit a deletion request."
-    );
-  }, []);
-
   return (
     <SiteShell>
+      <SEOHead
+        title="Delete Account — GupShupGo | Account Deletion Request"
+        description="Request deletion of your GupShupGo account and associated data. Learn what data is deleted, what is retained, and how to submit a deletion request."
+        canonicalPath="/delete-account"
+      />
+
       <div className={`mx-auto w-full ${MEASURE_CLASSES[809]} px-20px py-80px bp810:px-36px bp810:py-128px`}>
         <Link
           to="/"

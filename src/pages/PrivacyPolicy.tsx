@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import SiteShell from "@/components/layout/SiteShell";
 import { MEASURE_CLASSES } from "@/components/Section";
+import SEOHead from "@/components/seo/SEOHead";
 
 /**
  * Privacy policy route, migrated onto the Nova token layer (Req 2.1, 3, 4, 6, 7).
@@ -18,13 +18,14 @@ import { MEASURE_CLASSES } from "@/components/Section";
  * gate.
  */
 export default function PrivacyPolicy() {
-  useEffect(() => {
-    document.title = "Privacy Policy — GupShupGo";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "GupShupGo Privacy Policy. Learn how we collect, use, and protect your data in our open-source communication app.");
-  }, []);
-
   return (
     <SiteShell>
+      <SEOHead
+        title="Privacy Policy — GupShupGo | How We Protect Your Data"
+        description="GupShupGo Privacy Policy. Learn how we collect, use, and protect your data in our end-to-end encrypted messaging app. Your privacy is our priority."
+        canonicalPath="/privacy"
+      />
+
       <div className={`mx-auto w-full ${MEASURE_CLASSES[809]} px-20px py-80px bp810:px-36px bp810:py-128px`}>
         <Link
           to="/"

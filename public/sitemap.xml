@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
   <url>
     <loc>https://www.gupshupgo.app/</loc>
-    <lastmod>2026-08-01</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-08-10</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.gupshupgo.app/og-image.png</image:loc>
+      <image:caption>GupShupGo — Private Messaging, HD Calls and Offline Chat for Android</image:caption>
+      <image:title>GupShupGo App Preview</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.gupshupgo.app/app_icon.png</image:loc>
+      <image:caption>GupShupGo App Icon</image:caption>
+      <image:title>GupShupGo Logo</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.gupshupgo.app/privacy</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.gupshupgo.app/terms</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.gupshupgo.app/delete-account</loc>
-    <lastmod>2026-08-01</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
