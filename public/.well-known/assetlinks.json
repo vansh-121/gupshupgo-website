@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.gupshupgo.app",
+      "sha256_cert_fingerprints": [
+        "96:78:39:97:A6:D1:18:AD:EC:8C:29:D2:62:AD:C4:5B:D6:B8:22:33:02:55:B1:BB:B0:B6:81:CC:8D:85:34:A9"
+      ]
+    }
+  }
+]
+

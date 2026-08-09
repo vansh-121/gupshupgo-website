@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import SiteShell from "@/components/layout/SiteShell";
 import { MEASURE_CLASSES } from "@/components/Section";
+import SEOHead from "@/components/seo/SEOHead";
 
 /**
  * Terms of service route, migrated onto the Nova token layer (Req 2.1, 3, 4, 6, 7).
@@ -13,13 +13,14 @@ import { MEASURE_CLASSES } from "@/components/Section";
  * and body copy runs at `leading-140` for dense prose (Req 6.10).
  */
 export default function TermsOfService() {
-  useEffect(() => {
-    document.title = "Terms of Service — GupShupGo";
-    document.querySelector('meta[name="description"]')?.setAttribute("content", "GupShupGo Terms of Service. Read the terms governing usage of our open-source communication app.");
-  }, []);
-
   return (
     <SiteShell>
+      <SEOHead
+        title="Terms of Service — GupShupGo | Usage Terms & Conditions"
+        description="GupShupGo Terms of Service. Read the terms and conditions governing usage of GupShupGo, the free encrypted messaging app for Android."
+        canonicalPath="/terms"
+      />
+
       <div className={`mx-auto w-full ${MEASURE_CLASSES[809]} px-20px py-80px bp810:px-36px bp810:py-128px`}>
         <Link
           to="/"

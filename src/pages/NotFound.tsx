@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import SiteShell from "@/components/layout/SiteShell";
 import { MEASURE_CLASSES } from "@/components/Section";
 import { Button } from "@/components/ui/button";
+import SEOHead from "@/components/seo/SEOHead";
 
 /**
  * Not-found route (design §3.3, Requirements 10.1, 10.2, 10.5).
@@ -28,6 +29,10 @@ const NotFound = () => {
 
   return (
     <SiteShell mainClassName="bg-layer-1 text-ink-high">
+      <SEOHead
+        title="Page Not Found — GupShupGo"
+        description="The page you're looking for doesn't exist. Head back to GupShupGo's homepage to explore private messaging, HD calls, and offline chat for Android."
+      />
       <div className="mx-auto flex w-full max-w-[1320px] flex-col items-center px-20px py-80px text-center bp810:px-36px bp810:py-128px">
         <p className="text-12 font-medium uppercase leading-130 tracking-wider text-ink-accent">
           Error 404
