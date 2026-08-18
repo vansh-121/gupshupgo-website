@@ -114,9 +114,9 @@ const PRICING_FAQ: FaqEntry = PRO_LAUNCHED
   }
   : {
     id: "getting-started",
-    question: "How do I get GupShupGo?",
+    question: "How do I start using GupShupGo?",
     answer:
-      "GupShupGo is free to download from Google Play. Sign in with your phone number and you get end-to-end encrypted messaging, voice notes, HD voice and video calls, offline nearby chat, anonymous chat, Gup Arcade, and text statuses.",
+      "Sign in with your phone number and you get end-to-end encrypted messaging, voice notes, HD voice and video calls, offline nearby chat, anonymous chat, Gup Arcade, and text statuses.",
   };
 
 /** The Pro explainer, rendered only once Pro has launched. */

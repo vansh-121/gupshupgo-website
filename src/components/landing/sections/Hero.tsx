@@ -122,11 +122,10 @@ export default function Hero() {
           )}
         >
           {/* Gated on PRO_LAUNCHED: while the app's `pro_enabled` flag is off
-              the site says nothing about tiers, only that the download itself
-              is free. */}
+              the site says nothing about tiers or pricing. */}
           {PRO_LAUNCHED
-            ? `${PLATFORM_LABEL} — free to download, with an optional Pro subscription inside the app.`
-            : `${PLATFORM_LABEL} — free to download from Google Play.`}
+            ? `${PLATFORM_LABEL} — download now, with an optional Pro subscription inside the app.`
+            : `${PLATFORM_LABEL} — download from Google Play.`}
         </Reveal>
       </RevealGroup>
 
