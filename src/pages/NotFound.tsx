@@ -31,7 +31,8 @@ const NotFound = () => {
     <SiteShell mainClassName="bg-layer-1 text-ink-high">
       <SEOHead
         title="Page Not Found — GupShupGo"
-        description="The page you're looking for doesn't exist. Head back to GupShupGo's homepage to explore private messaging, HD calls, and offline chat for Android."
+        description="Page not found. Return to GupShupGo to discover private messaging, HD calls, and offline nearby chat for Android."
+        noindex
       />
       <div className="mx-auto flex w-full max-w-[1320px] flex-col items-center px-20px py-80px text-center bp810:px-36px bp810:py-128px">
         <p className="text-12 font-medium uppercase leading-130 tracking-wider text-ink-accent">

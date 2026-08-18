@@ -27,8 +27,8 @@ export default function DeleteAccount() {
   return (
     <SiteShell>
       <SEOHead
-        title="Delete Account — GupShupGo | Account Deletion Request"
-        description="Request deletion of your GupShupGo account and associated data. Learn what data is deleted, what is retained, and how to submit a deletion request."
+        title="Delete Your GupShupGo Account — Data Removal Steps"
+        description="Learn how to permanently delete your GupShupGo account, wipe message history, remove phone credentials, and manage data retention policies."
         canonicalPath="/delete-account"
       />
 

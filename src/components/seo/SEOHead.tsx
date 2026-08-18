@@ -9,14 +9,20 @@ import { useEffect } from "react";
  *
  * Also sets the canonical URL for the page to prevent duplicate indexing of
  * trailing-slash and non-trailing-slash variants.
+ *
+ * When `noindex` is true the component sets `<meta name="robots">` to
+ * `noindex, follow` so that error pages (404) are not indexed but their
+ * outbound links are still followed.
  */
 interface SEOHeadProps {
   title: string;
   description: string;
   canonicalPath?: string;
+  /** When true, sets `<meta name="robots" content="noindex, follow">`. */
+  noindex?: boolean;
 }
 
-export default function SEOHead({ title, description, canonicalPath }: SEOHeadProps) {
+export default function SEOHead({ title, description, canonicalPath, noindex }: SEOHeadProps) {
   useEffect(() => {
     const originalTitle = document.title;
     document.title = title;
@@ -32,14 +38,24 @@ export default function SEOHead({ title, description, canonicalPath }: SEOHeadPr
       canonicalLink.setAttribute("href", `https://www.gupshupgo.app${canonicalPath}`);
     }
 
+    // Set robots noindex for error pages
+    const metaRobots = document.querySelector('meta[name="robots"]');
+    const originalRobots = metaRobots?.getAttribute("content") ?? "";
+    if (noindex && metaRobots) {
+      metaRobots.setAttribute("content", "noindex, follow");
+    }
+
     return () => {
       document.title = originalTitle;
       metaDescription?.setAttribute("content", originalDescription);
       if (canonicalLink) {
         canonicalLink.setAttribute("href", originalCanonical);
       }
+      if (metaRobots) {
+        metaRobots.setAttribute("content", originalRobots);
+      }
     };
-  }, [title, description, canonicalPath]);
+  }, [title, description, canonicalPath, noindex]);
 
   return null;
 }
