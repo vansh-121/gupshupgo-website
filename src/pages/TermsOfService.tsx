@@ -17,7 +17,7 @@ export default function TermsOfService() {
     <SiteShell>
       <SEOHead
         title="Terms of Service — GupShupGo | Usage Terms & Conditions"
-        description="GupShupGo Terms of Service. Read the terms and conditions governing usage of GupShupGo, the free encrypted messaging app for Android."
+        description="Review the terms and conditions for using GupShupGo's encrypted messaging, HD voice and video calls, and offline mesh communication services."
         canonicalPath="/terms"
       />
 

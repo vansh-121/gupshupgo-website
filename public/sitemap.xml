@@ -5,7 +5,7 @@
 >
   <url>
     <loc>https://www.gupshupgo.app/</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -21,19 +21,19 @@
   </url>
   <url>
     <loc>https://www.gupshupgo.app/privacy</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.gupshupgo.app/terms</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.gupshupgo.app/delete-account</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

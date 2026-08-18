@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
     <SiteShell>
       <SEOHead
         title="Privacy Policy — GupShupGo | How We Protect Your Data"
-        description="GupShupGo Privacy Policy. Learn how we collect, use, and protect your data in our end-to-end encrypted messaging app. Your privacy is our priority."
+        description="See how GupShupGo protects your data with Signal-protocol end-to-end encryption, local vault storage, and zero message tracking on Android."
         canonicalPath="/privacy"
       />
 
