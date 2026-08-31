@@ -1,0 +1,32 @@
+# GupShupGo
+
+> GupShupGo is a private, end-to-end encrypted messaging app for Android featuring HD voice and video calls, offline nearby chat, anonymous chat, chat bonds, and Gup Arcade.
+
+## About
+
+GupShupGo lets you communicate privately with friends and family through end-to-end encrypted messaging powered by the Signal protocol. The app is available on Android and offers a rich set of features including real-time messaging, HD voice and video calls with screen sharing, offline nearby chat via Bluetooth and Wi-Fi Direct, anonymous chat, Gup Arcade with Gup Points, challenges, leaderboards and badges, chat bonds (daily messaging streaks), Moments (text and media stories), a PIN-protected Vault, and customisable light and dark themes.
+
+## Features
+
+- **End-to-End Encrypted Messaging**: All chats, media, and calls are encrypted using the Signal protocol.
+- **HD Voice & Video Calls**: Crystal-clear voice and video calls with screen sharing support.
+- **Offline Nearby Chat**: Chat without internet using Bluetooth and Wi-Fi Direct (Mesh Chat).
+- **Anonymous Chat**: Connect with strangers without revealing your identity.
+- **Gup Arcade**: Gamification and social hub with Gup Points, levels, challenges, leaderboards, and unlockable badges earned through messaging, calling, and community interactions.
+- **Chat Bonds**: Daily messaging streaks with friends that track bond milestones, show risk levels when bonds are about to lapse, and allow bond restoration using Gup Points.
+- **Vault**: PIN-protected storage for your most sensitive chats and media, secured with Argon2id key derivation.
+- **Moments**: Share text and media stories with your contacts that auto-expire after 24 hours, with viewer analytics and direct story replies.
+- **QR Contact Adding**: Quickly add contacts by scanning QR codes.
+- **Public Profiles**: Discover and connect with other users.
+
+## Links
+
+- Website: https://www.gupshupgo.app/
+- Download on Google Play: https://play.google.com/store/apps/details?id=com.gupshupgo.app
+- Privacy Policy: https://www.gupshupgo.app/privacy
+- Terms of Service: https://www.gupshupgo.app/terms
+- Delete Account: https://www.gupshupgo.app/delete-account
+
+## Contact
+
+For support, visit [GupShupGo](https://www.gupshupgo.app/).
