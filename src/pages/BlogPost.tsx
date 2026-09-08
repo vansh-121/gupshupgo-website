@@ -252,6 +252,19 @@ export default function BlogPost() {
           </div>
         </header>
 
+        {/* Hero Cover Image */}
+        <div className="mx-auto my-36px max-w-[1024px] overflow-hidden rounded-24 shadow-hairline-12-elevated bg-layer-2">
+          <img
+            src={post.coverImage}
+            alt={post.coverImageAlt}
+            width={1200}
+            height={675}
+            loading="eager"
+            decoding="async"
+            className="aspect-[16/9] w-full object-cover"
+          />
+        </div>
+
         {/* Content Layout with Table of Contents */}
         <div className="mx-auto mt-40px grid max-w-[1024px] gap-48px lg:grid-cols-[260px_1fr]">
           {/* Sticky Table of Contents (Desktop) */}
@@ -321,6 +334,26 @@ export default function BlogPost() {
                       {pText}
                     </p>
                   ))}
+
+                  {/* Optional In-Article Screenshot / Image */}
+                  {section.image && (
+                    <figure className="my-32px overflow-hidden rounded-20 bg-layer-1 p-16px sm:p-24px shadow-hairline-12 space-y-12px">
+                      <div className="overflow-hidden rounded-16 bg-layer-2/60 p-12px flex justify-center">
+                        <img
+                          src={section.image.src}
+                          alt={section.image.alt}
+                          loading="lazy"
+                          decoding="async"
+                          className="max-h-[520px] w-auto rounded-12 object-contain shadow-elevation"
+                        />
+                      </div>
+                      {section.image.caption && (
+                        <figcaption className="text-center text-13 text-ink-secondary italic px-12px pt-4px">
+                          {section.image.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )}
 
                   {/* Optional Callout */}
                   {section.callout && (

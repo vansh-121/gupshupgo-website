@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, Sparkles, BookOpen } from "lucide-react";
+import { Search, BookOpen } from "lucide-react";
 
 import SiteShell from "@/components/layout/SiteShell";
 import SEOHead from "@/components/seo/SEOHead";
