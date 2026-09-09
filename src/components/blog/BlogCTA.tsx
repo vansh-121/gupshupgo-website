@@ -81,19 +81,19 @@ export default function BlogCTA({
         </div>
 
         <div className="flex shrink-0 flex-col items-start gap-16px sm:items-center">
-          <div className="flex items-center gap-14px">
+          <div className="flex items-center gap-10px">
             <img
               src="/app_icon.png"
               alt="GupShupGo App Icon"
-              width={56}
-              height={56}
+              width={48}
+              height={48}
               loading="lazy"
               decoding="async"
-              className="h-56px w-56px rounded-16 shadow-elevation shrink-0 object-contain"
+              className="h-48px w-48px rounded-8 shadow-elevation shrink-0 object-contain"
             />
             <div className="text-left">
-              <p className="text-17 font-medium text-ink-high">GupShupGo</p>
-              <p className="text-13 text-ink-secondary">Free on Google Play</p>
+              <p className="text-19 font-medium leading-120 text-ink-high">GupShupGo</p>
+              <p className="text-13 text-ink-secondary mt-2px">Free on Google Play</p>
             </div>
           </div>
 
