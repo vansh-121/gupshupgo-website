@@ -191,9 +191,9 @@ export const BLOG_POSTS: BlogPost[] = [
           "The answer is an absolute no. Before your message leaves your phone, it is locked with end-to-end encryption using public-key cryptography. To any phone relaying the message, the data looks like random garbled noise.",
         ],
         image: {
-          src: "/website-screenshots/chat_screen_dark.jpeg",
-          alt: "GupShupGo encrypted chat screen showing real-time private messages and clean UI",
-          caption: "End-to-end encrypted direct messaging in GupShupGo: intermediate devices only see an anonymous routing envelope, never plaintext words.",
+          src: "/blog/mesh-encryption-security.jpg",
+          alt: "Cryptographic locks and digital data security visual",
+          caption: "End-to-end encryption ensures intermediate relay phones only see scrambled ciphertext.",
         },
       },
       {
@@ -202,6 +202,11 @@ export const BLOG_POSTS: BlogPost[] = [
           "Offline mesh chat solves everyday headaches for millions of people worldwide: outdoor hiking trails, crowded sporting matches, remote road trips, subway basements, and storm blackouts.",
           "Whenever infrastructure drops out, peer-to-peer radio ensures you and your group never lose touch.",
         ],
+        image: {
+          src: "/blog/outdoor-camping-offgrid.jpg",
+          alt: "Friends hiking and camping in remote mountains without cellular reception",
+          caption: "From backcountry trails to remote camping trips, peer-to-peer mesh keeps groups connected without towers.",
+        },
         callout: {
           type: "tip",
           title: "Good to Know",
@@ -214,11 +219,6 @@ export const BLOG_POSTS: BlogPost[] = [
           "Setting this up in GupShupGo takes about ten seconds: open the app, head to the 'Mesh Chat' tab, and tap 'Enable Mesh Mode'. Make sure Bluetooth is on in your Android quick settings.",
           "You'll see nearby peers appear on the screen. Tap anyone's name to start a direct chat, or jump into the local public room.",
         ],
-        image: {
-          src: "/website-screenshots/offline_chat_light.jpeg",
-          alt: "GupShupGo Offline Mesh Chat in light mode showing peer discovery",
-          caption: "Connecting with peers on GupShupGo Mesh Chat: smooth discovery, fast connection, zero internet required.",
-        },
       },
     ],
     faq: [
@@ -285,9 +285,9 @@ export const BLOG_POSTS: BlogPost[] = [
           "In digital messaging, metadata includes who you text, what time you text them, how often you talk, your IP address, your location, and your full phone contact book. That is what most mainstream chat apps harvest and sell.",
         ],
         image: {
-          src: "/website-screenshots/e2e_dark.jpeg",
-          alt: "GupShupGo end-to-end encryption verification screen showing safety numbers and zero metadata logging",
-          caption: "Verifying safety numbers in GupShupGo: cryptographic identity confirmation with zero cloud metadata harvesting.",
+          src: "/blog/digital-privacy-surveillance.jpg",
+          alt: "Dramatic silhouette representing digital privacy, cyber surveillance, and metadata tracking",
+          caption: "Digital surveillance tracks context: IP addresses, location beacons, and timestamps leave a permanent trail even when content is encrypted.",
         },
         callout: {
           type: "quote",
@@ -301,6 +301,11 @@ export const BLOG_POSTS: BlogPost[] = [
           "To fix this, cryptographers Moxie Marlinspike and Trevor Perrin created the Signal Protocol. At its core is an algorithm called the Double Ratchet.",
           "Imagine you and your friend have two matching combination locks. Every single time you send a message, your lock automatically turns one click forward to a brand-new, random combination. When your friend receives it, their lock clicks forward too.",
         ],
+        image: {
+          src: "/website-screenshots/e2e_dark.jpeg",
+          alt: "GupShupGo end-to-end encryption verification screen showing safety numbers and zero metadata logging",
+          caption: "Verifying safety numbers in GupShupGo: cryptographic identity confirmation with zero cloud metadata harvesting.",
+        },
         bulletPoints: {
           title: "What this means in plain English:",
           items: [
@@ -335,11 +340,6 @@ export const BLOG_POSTS: BlogPost[] = [
           "When we built GupShupGo, we tackled privacy from both ends: Signal Protocol over the air with zero metadata harvesting, and an Argon2id-encrypted local Vault on the device itself.",
           "Your conversations stay strictly between you and your recipient—both across the airwaves and in your pocket.",
         ],
-        image: {
-          src: "/website-screenshots/e2e_light.jpeg",
-          alt: "GupShupGo end-to-end encryption in light theme",
-          caption: "GupShupGo's safety verification interface: cryptographic trust you can verify with your own eyes.",
-        },
       },
     ],
     faq: [
@@ -404,11 +404,6 @@ export const BLOG_POSTS: BlogPost[] = [
           "There is real psychological science behind why streaks feel so satisfying: the Zeigarnik effect (our brain's desire to close open loops) and loss aversion (the pain of losing hard-won progress).",
           "Frequent micro-interactions—a 10-second voice note, a shared meme, or a quick morning check-in—help maintain authentic bonds effortlessly.",
         ],
-        image: {
-          src: "/website-screenshots/gup_arcade_dark.jpeg",
-          alt: "GupShupGo Gup Arcade screen showing chat bonds, streak milestones, and levels",
-          caption: "Gup Arcade in GupShupGo: tracking Chat Bonds, levels, and mutual conversational milestones.",
-        },
         callout: {
           type: "insight",
           title: "Micro-Habits Win",
@@ -421,6 +416,11 @@ export const BLOG_POSTS: BlogPost[] = [
           "Here's where traditional streaks went terribly wrong: they were designed with zero empathy.",
           "If you missed a single 24-hour window because you were sick or had an exam, the app wiped your entire counter out. People started sending blank black photos with the letter 'S' just to appease an algorithm. That's not friendship; that's unpaid maintenance.",
         ],
+        image: {
+          src: "/blog/smartphone-notification-stress.jpg",
+          alt: "Person feeling exhausted and overwhelmed looking at smartphone screen late at night",
+          caption: "Streak burnout is real: traditional countdowns turn genuine connections into late-night digital chores.",
+        },
       },
       {
         heading: "A Healthier Approach: Meet Chat Bonds",
@@ -428,11 +428,6 @@ export const BLOG_POSTS: BlogPost[] = [
           "At GupShupGo, we redesigned streaks into Chat Bonds. If life gets busy, your bond enters an 'At Risk' warning instead of vanishing instantly.",
           "You can freeze your bond for a screen-free weekend or restore it using points you earn simply by chatting in Gup Arcade.",
         ],
-        image: {
-          src: "/website-screenshots/chat_screen_dark.jpeg",
-          alt: "GupShupGo chat screen showing genuine ongoing conversation with friends",
-          caption: "Chatting with friends in GupShupGo: authentic conversations that naturally progress your Chat Bonds.",
-        },
       },
       {
         heading: "Gup Arcade: Playful Milestones That Feel Good",
@@ -440,9 +435,9 @@ export const BLOG_POSTS: BlogPost[] = [
           "Chatting with your favorite people should be a joy, not a full-time job. With Gup Arcade, everyday messaging unlocks levels, themes, and badges without the guilt.",
         ],
         image: {
-          src: "/website-screenshots/gup_arcade_light.jpeg",
-          alt: "Gup Arcade in light mode showing streak milestones and rewards",
-          caption: "Celebrate real friendship milestones without toxic countdown stress.",
+          src: "/website-screenshots/gup_arcade_dark.jpeg",
+          alt: "GupShupGo Gup Arcade screen showing chat bonds, streak milestones, and levels",
+          caption: "Gup Arcade in GupShupGo: celebrating genuine friendship milestones and Chat Bonds without countdown anxiety.",
         },
         bulletPoints: {
           title: "3 Simple Rules for Stress-Free Streaks:",
@@ -515,6 +510,11 @@ export const BLOG_POSTS: BlogPost[] = [
           "Legacy stranger-chat portals like Omegle or old IRC rooms treated anonymity as a license for total lawlessness. Bots spammed phishing links, and peer-to-peer handshakes routinely leaked users' real IP addresses, allowing strangers to pinpoint their location.",
           "That gave anonymous chatting a bad name. But modern security engineering proves that anonymity and safety can coexist.",
         ],
+        image: {
+          src: "/blog/online-safety-shadow.jpg",
+          alt: "Silhouette in shadow at laptop illustrating digital anonymity risks and online safety",
+          caption: "Old-school chat sites treated anonymity as lawlessness, leaking IP addresses and exposing users to harassment.",
+        },
         callout: {
           type: "warning",
           title: "The Phone Number Trap",
@@ -552,11 +552,6 @@ export const BLOG_POSTS: BlogPost[] = [
         paragraphs: [
           "In GupShupGo on Android, you get a fun pseudonym and avatar, match based on shared interests or languages, and can sever connections with one tap. No phone number sharing, no lingering digital footprints.",
         ],
-        image: {
-          src: "/website-screenshots/anonymous_chat_light.jpeg",
-          alt: "GupShupGo Anonymous Chat in light mode showing clean safe conversation",
-          caption: "Safe serendipity: meeting new minds around the world without sacrificing personal privacy.",
-        },
       },
     ],
     faq: [
@@ -626,6 +621,11 @@ export const BLOG_POSTS: BlogPost[] = [
           "Bandwidth is how wide the highway is; latency is how fast the cars move. For a crisp 720p HD mobile video stream, you only need about 800 kbps to 1.2 Mbps.",
           "What you really need is low latency and zero packet loss. When cell towers get congested, packets arrive out of order, causing unoptimized apps to freeze.",
         ],
+        image: {
+          src: "/blog/network-bandwidth-speed.jpg",
+          alt: "Glowing fiber optic cables transmitting digital network data at high speed",
+          caption: "Raw bandwidth is the width of the digital highway; latency and packet delivery speed determine whether a call stutters.",
+        },
       },
       {
         heading: "How Adaptive Bitrate Saves the Day",
