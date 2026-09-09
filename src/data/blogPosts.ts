@@ -149,8 +149,8 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "How Offline Mesh Actually Works",
         paragraphs: [
-          "Peer-to-peer (P2P) mesh messaging bypasses towers entirely. Instead of bouncing a packet through a cell tower two miles away, your phone talks directly to other phones nearby over free, unlicensed local wireless frequencies.",
-          "Even cooler: if your friend is 60 meters away—just out of range of your phone—the message can silently 'hop' through someone else's phone standing between you. That intermediate phone relays the encrypted packet without ever being able to read what's inside.",
+          "Peer-to-peer (P2P) mesh messaging bypasses cell towers entirely. Under the hood, GupShupGo leverages Google's Nearby Connections API to bridge devices directly over local hardware radios—pairing low-power Bluetooth for instant peer discovery with Wi-Fi Direct for high-throughput packet transfers.",
+          "Even more powerful: if your friend is 60 meters away—just out of range of your phone—the message silently 'hops' through an intermediate phone standing between you. GupShupGo encapsulates every packet in a store-and-forward mesh payload with a Time-To-Live (TTL) of 3 hops. The relaying phone propagates the encrypted payload without ever having the keys to decrypt or inspect what's inside.",
         ],
         image: {
           src: "/website-screenshots/offline_chat_dark.jpeg",
@@ -160,26 +160,26 @@ export const BLOG_POSTS: BlogPost[] = [
         bulletPoints: {
           title: "Why mesh messaging is a game-changer:",
           items: [
-            "No internet required: Works in aeroplane mode (just keep Bluetooth on).",
-            "No SIM card or mobile data needed: Zero carrier charges or roaming costs.",
-            "Self-healing: If a friend leaves, the network automatically finds another nearby phone to route through.",
-            "Completely private: Only the sender and recipient have the keys to unlock the message.",
+            "No internet required: Operates seamlessly in Airplane Mode (with Bluetooth & Wi-Fi Direct enabled).",
+            "Store-and-forward relay: 3-hop TTL payload routing reliably traverses crowds and physical dead zones.",
+            "Offline-first Drift database: Every sent and received packet persists locally in an encrypted SQLite store.",
+            "Silent cloud reconciliation: As soon as any connection returns, local queues automatically sync to Firestore.",
           ],
         },
       },
       {
         heading: "Bluetooth vs. Wi-Fi Direct: Which One Does What?",
         paragraphs: [
-          "Under the hood, apps like GupShupGo combine two different local wireless radios to keep things fast without killing your phone's battery.",
-          "Bluetooth Low Energy (BLE) operates with astonishing power frugality, ideal for discovery beacons and text messages. Wi-Fi Direct is activated when you want to send a photo or a voice note at speeds exceeding 100+ Mbps without an external router.",
+          "Under the hood, GupShupGo coordinates two complementary local wireless radios so your battery isn't drained while keeping file transfers fast.",
+          "Bluetooth Low Energy (BLE) operates on micro-watt discovery beacons, listening for neighboring endpoint IDs with negligible power consumption. When you exchange a photo, voice note, or large payload, GupShupGo dynamically spins up an ad-hoc Wi-Fi Direct socket, achieving speeds over 100+ Mbps without needing an external router.",
         ],
         table: {
           caption: "Quick Comparison: Bluetooth LE vs. Wi-Fi Direct vs. Cellular",
           headers: ["Feature", "Bluetooth LE", "Wi-Fi Direct", "Cellular (4G/5G)"],
           rows: [
             ["Typical Range", "15 – 35 meters", "40 – 80 meters", "Kilometers (needs tower)"],
-            ["Best For", "Text messages, pings", "Photos, voice notes", "Internet browsing, long-distance"],
-            ["Battery Drain", "Tiny (under 1%/hr)", "Low to moderate", "High when signal is weak"],
+            ["Best For", "Discovery beacons, text pings", "Photos, voice notes, files", "Internet browsing, long-distance"],
+            ["Battery Drain", "Tiny (under 1%/hr duty cycle)", "Moderate during transfer", "High when signal is weak"],
             ["Internet Needed?", "No", "No", "Yes"],
           ],
         },
@@ -187,8 +187,8 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Is It Private? Can Others Eavesdrop?",
         paragraphs: [
-          "It's natural to wonder: if random strangers' phones in a crowd are relaying my messages, can someone snoop on what I'm writing?",
-          "The answer is an absolute no. Before your message leaves your phone, it is locked with end-to-end encryption using public-key cryptography. To any phone relaying the message, the data looks like random garbled noise.",
+          "It's natural to wonder: if random strangers' phones in a crowd are relaying my packets across hops, can someone snoop on what I'm writing?",
+          "The answer is an absolute no. Before any message leaves your phone, it is locked with end-to-end encryption using public-key cryptography. Relaying nodes only see the routing header (message ID, hop count, and TTL); the payload itself is opaque ciphertext that only the intended recipient's device can decipher.",
         ],
         image: {
           src: "/blog/mesh-encryption-security.jpg",
@@ -199,8 +199,8 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Where This Actually Saves Your Day",
         paragraphs: [
-          "Offline mesh chat solves everyday headaches for millions of people worldwide: outdoor hiking trails, crowded sporting matches, remote road trips, subway basements, and storm blackouts.",
-          "Whenever infrastructure drops out, peer-to-peer radio ensures you and your group never lose touch.",
+          "Offline mesh chat solves everyday communication blackouts for millions of people: packed music festivals, dense sporting stadiums, remote hiking trails, subway commutes, and emergency power outages.",
+          "Because GupShupGo stores everything locally first via its Drift SQLite engine, your messages never get dropped or lost while waiting for a path to clear.",
         ],
         image: {
           src: "/blog/outdoor-camping-offgrid.jpg",
@@ -216,23 +216,23 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "How to Use Mesh Chat in GupShupGo",
         paragraphs: [
-          "Setting this up in GupShupGo takes about ten seconds: open the app, head to the 'Mesh Chat' tab, and tap 'Enable Mesh Mode'. Make sure Bluetooth is on in your Android quick settings.",
-          "You'll see nearby peers appear on the screen. Tap anyone's name to start a direct chat, or jump into the local public room.",
+          "Setting this up in GupShupGo takes ten seconds: open the sidebar menu, tap 'Off-Grid Mesh Chat', and turn on discovery. Make sure Bluetooth and Local Wi-Fi are enabled in your Android quick settings.",
+          "You'll see nearby discovered peers appear in real-time. Tap any peer to start a direct offline chat, or jump into the public room to communicate with the entire local cluster.",
         ],
       },
     ],
     faq: [
       {
-        question: "Does GupShupGo Mesh Chat require a SIM card?",
-        answer: "No! It works over direct Bluetooth and Wi-Fi Direct. You can even use an old Android phone with no SIM card installed.",
+        question: "Does GupShupGo Mesh Chat require a SIM card or active plan?",
+        answer: "No! It works over direct Bluetooth and Wi-Fi Direct. You can even use an old Android phone in Airplane Mode with no SIM card installed.",
       },
       {
         question: "How far can messages travel in mesh mode?",
-        answer: "A single direct Bluetooth jump reaches 15 to 40 meters. But when multiple people have the app open in a crowd, messages can hop from phone to phone across hundreds of meters.",
+        answer: "A single direct Bluetooth jump reaches 15 to 40 meters. With GupShupGo's 3-hop store-and-forward relaying across intermediate phones, messages can propagate across hundreds of meters in a crowd.",
       },
       {
-        question: "Will keeping Mesh Chat on drain my battery?",
-        answer: "GupShupGo is engineered with smart duty-cycling. It sleeps most of the time and only wakes up for split-second beacons. On a typical day, it uses less than 2% of your battery.",
+        question: "Will keeping Mesh Chat on drain my phone's battery?",
+        answer: "GupShupGo uses smart duty-cycling in the background. It sleeps most of the time and only wakes up for split-second beacons, using less than 2% battery over a typical day.",
       },
     ],
   },
@@ -291,15 +291,15 @@ export const BLOG_POSTS: BlogPost[] = [
         },
         callout: {
           type: "quote",
-          title: "Former CIA Director Michael Hayden once stated:",
-          text: "'We kill people based on metadata.' That should give anyone pause about how valuable contextual data really is.",
+          title: "Renowned cryptographer Bruce Schneier once noted:",
+          text: "'Metadata is what allows anyone observing the network to know everything about your relationships, your habits, and your daily life—often revealing far more than the words you write.'",
         },
       },
       {
         heading: "How the Double Ratchet Actually Works",
         paragraphs: [
-          "To fix this, cryptographers Moxie Marlinspike and Trevor Perrin created the Signal Protocol. At its core is an algorithm called the Double Ratchet.",
-          "Imagine you and your friend have two matching combination locks. Every single time you send a message, your lock automatically turns one click forward to a brand-new, random combination. When your friend receives it, their lock clicks forward too.",
+          "To fix this, cryptographers Moxie Marlinspike and Trevor Perrin created the Signal Protocol. In GupShupGo, this is implemented using libsignal_protocol_dart, pairing the Extended Triple Diffie-Hellman (X3DH) handshake with the Double Ratchet algorithm.",
+          "When you first text someone, your phone pulls the recipient's PreKeyBundle (their Identity Key, Signed PreKey, and a One-Time PreKey that is atomically consumed and purged from the server via Cloud Functions). Once the session is established, every single message turns the cryptographic ratchet forward, generating a brand-new ephemeral key pair.",
         ],
         image: {
           src: "/website-screenshots/e2e_dark.jpeg",
@@ -309,24 +309,25 @@ export const BLOG_POSTS: BlogPost[] = [
         bulletPoints: {
           title: "What this means in plain English:",
           items: [
-            "No master key: There is no single password or key that unlocks all your chats.",
-            "Ephemeral keys: Keys exist in memory for milliseconds and are permanently erased.",
-            "Zero cloud knowledge: Servers only pass along sealed envelopes they cannot open.",
+            "No master key: There is no universal key or server password that can decrypt your conversations.",
+            "Multi-device fan-out: Sessions are encrypted per registered device ID with automatic multi-device self-sync.",
+            "Per-address serialization locks: Atomic queueing prevents ratchet desync even during concurrent background syncs.",
+            "Isolate crypto worker: Heavy cryptographic operations execute on a background Dart isolate, preserving 60+ FPS UI smoothness.",
           ],
         },
       },
       {
         heading: "Forward Secrecy: Why Old Messages Stay Safe",
         paragraphs: [
-          "This continuous ratcheting creates Perfect Forward Secrecy (PFS). If someone somehow steals the key your phone is using right this second, they can only decrypt that single message.",
-          "They cannot decrypt anything you sent yesterday, last month, or three years ago, because those keys no longer exist anywhere in the universe.",
+          "This continuous ratcheting creates Perfect Forward Secrecy (PFS). If someone somehow extracts the temporary key your phone is using right this second, they can only decrypt that single message.",
+          "They cannot decrypt anything you sent yesterday, last month, or three years ago, because those keys were wiped from memory immediately after use and no longer exist anywhere in the universe.",
         ],
       },
       {
         heading: "The Unlocked Phone: The Biggest Privacy Hole",
         paragraphs: [
-          "Here is a reality check that security engineers often ignore: all the encryption in the world won't protect you if someone physically looks at your phone while it's unlocked.",
-          "Whether it's an inquisitive coworker, a friend borrowing your phone, or someone glancing over your shoulder, standard apps leave all your chats exposed once the screen lock is passed.",
+          "Here is a reality check that security engineers often ignore: all the encryption in transit won't protect you if someone physically glances at your phone while it's unlocked.",
+          "Whether it's an inquisitive coworker, a friend borrowing your phone to make a call, or someone glancing over your shoulder, standard apps leave all your chats exposed once the screen lock is passed.",
         ],
         image: {
           src: "/website-screenshots/vault_dark.jpeg",
@@ -338,7 +339,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "How GupShupGo Keeps Things Truly Private",
         paragraphs: [
           "When we built GupShupGo, we tackled privacy from both ends: Signal Protocol over the air with zero metadata harvesting, and an Argon2id-encrypted local Vault on the device itself.",
-          "Your conversations stay strictly between you and your recipient—both across the airwaves and in your pocket.",
+          "The Vault key never leaves your phone. It is derived from your custom PIN using the memory-hard Argon2id key derivation function with a per-user random salt, protecting sensitive chat records with AES-256-GCM. The derived key is cached strictly in hardware-backed secure storage (Android Keystore), ensuring zero-knowledge privacy from everyone—including our own database admins.",
         ],
       },
     ],
@@ -352,8 +353,8 @@ export const BLOG_POSTS: BlogPost[] = [
         answer: "Because the Vault is encrypted using zero-knowledge Argon2id, there is no backdoor or 'reset password' button on our servers. Make sure to remember your PIN, as only you can unlock it.",
       },
       {
-        question: "Is voice and video calling also encrypted with Signal?",
-        answer: "Yes! Audio and video streams use DTLS-SRTP with peer-verified handshakes, so no one in the middle can listen in or record your calls.",
+        question: "Is voice and video calling also end-to-end encrypted?",
+        answer: "Yes! GupShupGo generates an ephemeral 32-byte cryptographic key and 16-byte salt per call, delivers it securely via Signal-encrypted envelopes, and feeds it into Agora RTC's aes256Gcm2 stream cipher.",
       },
     ],
   },
@@ -425,14 +426,15 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "A Healthier Approach: Meet Chat Bonds",
         paragraphs: [
-          "At GupShupGo, we redesigned streaks into Chat Bonds. If life gets busy, your bond enters an 'At Risk' warning instead of vanishing instantly.",
-          "You can freeze your bond for a screen-free weekend or restore it using points you earn simply by chatting in Gup Arcade.",
+          "At GupShupGo, we re-architected streaks from the ground up into Chat Bonds, powered by a deterministic, server-authoritative StreakEngine. Instead of trusting flaky device clocks or punishing people with arbitrary cutoffs, GupShupGo evaluates mutual participation over canonical UTC day windows.",
+          "When life gets busy, your bond enters an 'At Risk' state (24 hours remaining) and eventually a 'Critical' threshold (6 hours remaining) with gentle warnings rather than instantly resetting. And if an unexpected emergency causes your bond to lapse, GupShupGo provides an active restore window.",
         ],
       },
       {
         heading: "Gup Arcade: Playful Milestones That Feel Good",
         paragraphs: [
-          "Chatting with your favorite people should be a joy, not a full-time job. With Gup Arcade, everyday messaging unlocks levels, themes, and badges without the guilt.",
+          "Chatting with your favorite people should be a joy, not a stressful chore. In GupShupGo, every message, voice note, and late-night conversation triggers atomic single-transaction gamification.",
+          "You earn Gup Points for regular engagement, complete daily challenges (such as sending voice notes or chatting during Night Owl hours), and level up mutual Chat Bonds. Broken streaks can be restored effortlessly using your earned Gup Points, a weekly free Pro perk, or a rewarded video credit—putting you in control of your friendships.",
         ],
         image: {
           src: "/website-screenshots/gup_arcade_dark.jpeg",
@@ -440,11 +442,12 @@ export const BLOG_POSTS: BlogPost[] = [
           caption: "Gup Arcade in GupShupGo: celebrating genuine friendship milestones and Chat Bonds without countdown anxiety.",
         },
         bulletPoints: {
-          title: "3 Simple Rules for Stress-Free Streaks:",
+          title: "The Architecture Behind Stress-Free Bonds:",
           items: [
-            "Send real words: Ditch blank photo spam. Send a genuine thought or a quick voice note.",
-            "Give each other grace: Life happens. Never get upset at a friend over a digital counter.",
-            "Take intentional breaks: Use bond freezes whenever you need a screen-free vacation.",
+            "Deterministic server engine: Canonical UTC StreakDay tracking prevents timezone exploits and unfair resets.",
+            "2-stage grace thresholds: 24-hour 'At Risk' and 6-hour 'Critical' states give both friends time to respond.",
+            "Fair restore options: Restore lapsed streaks using Gup Points, weekly Pro allowances, or rewarded ad credits.",
+            "Meaningful milestones: Unlock Gup Arcade levels, badges, and chat themes through genuine conversational habits.",
           ],
         },
       },
@@ -452,15 +455,15 @@ export const BLOG_POSTS: BlogPost[] = [
     faq: [
       {
         question: "How do Chat Bonds work in GupShupGo?",
-        answer: "Chat Bonds track how consistently you chat with your close friends. As you message each day, your bond level grows, unlocking rewards and milestones in Gup Arcade.",
+        answer: "Chat Bonds track consistent mutual messaging between close friends. When both participants send qualifying messages during a canonical day window, the bond level advances, unlocking badges and rewards in Gup Arcade.",
       },
       {
-        question: "What happens if I miss a day?",
-        answer: "Your bond enters an 'At Risk' state with a friendly warning. You can easily restore it using Gup Points earned simply by using the app.",
+        question: "What happens if my streak lapses?",
+        answer: "Your bond enters a restore grace period. You can easily revive your previous streak count using Gup Points, your weekly GupShupGo Pro free perk, or by completing a rewarded video restore credit.",
       },
       {
         question: "Are my Chat Bonds visible to other users?",
-        answer: "No, your bonds are completely private between you and your chat partner.",
+        answer: "No, your Chat Bonds, streak levels, and mutual statistics are completely private between you and your chat partner.",
       },
     ],
   },
@@ -475,6 +478,9 @@ export const BLOG_POSTS: BlogPost[] = [
       "safe anonymous messaging",
       "talk to strangers safely",
       "anonymous chat without phone number",
+      "ometv alternative android",
+      "safe y99 alternative",
+      "anonymous chat without video",
       "gupshupgo anonymous chat",
     ],
     category: "Privacy & Security",
@@ -486,7 +492,7 @@ export const BLOG_POSTS: BlogPost[] = [
     coverImageAlt: "Moody urban night street with neon lights representing online anonymity",
     tableOfContents: [
       { id: "the-need-for-anonymity", title: "Why We Sometimes Need to Chat Without a Mask" },
-      { id: "where-old-sites-failed", title: "Where 2000s Chat Sites Went Horribly Wrong" },
+      { id: "where-old-sites-failed", title: "Where Early Chat Portals Went Wrong (And What Must Change)" },
       { id: "how-safe-anonymity-works", title: "How Safe Modern Anonymity Works" },
       { id: "golden-safety-rules", title: "The 4 Golden Rules of Anonymous Chat" },
       { id: "gupshupgo-anonymous", title: "How Anonymous Chat Works in GupShupGo" },
@@ -505,10 +511,10 @@ export const BLOG_POSTS: BlogPost[] = [
         },
       },
       {
-        heading: "Where 2000s Chat Sites Went Horribly Wrong",
+        heading: "Where Early Chat Portals Went Wrong: The Shift from Roulette to Safe Dialogue",
         paragraphs: [
-          "Legacy stranger-chat portals like Omegle or old IRC rooms treated anonymity as a license for total lawlessness. Bots spammed phishing links, and peer-to-peer handshakes routinely leaked users' real IP addresses, allowing strangers to pinpoint their location.",
-          "That gave anonymous chatting a bad name. But modern security engineering proves that anonymity and safety can coexist.",
+          "Legacy stranger-chat portals and early unmoderated chatrooms—from old IRC channels to platforms like Y99 or video-roulette apps like OmeTV—often treated anonymity as a license for chaos. Unmoderated camera feeds routinely exposed users to inappropriate spam, phishing links flooded the rooms, and unencrypted peer-to-peer handshakes leaked users' real IP addresses to strangers.",
+          "That gave stranger chatting a controversial reputation. For users looking for a safer, private alternative to OmeTV or Y99, modern security engineering proves that genuine anonymity and absolute safety can coexist when you eliminate unmoderated video roulette and replace it with interest-matched pseudonymous messaging.",
         ],
         image: {
           src: "/blog/online-safety-shadow.jpg",
@@ -524,7 +530,8 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "How Safe Modern Anonymity Works",
         paragraphs: [
-          "Safe anonymous messaging requires three walls: identity decoupling (phone number stays completely hidden), blind relay routing (IP address never exposed to peers), and ephemeral sessions (messages vanish upon disconnect).",
+          "Safe anonymous messaging requires three architectural walls: complete identity decoupling (no phone numbers or @handles ever exposed), atomic queue matchmaking, and ephemeral session lifecycles.",
+          "In GupShupGo, matchmaking is handled through atomic database transactions on a protected match queue. When you tap 'Find a Partner', the service pairs you with another waiting user without either client ever seeing the other's real profile or contact credentials.",
         ],
         image: {
           src: "/website-screenshots/anonymous_chat_dark.jpeg",
@@ -535,50 +542,55 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "The 4 Golden Rules of Anonymous Chat",
         paragraphs: [
-          "Even with strong cryptography, your personal habits keep you safest: never share workplace or school names, avoid clicking external links, watch out for background street signs in photos, and disconnect immediately if anyone crosses a line.",
+          "Even with strong cryptography and architecture, your personal sharing habits keep you safest: never share workplace or school names, avoid clicking external links, watch out for background street signs in photos, and disconnect immediately if anyone crosses a line.",
         ],
         bulletPoints: {
           title: "Smart habits for safe stranger chats:",
           items: [
             "Never share personal breadcrumbs: Avoid mentioning your school name, exact company, or daily commute schedule.",
             "Don't click random external links: Phishing pages and IP grabbers often pose as harmless memes or survey links.",
-            "Watch what's in your photos: GupShupGo automatically strips EXIF location data, but keep background details generic.",
-            "Disconnect without guilt: If someone pushes your boundaries, hit Disconnect immediately.",
+            "Watch what's in your photos: GupShupGo automatically strips EXIF location metadata, but keep background details generic.",
+            "Disconnect without guilt: If someone pushes your boundaries, hit Disconnect to tear down the session instantly.",
           ],
         },
       },
       {
         heading: "How Anonymous Chat Works in GupShupGo",
         paragraphs: [
-          "In GupShupGo on Android, you get a fun pseudonym and avatar, match based on shared interests or languages, and can sever connections with one tap. No phone number sharing, no lingering digital footprints.",
+          "When you enter the Anonymous Lobby in GupShupGo, you receive a playful, dynamically generated pseudonym like 'Cosmic Fox 🦊' or 'Electric Phoenix 🦅'. Your real avatar, phone number, and username are completely invisible.",
+          "If you have an incredible conversation and both decide you want to stay in touch, GupShupGo provides a mutual in-chat Friend Request. Only when both people explicitly consent does GupShupGo automatically spin up a permanent, end-to-end encrypted Signal Protocol room. And if you don't? Tapping 'End Chat' instantly terminates the ephemeral session with zero lingering digital footprints.",
         ],
       },
     ],
     faq: [
       {
-        question: "Can an anonymous chat partner find my phone number in GupShupGo?",
-        answer: "Never. Your phone number is strictly used for one-time verification to prevent spam bots. It is never shown to or accessible by any other user.",
+        question: "How is GupShupGo different from platforms like OmeTV or Y99?",
+        answer: "Unlike video-roulette apps like OmeTV or unmoderated web chatrooms like Y99, GupShupGo does not broadcast your live camera or expose your IP address. You connect safely via interest-based pseudonyms ('Cosmic Fox 🦊') with zero phone number leakage, client-side safety filters, and instant one-tap disconnect.",
       },
       {
-        question: "Can I report abusive users?",
-        answer: "Yes, you can report any user with one tap. Our automated client-side filters prevent spam and abusive behavior while keeping message content private.",
+        question: "Can an anonymous chat partner find my phone number in GupShupGo?",
+        answer: "Never. Your phone number is strictly used for one-time verification during account setup. It is never exposed in the matchmaking queue or room metadata.",
+      },
+      {
+        question: "What happens if both of us want to stay friends?",
+        answer: "Either user can send an in-chat Friend Request. When accepted by both sides, GupShupGo automatically creates an official Signal-encrypted E2EE direct chat room.",
       },
       {
         question: "Are anonymous chats saved on my device?",
-        answer: "No. Anonymous chats are completely ephemeral and are wiped as soon as the session ends.",
+        answer: "No. Anonymous chats are completely ephemeral sessions and are permanently cleared the moment either participant ends the chat.",
       },
     ],
   },
   {
     slug: "low-bandwidth-hd-video-calling-guide",
-    title: "How to Get Crystal-Clear HD Video Calls on Slow 3G & Spotty Wi-Fi: The Engineering Behind WebRTC",
-    subtitle: "Why mobile video calls stutter and freeze when you travel, and how modern adaptive streaming algorithms keep video and voice smooth on weak connections.",
-    excerpt: "Tired of video calls freezing the moment your signal drops? Learn how adaptive bitrate codecs, jitter buffers, and Opus audio keep calls crisp even on poor networks.",
-    metaDescription: "How to get smooth video calls on slow internet. Discover how adaptive WebRTC streaming, VP9 hardware codecs, and Opus audio work on Android.",
+    title: "How to Get Crystal-Clear HD Video Calls on Slow 3G & Spotty Wi-Fi: Inside GupShupGo's Calling Engine",
+    subtitle: "Why mobile video calls stutter and freeze when you travel, and how adaptive streaming, AI noise suppression, and Signal-encrypted streams keep calls smooth.",
+    excerpt: "Tired of video calls freezing the moment your signal drops? Learn how Agora RTC streaming, aggressive AI noise suppression, and CallKit lock-screen wakeups deliver flawless calls.",
+    metaDescription: "How to get smooth video calls on slow internet. Discover how GupShupGo's adaptive streaming, AI noise suppression, and encrypted calling work on Android.",
     keywords: [
       "video call on slow internet",
       "how to improve video call quality android",
-      "webrtc low bandwidth hd calls",
+      "agora rtc low bandwidth hd calls",
       "best video call app for weak wifi",
       "gupshupgo hd calls",
     ],
@@ -593,8 +605,8 @@ export const BLOG_POSTS: BlogPost[] = [
       { id: "the-broken-call", title: "Why Video Calls Actually Freeze" },
       { id: "bandwidth-vs-latency", title: "The Difference Between Bandwidth and Latency" },
       { id: "adaptive-bitrate", title: "How Adaptive Bitrate Saves the Day" },
-      { id: "why-audio-is-king", title: "Why Audio is King: The Magic of Opus" },
-      { id: "hardware-acceleration", title: "Keeping Your Phone Cool: Hardware Codecs" },
+      { id: "why-audio-is-king", title: "Why Audio is King: Aggressive AI Noise Suppression" },
+      { id: "screen-sharing", title: "Screen Sharing & Lock-Screen CallKit" },
       { id: "calling-in-gupshupgo", title: "HD Calling in GupShupGo" },
     ],
     sections: [
@@ -602,7 +614,7 @@ export const BLOG_POSTS: BlogPost[] = [
         heading: "Why Video Calls Actually Freeze",
         paragraphs: [
           "You are on an important call while riding a train or sitting in a café. Suddenly, your friend's face turns into a pixelated mosaic, their voice sounds like a broken robot, and two seconds later the call drops completely.",
-          "Most people assume: 'My internet was just too slow.' But network engineers know that raw speed is rarely the real issue. The real villains are jitter (uneven packet arrival) and rigid apps that refuse to adapt when your connection fluctuates.",
+          "Most people assume: 'My internet was just too slow.' But network engineers know that raw throughput is rarely the culprit. The real villains are network jitter (erratic packet delays) and rigid apps that refuse to adapt when your connection fluctuates.",
         ],
         image: {
           src: "/blog/mobile-call-desk.jpg",
@@ -612,7 +624,7 @@ export const BLOG_POSTS: BlogPost[] = [
         callout: {
           type: "insight",
           title: "Speed vs. Stability",
-          text: "You can easily stream a 4K YouTube video on a mediocre connection because YouTube pre-buffers 30 seconds ahead. Live video calls can't buffer—a 200ms delay already makes natural conversation feel awkward.",
+          text: "You can easily stream a 4K YouTube video on a mediocre connection because YouTube pre-buffers 30 seconds ahead. Live video calls cannot buffer—a 200ms delay already makes natural conversation feel awkward.",
         },
       },
       {
@@ -630,8 +642,8 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "How Adaptive Bitrate Saves the Day",
         paragraphs: [
-          "Old or poorly engineered apps try to push high-resolution 1080p video at all times. When you walk behind a concrete wall and your connection dips to 400 kbps, the app tries to shove 2 Mbps through a tiny straw.",
-          "Modern WebRTC apps use Adaptive Bitrate Streaming (ABR). If your signal drops, the app smoothly downshifts: it might dial resolution from 720p to 480p and drop frame rate from 30 fps to 24 fps. The face softens slightly for a few seconds, but the conversation never cuts out.",
+          "Old or unoptimized apps attempt to push 1080p video at all times. When you walk behind a concrete wall and your connection dips to 400 kbps, the app tries to shove 2 Mbps through a tiny straw, choking the connection.",
+          "In GupShupGo, calls are powered by the enterprise-grade Agora RTC engine configured with dynamic bitrate adaptation (2000 kbps target down to 600 kbps min) and a strict maintain-framerate degradation policy. If bandwidth drops, the engine gently scales resolution before dropping frames, preserving smooth motion and zero stutter.",
         ],
         image: {
           src: "/website-screenshots/call_screen_both_light_dark.jpeg",
@@ -640,26 +652,27 @@ export const BLOG_POSTS: BlogPost[] = [
         },
       },
       {
-        heading: "Why Audio is King: The Magic of Opus",
+        heading: "Why Audio is King: Aggressive AI Noise Suppression",
         paragraphs: [
-          "People tolerate a momentary drop in video sharpness, but if voice audio cuts out for even one second, the conversation is ruined.",
-          "GupShupGo prioritizes audio using the Opus codec. Opus scales from studio quality down to a tiny 12 kbps stream that works on ancient connections, with built-in Forward Error Correction to reconstruct lost syllables automatically.",
+          "People can tolerate a momentary drop in video sharpness, but if voice audio cuts out or echoes for even half a second, the conversation is ruined.",
+          "GupShupGo deploys aggressive AI Noise Suppression (AINS) paired with a high-fidelity chatroom acoustic profile. Background traffic, café chatter, and fan hums are filtered in real-time, delivering studio-clear voice clarity even in crowded public environments.",
         ],
         table: {
-          caption: "Dynamic Adaptation Profiles in Low-Bandwidth Scenarios",
+          caption: "Dynamic Calling Profiles in Variable Network Environments",
           headers: ["Network Condition", "Resolution", "Framerate", "Target Bitrate", "User Experience"],
           rows: [
-            ["High-Speed Wi-Fi / 5G", "1080p Full HD", "30 fps", "1,800 – 2,500 kbps", "Studio crystal-clear video & audio"],
-            ["Moderate LTE (4G)", "720p HD", "30 fps", "800 – 1,200 kbps", "Smooth, sharp, vibrant calling"],
-            ["Congested 4G / Weak 3G", "480p Standard", "24 fps", "350 – 500 kbps", "Clear faces, stable motion, zero lag"],
-            ["Degraded Edge / 2G-tier", "Audio-Only (Auto-Pause)", "N/A", "24 – 32 kbps (Opus)", "Flawless HD voice, video held on pause"],
+            ["High-Speed Wi-Fi / 5G", "720p HD Studio", "30 fps", "1,800 – 2,000 kbps", "Studio crystal-clear video & studio voice"],
+            ["Moderate LTE (4G)", "720p HD Adaptive", "30 fps", "1,000 – 1,500 kbps", "Smooth, vibrant calling with zero frame drops"],
+            ["Congested 4G / Weak 3G", "480p Motion-First", "24–30 fps", "600 – 800 kbps", "Clear faces, stable motion, prioritized audio"],
+            ["Degraded Edge / 2G-tier", "Audio Priority Mode", "N/A", "Under 64 kbps", "Flawless AI-filtered voice with auto-paused video"],
           ],
         },
       },
       {
-        heading: "Screen Sharing Without Stutter",
+        heading: "Screen Sharing & Lock-Screen CallKit",
         paragraphs: [
-          "Mobile screen sharing has become an essential collaboration tool. GupShupGo uses dedicated detail hints to optimize text sharpness, ensuring slide presentations and app screens remain crystal-clear without eating your mobile data.",
+          "Mobile screen sharing is built directly into GupShupGo's calling pipeline with specialized text-sharpness hints, allowing you to walk through slide decks or help friends debug settings without pixelation.",
+          "Crucially, incoming calls integrate natively with Android's system CallKit UI. Even if your phone is locked or GupShupGo has been swiped closed, incoming encrypted calls wake your device instantly with a full-screen native call receiver.",
         ],
         image: {
           src: "/website-screenshots/screen_sharing_both_light_dark.jpeg",
@@ -670,22 +683,23 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "HD Calling in GupShupGo",
         paragraphs: [
-          "Whether you're making a 1-on-1 video call, jumping on an encrypted voice chat, or sharing your screen to help a friend fix an app, GupShupGo handles the network heavy lifting behind the scenes with hardware-accelerated VP9 video decoding on Android.",
+          "Security and calling performance go hand-in-hand. Every voice and video session generates an ephemeral 32-byte key and 16-byte salt, encrypted with the Signal Protocol for each callee device.",
+          "This key directly configures Agora's built-in aes256Gcm2 stream cipher, ensuring true end-to-end media encryption alongside Picture-in-Picture (PiP) multitasking and hardware-accelerated rendering on Android.",
         ],
       },
     ],
     faq: [
       {
-        question: "How much data does a 10-minute video call use on GupShupGo?",
-        answer: "On average, around 35 to 50 MB, thanks to hardware-accelerated VP9 video compression and adaptive bitrate tuning.",
+        question: "How are calls end-to-end encrypted in GupShupGo?",
+        answer: "GupShupGo uses CallEncryptionService: the caller generates an ephemeral 32-byte key and 16-byte salt, encrypts it via Signal Protocol for the callee's devices, and feeds it into Agora RTC's aes256Gcm2 stream cipher.",
       },
       {
-        question: "Can I make voice-only calls on very slow connections?",
-        answer: "Yes! In low-signal areas, voice calls drop gracefully to Opus narrowband audio at just 16–24 kbps, delivering clear speech even on spotty connections.",
+        question: "Does GupShupGo support incoming calls when the app is closed?",
+        answer: "Yes! With native lock-screen CallKit integration, your phone wakes up and rings with a full-screen call receiver even when GupShupGo is completely closed.",
       },
       {
-        question: "Is screen sharing supported on Android?",
-        answer: "Yes, GupShupGo supports live screen sharing during video calls with optimized text-detail rendering so documents and slides stay sharp.",
+        question: "Is live screen sharing supported on Android?",
+        answer: "Yes! You can share your screen during any 1-on-1 video call, complete with text-sharpness optimization for viewing documents and apps.",
       },
     ],
   },
