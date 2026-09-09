@@ -74,25 +74,25 @@ const AUTHORS: Record<string, BlogAuthor> = {
   aarav: {
     name: "Aarav Sharma",
     role: "Mobile Systems Engineer",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    avatar: "/blog/authors/aarav.jpg",
     bio: "Aarav builds distributed mobile apps and experiments with Bluetooth mesh protocols. He writes about real-world networking hacks on dev.to and Medium.",
   },
   priya: {
     name: "Dr. Priya Ramanathan",
     role: "Privacy & Security Researcher",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+    avatar: "/blog/authors/priya.jpg",
     bio: "Priya spends her days analyzing security protocols and finding metadata leaks in popular apps. She believes privacy should be simple enough for anyone to use.",
   },
   kabir: {
     name: "Kabir Verma",
     role: "UX & Product Writer",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    avatar: "/blog/authors/kabir.jpg",
     bio: "Kabir writes about digital wellbeing, screen habits, and how product design can bring people closer together without toxic notification loops.",
   },
   ananya: {
     name: "Ananya Joshi",
     role: "Digital Safety Advocate",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80",
+    avatar: "/blog/authors/ananya.jpg",
     bio: "Ananya works with tech communities to design safer online spaces. She focuses on helping people connect freely while keeping their personal data safe.",
   },
 };
