@@ -1,8 +1,6 @@
 import { useState, useMemo } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import {
-  Clock,
-  Calendar,
   Share2,
   Check,
   Twitter,
@@ -148,7 +146,7 @@ export default function BlogPost() {
         jsonLd={schemas}
       />
 
-      <div className={`mx-auto w-full ${MEASURE_CLASSES[1199]} px-20px py-72px bp810:px-36px bp810:py-120px`}>
+      <div className={`mx-auto w-full ${MEASURE_CLASSES[1199]} px-20px pt-[120px] pb-72px bp810:px-36px bp810:pt-[160px] bp810:pb-120px`}>
         <BlogBreadcrumbs
           items={[
             { label: "Blog", to: "/blog" },
@@ -160,38 +158,26 @@ export default function BlogPost() {
         {/* Back Link */}
         <Link
           to="/blog"
-          className="mb-32px inline-flex items-center gap-8px text-14 text-ink-secondary transition-standard hover:text-ink-high"
+          className="mb-40px inline-flex items-center gap-8px text-14 text-ink-secondary transition-standard hover:text-brand"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           <span>Back to all articles</span>
         </Link>
 
-        {/* Article Header */}
-        <header className="mx-auto max-w-[840px] space-y-20px pb-40px border-b border-hairline-12">
-          <div className="flex flex-wrap items-center gap-10px">
-            <span className="rounded-pill bg-brand/10 px-12px py-4px text-13 font-medium text-brand dark:text-brand-light">
-              {post.category}
-            </span>
-            <div className="flex items-center gap-6px text-13 text-ink-secondary">
-              <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>{post.readTime}</span>
-            </div>
-            <div className="flex items-center gap-6px text-13 text-ink-secondary">
-              <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>Published {formattedPublishedDate}</span>
-            </div>
-          </div>
-
-          <h1 className="text-32 font-medium leading-115 tracking-tight text-ink-high sm:text-44 md:text-50">
+        {/* Article Header — Medium-style: Title first, bold and prominent */}
+        <header className="mx-auto max-w-[840px] space-y-24px pb-40px border-b border-hairline-12">
+          {/* Title — large, bold, commanding attention */}
+          <h1 className="text-[32px] font-bold leading-[1.12] tracking-tight text-ink-high sm:text-[42px] md:text-[48px] lg:text-[52px]">
             {post.title}
           </h1>
 
-          <p className="text-18 leading-140 text-ink-secondary sm:text-20">
+          {/* Subtitle — clear and readable */}
+          <p className="text-[18px] leading-[1.5] text-ink-secondary sm:text-[21px]">
             {post.subtitle}
           </p>
 
-          {/* Author & Share Bar */}
-          <div className="flex flex-col gap-16px pt-12px sm:flex-row sm:items-center sm:justify-between">
+          {/* Author row + Meta + Share — all on one line like Medium */}
+          <div className="flex flex-col gap-20px pt-8px sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-12px">
               <img
                 src={post.author.avatar}
@@ -200,11 +186,17 @@ export default function BlogPost() {
                 height={48}
                 loading="eager"
                 decoding="async"
-                className="h-48px w-48px rounded-full object-cover shadow-hairline-12"
+                className="h-48px w-48px rounded-full object-cover ring-2 ring-hairline-12/30"
               />
-              <div>
-                <p className="text-15 font-medium text-ink-high">{post.author.name}</p>
-                <p className="text-13 text-ink-secondary">{post.author.role}</p>
+              <div className="space-y-1">
+                <p className="text-15 font-semibold text-ink-high">{post.author.name}</p>
+                <div className="flex flex-wrap items-center gap-x-6px gap-y-2px text-13 text-ink-secondary">
+                  <span>{post.readTime}</span>
+                  <span className="text-ink-secondary/40">·</span>
+                  <span>{formattedPublishedDate}</span>
+                  <span className="text-ink-secondary/40">·</span>
+                  <span className="font-medium text-brand dark:text-brand-light">{post.category}</span>
+                </div>
               </div>
             </div>
 
@@ -253,7 +245,7 @@ export default function BlogPost() {
         </header>
 
         {/* Hero Cover Image */}
-        <div className="mx-auto my-36px max-w-[1024px] overflow-hidden rounded-24 shadow-hairline-12-elevated bg-layer-2">
+        <div className="mx-auto my-36px max-w-[840px] overflow-hidden rounded-24 shadow-hairline-12-elevated bg-layer-2">
           <img
             src={post.coverImage}
             alt={post.coverImageAlt}
@@ -266,7 +258,7 @@ export default function BlogPost() {
         </div>
 
         {/* Content Layout with Table of Contents */}
-        <div className="mx-auto mt-40px grid max-w-[1024px] gap-48px lg:grid-cols-[260px_1fr]">
+        <div className="mx-auto mt-40px grid max-w-[840px] gap-48px lg:max-w-[1100px] lg:grid-cols-[260px_1fr]">
           {/* Sticky Table of Contents (Desktop) */}
           <aside aria-label="Table of contents" className="hidden lg:block">
             <div className="sticky top-[100px] space-y-12px rounded-16 bg-layer-1 p-20px shadow-hairline-12">
@@ -301,7 +293,7 @@ export default function BlogPost() {
           </aside>
 
           {/* Main Article Body */}
-          <article className="max-w-[760px] space-y-44px text-16 leading-160 text-ink-high">
+          <article className="max-w-[760px] space-y-48px text-[17px] leading-[1.7] text-ink-high/90">
             {/* Quick Summary / Key Takeaway banner */}
             <div className="rounded-16 bg-layer-1 p-20px shadow-hairline-12 sm:p-24px border-l-4 border-brand space-y-8px">
               <p className="text-14 font-semibold uppercase tracking-wider text-brand">
@@ -319,18 +311,18 @@ export default function BlogPost() {
 
               return (
                 <section key={sectionId} id={sectionId} className="scroll-mt-120px space-y-20px">
-                  <h2 className="text-24 font-medium leading-130 text-ink-high sm:text-28 border-b border-hairline-12/60 pb-12px">
+                  <h2 className="text-[24px] font-bold leading-[1.2] text-ink-high sm:text-[28px] md:text-[32px]">
                     {section.heading}
                   </h2>
 
                   {section.subheading && (
-                    <h3 className="text-19 font-medium leading-130 text-ink-high">
+                    <h3 className="text-[20px] font-semibold leading-[1.3] text-ink-high">
                       {section.subheading}
                     </h3>
                   )}
 
                   {section.paragraphs.map((pText, pIndex) => (
-                    <p key={pIndex} className="text-16 leading-160 text-ink-high/90">
+                    <p key={pIndex} className="text-[17px] leading-[1.75] text-ink-high/85 tracking-[0.01em]">
                       {pText}
                     </p>
                   ))}
@@ -443,7 +435,7 @@ export default function BlogPost() {
             {/* FAQ Section */}
             {post.faq && post.faq.length > 0 && (
               <section id="frequently-asked-questions" className="scroll-mt-120px pt-20px border-t border-hairline-12 space-y-16px">
-                <h2 className="text-24 font-medium text-ink-high sm:text-28">
+                <h2 className="text-[24px] font-bold text-ink-high sm:text-[28px] md:text-[32px]">
                   Frequently Asked Questions
                 </h2>
 
@@ -508,7 +500,7 @@ export default function BlogPost() {
         {relatedPosts.length > 0 && (
           <section aria-label="Related articles" className="mt-72px border-t border-hairline-12 pt-48px space-y-24px">
             <div className="flex items-center justify-between">
-              <h2 className="text-24 font-medium text-ink-high">Related Articles</h2>
+              <h2 className="text-[24px] font-bold text-ink-high sm:text-[28px]">Related Articles</h2>
               <Link to="/blog" className="text-14 font-medium text-brand hover:underline">
                 View all articles &rarr;
               </Link>
