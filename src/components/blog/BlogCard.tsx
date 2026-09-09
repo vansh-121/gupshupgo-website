@@ -38,7 +38,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
             <span className="rounded-pill bg-brand px-12px py-4px text-12 font-medium leading-100 text-white shadow-elevation">
               Featured Article
             </span>
-            <span className="rounded-pill bg-layer-0/90 backdrop-blur-md px-12px py-4px text-12 font-medium leading-100 text-ink-high shadow-hairline-12">
+            <span className="rounded-pill bg-black/60 backdrop-blur-md px-12px py-4px text-12 font-medium leading-100 text-white border border-white/15 shadow-sm">
               {post.category}
             </span>
           </div>
@@ -115,7 +115,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute left-12px top-12px">
-            <span className="rounded-pill bg-layer-0/90 backdrop-blur-md px-10px py-4px text-12 font-medium text-ink-high shadow-hairline-12">
+            <span className="rounded-pill bg-black/60 backdrop-blur-md px-10px py-4px text-12 font-medium leading-100 text-white border border-white/15 shadow-sm">
               {post.category}
             </span>
           </div>

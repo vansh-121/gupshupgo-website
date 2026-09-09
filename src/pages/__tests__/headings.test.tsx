@@ -37,6 +37,7 @@ beforeAll(async () => {
     import("@/components/landing/sections/AnonymousChatSection"),
     import("@/components/landing/sections/ProSection"),
     import("@/components/landing/sections/TrustSection"),
+    import("@/components/landing/sections/BlogPreviewSection"),
     import("@/components/landing/sections/NewsletterSection"),
     import("@/components/landing/sections/DownloadClose"),
   ]);
