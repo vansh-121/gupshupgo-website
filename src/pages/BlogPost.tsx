@@ -165,8 +165,8 @@ export default function BlogPost() {
 
         {/* Article Header — Medium-style: Title first, bold and prominent */}
         <header className="mx-auto max-w-[840px] space-y-24px pb-40px border-b border-hairline-12">
-          {/* Title — large, bold, commanding attention */}
-          <h1 className="text-[32px] font-bold leading-[1.12] tracking-tight text-ink-high sm:text-[42px] md:text-[48px] lg:text-[52px]">
+          {/* Title — editorial, prominent, and refined */}
+          <h1 className="text-[32px] font-medium leading-[1.12] tracking-[-0.025em] text-ink-high sm:text-[42px] md:text-[48px] lg:text-[52px]">
             {post.title}
           </h1>
 
@@ -310,12 +310,12 @@ export default function BlogPost() {
 
               return (
                 <section key={sectionId} id={sectionId} className="scroll-mt-120px space-y-20px">
-                  <h2 className="text-[24px] font-bold leading-[1.2] text-ink-high sm:text-[28px] md:text-[32px]">
+                  <h2 className="text-[22px] font-medium leading-[1.25] tracking-[-0.02em] text-ink-high sm:text-[26px] md:text-[30px]">
                     {section.heading}
                   </h2>
 
                   {section.subheading && (
-                    <h3 className="text-[20px] font-semibold leading-[1.3] text-ink-high">
+                    <h3 className="text-[19px] font-medium leading-[1.3] tracking-[-0.01em] text-ink-high">
                       {section.subheading}
                     </h3>
                   )}
@@ -434,7 +434,7 @@ export default function BlogPost() {
             {/* FAQ Section */}
             {post.faq && post.faq.length > 0 && (
               <section id="frequently-asked-questions" className="scroll-mt-120px pt-20px border-t border-hairline-12 space-y-16px">
-                <h2 className="text-[24px] font-bold text-ink-high sm:text-[28px] md:text-[32px]">
+                <h2 className="text-[22px] font-medium text-ink-high sm:text-[26px] md:text-[30px] tracking-[-0.02em]">
                   Frequently Asked Questions
                 </h2>
 
@@ -499,7 +499,7 @@ export default function BlogPost() {
         {relatedPosts.length > 0 && (
           <section aria-label="Related articles" className="mt-72px border-t border-hairline-12 pt-48px space-y-24px">
             <div className="flex items-center justify-between">
-              <h2 className="text-[24px] font-bold text-ink-high sm:text-[28px]">Related Articles</h2>
+              <h2 className="text-[22px] font-medium text-ink-high sm:text-[26px] tracking-[-0.02em]">Related Articles</h2>
               <Link to="/blog" className="text-14 font-medium text-ink-accent hover:underline">
                 View all articles &rarr;
               </Link>

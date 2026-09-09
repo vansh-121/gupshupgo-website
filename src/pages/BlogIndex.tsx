@@ -86,7 +86,7 @@ export default function BlogIndex() {
               <span>The GupShupGo Journal</span>
             </div>
 
-            <h1 className="text-[38px] font-bold leading-[1.08] tracking-[-0.03em] text-ink-high sm:text-[50px] md:text-[58px] lg:text-[64px] max-w-[960px]">
+            <h1 className="text-[36px] font-medium leading-[1.1] tracking-[-0.025em] text-ink-high sm:text-[48px] md:text-[54px] lg:text-[60px] max-w-[960px]">
               Privacy, Offline Mesh &amp; Modern Communication
             </h1>
 

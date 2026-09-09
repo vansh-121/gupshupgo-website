@@ -47,7 +47,7 @@ export default function BlogCTA({
             <span>Built for Android 8.0+</span>
           </div>
 
-          <h3 className="text-24 font-bold leading-125 text-ink-high sm:text-28">
+          <h3 className="text-24 font-medium leading-125 text-ink-high sm:text-28">
             {title}
           </h3>
 
@@ -83,7 +83,7 @@ export default function BlogCTA({
               className="h-60px w-60px rounded-16 shadow-elevation ring-1 ring-hairline-12"
             />
             <div className="text-left">
-              <p className="text-17 font-semibold text-ink-high">GupShupGo</p>
+              <p className="text-17 font-medium text-ink-high">GupShupGo</p>
               <p className="text-13 text-ink-secondary">Free on Google Play</p>
             </div>
           </div>
