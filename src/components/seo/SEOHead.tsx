@@ -78,11 +78,20 @@ export default function SEOHead({
     const originalOgDesc = ogDescEl?.getAttribute("content") ?? "";
     if (ogDescEl) ogDescEl.setAttribute("content", description);
 
-    // OG image
+    // OG image + WhatsApp / Facebook secure_url & type
     const ogImageEl = document.querySelector('meta[property="og:image"]');
+    const ogImageSecureEl = document.querySelector('meta[property="og:image:secure_url"]');
+    const ogImageTypeEl = document.querySelector('meta[property="og:image:type"]');
     const originalOgImage = ogImageEl?.getAttribute("content") ?? "";
-    if (ogImage && ogImageEl) {
-      ogImageEl.setAttribute("content", ogImage.startsWith("http") ? ogImage : `https://www.gupshupgo.app${ogImage}`);
+    const originalOgImageSecure = ogImageSecureEl?.getAttribute("content") ?? "";
+    const originalOgImageType = ogImageTypeEl?.getAttribute("content") ?? "";
+
+    if (ogImage) {
+      const fullImageUrl = ogImage.startsWith("http") ? ogImage : `https://www.gupshupgo.app${ogImage}`;
+      const imageType = fullImageUrl.endsWith(".png") ? "image/png" : "image/jpeg";
+      if (ogImageEl) ogImageEl.setAttribute("content", fullImageUrl);
+      if (ogImageSecureEl) ogImageSecureEl.setAttribute("content", fullImageUrl);
+      if (ogImageTypeEl) ogImageTypeEl.setAttribute("content", imageType);
     }
 
     // Twitter tags
@@ -130,6 +139,8 @@ export default function SEOHead({
       if (ogTitleEl) ogTitleEl.setAttribute("content", originalOgTitle);
       if (ogDescEl) ogDescEl.setAttribute("content", originalOgDesc);
       if (ogImageEl) ogImageEl.setAttribute("content", originalOgImage);
+      if (ogImageSecureEl) ogImageSecureEl.setAttribute("content", originalOgImageSecure);
+      if (ogImageTypeEl) ogImageTypeEl.setAttribute("content", originalOgImageType);
       if (twTitleEl) twTitleEl.setAttribute("content", originalTwTitle);
       if (twDescEl) twDescEl.setAttribute("content", originalTwDesc);
       if (twImageEl) twImageEl.setAttribute("content", originalTwImage);
