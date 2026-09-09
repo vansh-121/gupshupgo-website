@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, Eye } from "lucide-react";
 import type { BlogPost } from "@/data/blogPosts";
+import { useBlogViews } from "@/hooks/useBlogViews";
 import { cn } from "@/lib/utils";
 
 interface BlogCardProps {
@@ -9,6 +10,7 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post, featured = false }: BlogCardProps) {
+  const { views, formattedViews } = useBlogViews(post.slug, { autoIncrement: false, compact: true });
   const formattedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -46,11 +48,22 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
 
         {/* Featured Card Content */}
         <div className="space-y-16px p-24px sm:p-36px lg:pl-0">
-          <div className="flex items-center gap-6px text-12 text-ink-secondary">
-            <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>{post.readTime}</span>
+          <div className="flex flex-wrap items-center gap-6px text-12 text-ink-secondary">
+            <span className="inline-flex items-center gap-4px">
+              <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+              <span>{post.readTime}</span>
+            </span>
             <span>·</span>
             <span>{formattedDate}</span>
+            {views > 0 && (
+              <>
+                <span>·</span>
+                <span className="inline-flex items-center gap-3px font-medium text-ink-high">
+                  <Eye className="h-3.5 w-3.5 text-ink-secondary" aria-hidden="true" />
+                  <span>{views === 1 ? "1 view" : `${formattedViews} views`}</span>
+                </span>
+              </>
+            )}
           </div>
 
           <h2 id={`blog-title-${post.slug}`} className="text-24 font-medium leading-125 text-ink-high sm:text-30">
@@ -123,11 +136,22 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
 
         {/* Card Body */}
         <div className="p-20px space-y-12px">
-          <div className="flex items-center gap-4px text-12 text-ink-secondary">
-            <Clock className="h-3 w-3" aria-hidden="true" />
-            <span>{post.readTime}</span>
+          <div className="flex flex-wrap items-center gap-4px text-12 text-ink-secondary">
+            <span className="inline-flex items-center gap-3px">
+              <Clock className="h-3 w-3" aria-hidden="true" />
+              <span>{post.readTime}</span>
+            </span>
             <span>·</span>
             <span>{formattedDate}</span>
+            {views > 0 && (
+              <>
+                <span>·</span>
+                <span className="inline-flex items-center gap-3px font-medium text-ink-high">
+                  <Eye className="h-3 w-3 text-ink-secondary" aria-hidden="true" />
+                  <span>{views === 1 ? "1 view" : `${formattedViews} views`}</span>
+                </span>
+              </>
+            )}
           </div>
 
           <h3 id={`blog-title-${post.slug}`} className="text-18 font-medium leading-135 text-ink-high line-clamp-2">

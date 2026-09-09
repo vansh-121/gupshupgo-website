@@ -11,6 +11,7 @@ import {
   Quote,
   ChevronDown,
   ChevronUp,
+  Eye,
 } from "lucide-react";
 
 import SiteShell from "@/components/layout/SiteShell";
@@ -19,10 +20,12 @@ import BlogBreadcrumbs from "@/components/blog/BlogBreadcrumbs";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogCTA from "@/components/blog/BlogCTA";
 import { BLOG_POSTS, type BlogPost as BlogPostType, type BlogSection } from "@/data/blogPosts";
+import { useBlogViews } from "@/hooks/useBlogViews";
 import { cn } from "@/lib/utils";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
+  const { views, formattedViews } = useBlogViews(slug || "", { autoIncrement: true });
   const [copied, setCopied] = useState(false);
   const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(null);
 
@@ -195,6 +198,15 @@ export default function BlogPost() {
                   <span>{formattedPublishedDate}</span>
                   <span className="text-ink-secondary/40">·</span>
                   <span className="font-medium text-ink-accent">{post.category}</span>
+                  {views > 0 && (
+                    <>
+                      <span className="text-ink-secondary/40">·</span>
+                      <span className="inline-flex items-center gap-4px font-medium text-ink-high">
+                        <Eye className="h-3.5 w-3.5 text-ink-secondary" aria-hidden="true" />
+                        <span>{views === 1 ? "1 view" : `${formattedViews} views`}</span>
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
