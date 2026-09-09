@@ -200,21 +200,21 @@ export default function BlogPost() {
             </div>
 
             {/* Share controls */}
-            <div className="flex items-center gap-8px">
+            <div className="flex items-center gap-8px flex-wrap">
               <button
                 type="button"
                 onClick={handleCopyLink}
                 aria-label="Copy article link"
-                className="inline-flex min-h-[40px] items-center gap-6px rounded-pill bg-layer-1 px-14px text-13 font-medium text-ink-high shadow-hairline-12 transition-standard hover:bg-layer-2"
+                className="inline-flex h-10 shrink-0 whitespace-nowrap items-center gap-8px rounded-pill bg-layer-1 px-20px text-13 font-medium text-ink-high shadow-hairline-12 transition-standard hover:bg-layer-2"
               >
                 {copied ? (
                   <>
-                    <Check className="h-4 w-4 text-emerald-500" aria-hidden="true" />
+                    <Check className="h-4 w-4 text-emerald-500 shrink-0" aria-hidden="true" />
                     <span>Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Share2 className="h-4 w-4" aria-hidden="true" />
+                    <Share2 className="h-4 w-4 shrink-0" aria-hidden="true" />
                     <span>Copy Link</span>
                   </>
                 )}
@@ -225,7 +225,7 @@ export default function BlogPost() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Share on X / Twitter"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-pill bg-layer-1 text-ink-high shadow-hairline-12 transition-standard hover:bg-layer-2"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-layer-1 text-ink-high shadow-hairline-12 transition-standard hover:bg-layer-2"
               >
                 <Twitter className="h-4 w-4" aria-hidden="true" />
               </a>
@@ -235,7 +235,7 @@ export default function BlogPost() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Share on WhatsApp"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-pill bg-layer-1 text-ink-high shadow-hairline-12 transition-standard hover:bg-layer-2"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-layer-1 text-ink-high shadow-hairline-12 transition-standard hover:bg-layer-2"
               >
                 <span className="text-14 font-bold">WA</span>
               </a>
@@ -335,7 +335,7 @@ export default function BlogPost() {
                           alt={section.image.alt}
                           loading="lazy"
                           decoding="async"
-                          className="max-h-[520px] w-auto rounded-12 object-contain shadow-elevation"
+                          className="max-h-[520px] w-auto max-w-full rounded-12 object-contain shadow-elevation"
                         />
                       </div>
                       {section.image.caption && (
