@@ -195,7 +195,7 @@ export default function BlogPost() {
                   <span className="text-ink-secondary/40">·</span>
                   <span>{formattedPublishedDate}</span>
                   <span className="text-ink-secondary/40">·</span>
-                  <span className="font-medium text-brand dark:text-brand-light">{post.category}</span>
+                  <span className="font-medium text-ink-accent">{post.category}</span>
                 </div>
               </div>
             </div>
@@ -293,10 +293,10 @@ export default function BlogPost() {
           </aside>
 
           {/* Main Article Body */}
-          <article className="max-w-[760px] space-y-48px text-[17px] leading-[1.7] text-ink-high/90">
+          <article className="max-w-[760px] space-y-48px text-[17px] leading-[1.7] text-ink-high">
             {/* Quick Summary / Key Takeaway banner */}
             <div className="rounded-16 bg-layer-1 p-20px shadow-hairline-12 sm:p-24px border-l-4 border-brand space-y-8px">
-              <p className="text-14 font-semibold uppercase tracking-wider text-brand">
+              <p className="text-14 font-semibold uppercase tracking-wider text-ink-accent">
                 Key Takeaway
               </p>
               <p className="text-15 leading-150 text-ink-high">
@@ -322,7 +322,7 @@ export default function BlogPost() {
                   )}
 
                   {section.paragraphs.map((pText, pIndex) => (
-                    <p key={pIndex} className="text-[17px] leading-[1.75] text-ink-high/85 tracking-[0.01em]">
+                    <p key={pIndex} className="text-[17px] leading-[1.75] text-ink-high tracking-[0.01em]">
                       {pText}
                     </p>
                   ))}
@@ -484,7 +484,7 @@ export default function BlogPost() {
                 className="h-64px w-64px rounded-full object-cover shadow-hairline-12 shrink-0"
               />
               <div className="space-y-6px">
-                <p className="text-12 font-medium uppercase tracking-wider text-brand">Written by</p>
+                <p className="text-12 font-medium uppercase tracking-wider text-ink-accent">Written by</p>
                 <p className="text-18 font-medium text-ink-high">{post.author.name}</p>
                 <p className="text-13 text-ink-secondary font-medium">{post.author.role}</p>
                 <p className="text-14 leading-140 text-ink-secondary pt-4px">{post.author.bio}</p>
@@ -501,7 +501,7 @@ export default function BlogPost() {
           <section aria-label="Related articles" className="mt-72px border-t border-hairline-12 pt-48px space-y-24px">
             <div className="flex items-center justify-between">
               <h2 className="text-[24px] font-bold text-ink-high sm:text-[28px]">Related Articles</h2>
-              <Link to="/blog" className="text-14 font-medium text-brand hover:underline">
+              <Link to="/blog" className="text-14 font-medium text-ink-accent hover:underline">
                 View all articles &rarr;
               </Link>
             </div>

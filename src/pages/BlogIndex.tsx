@@ -76,12 +76,12 @@ export default function BlogIndex() {
         jsonLd={collectionSchema}
       />
 
-      <div className={`mx-auto w-full ${MEASURE_CLASSES[1199]} px-20px py-72px bp810:px-36px bp810:py-120px`}>
+      <div className={`mx-auto w-full ${MEASURE_CLASSES[1199]} px-20px pt-[120px] pb-72px bp810:px-36px bp810:pt-[160px] bp810:pb-120px`}>
         <BlogBreadcrumbs items={[{ label: "Blog" }]} />
 
         {/* Header Hero */}
         <header className="mb-48px space-y-16px text-left">
-          <div className="inline-flex items-center gap-8px rounded-pill bg-brand/10 px-12px py-6px text-13 font-medium text-brand dark:text-brand-light">
+          <div className="inline-flex items-center gap-8px rounded-pill bg-pill-soft px-12px py-6px text-13 font-medium text-pill-soft-fg">
             <BookOpen className="h-4 w-4" aria-hidden="true" />
             <span>The GupShupGo Journal</span>
           </div>

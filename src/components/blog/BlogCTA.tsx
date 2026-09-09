@@ -42,7 +42,7 @@ export default function BlogCTA({
 
       <div className="relative z-10 flex flex-col gap-24px md:flex-row md:items-center md:justify-between">
         <div className="max-w-[560px] space-y-12px">
-          <div className="inline-flex items-center gap-8px rounded-pill bg-brand/10 px-12px py-4px text-12 font-medium text-brand dark:text-brand-light">
+          <div className="inline-flex items-center gap-8px rounded-pill bg-pill-mid px-12px py-4px text-12 font-medium text-pill-mid-fg">
             <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
             <span>Built for Android 8.0+</span>
           </div>
