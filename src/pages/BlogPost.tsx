@@ -19,7 +19,6 @@ import BlogBreadcrumbs from "@/components/blog/BlogBreadcrumbs";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogCTA from "@/components/blog/BlogCTA";
 import { BLOG_POSTS, type BlogPost as BlogPostType, type BlogSection } from "@/data/blogPosts";
-import { MEASURE_CLASSES } from "@/components/Section";
 import { cn } from "@/lib/utils";
 
 export default function BlogPost() {
@@ -146,7 +145,7 @@ export default function BlogPost() {
         jsonLd={schemas}
       />
 
-      <div className={`mx-auto w-full ${MEASURE_CLASSES[1199]} px-20px pt-[120px] pb-72px bp810:px-36px bp810:pt-[160px] bp810:pb-120px`}>
+      <div className="mx-auto w-full max-w-[1199px] px-20px pt-[88px] pb-72px bp810:px-36px bp810:pt-[104px] bp810:pb-120px">
         <BlogBreadcrumbs
           items={[
             { label: "Blog", to: "/blog" },
@@ -158,7 +157,7 @@ export default function BlogPost() {
         {/* Back Link */}
         <Link
           to="/blog"
-          className="mb-40px inline-flex items-center gap-8px text-14 text-ink-secondary transition-standard hover:text-brand"
+          className="mb-24px inline-flex items-center gap-8px text-14 text-ink-secondary transition-standard hover:text-brand"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           <span>Back to all articles</span>

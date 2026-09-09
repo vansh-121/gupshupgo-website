@@ -32,63 +32,63 @@ export default function BlogCTA({
   return (
     <aside
       aria-label="Download GupShupGo"
-      className="my-48px overflow-hidden rounded-24 bg-layer-1 p-28px shadow-hairline-12-elevated sm:p-40px relative"
+      className="my-56px overflow-hidden rounded-24 border border-hairline-12 bg-layer-1 p-28px shadow-hairline-12-elevated sm:p-40px relative"
     >
       {/* Decorative gradient glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand/10 blur-3xl dark:bg-brand/20"
+        className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-brand/10 blur-3xl dark:bg-brand/20"
       />
 
-      <div className="relative z-10 flex flex-col gap-24px md:flex-row md:items-center md:justify-between">
-        <div className="max-w-[560px] space-y-12px">
-          <div className="inline-flex items-center gap-8px rounded-pill bg-pill-mid px-12px py-4px text-12 font-medium text-pill-mid-fg">
+      <div className="relative z-10 flex flex-col gap-28px md:flex-row md:items-center md:justify-between">
+        <div className="max-w-[580px] space-y-16px">
+          <div className="inline-flex items-center gap-8px rounded-pill bg-pill-mid px-12px py-5px text-12 font-medium text-pill-mid-fg shadow-hairline-12">
             <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
             <span>Built for Android 8.0+</span>
           </div>
 
-          <h3 className="text-21 font-medium leading-130 text-ink-high sm:text-24">
+          <h3 className="text-24 font-bold leading-125 text-ink-high sm:text-28">
             {title}
           </h3>
 
-          <p className="text-15 leading-140 text-ink-secondary">
+          <p className="text-15 leading-150 text-ink-secondary sm:text-16">
             {description}
           </p>
 
-          <ul className="flex flex-wrap gap-x-20px gap-y-8px pt-8px text-13 text-ink-high">
-            <li className="inline-flex items-center gap-6px">
+          <ul className="flex flex-wrap gap-x-12px gap-y-10px pt-6px text-13 text-ink-high">
+            <li className="inline-flex items-center gap-6px rounded-pill bg-layer-2 px-12px py-6px shadow-hairline-12">
               <ShieldCheck className="h-4 w-4 text-emerald-500" aria-hidden="true" />
               <span>Signal E2EE Protocol</span>
             </li>
-            <li className="inline-flex items-center gap-6px">
+            <li className="inline-flex items-center gap-6px rounded-pill bg-layer-2 px-12px py-6px shadow-hairline-12">
               <Radio className="h-4 w-4 text-blue-500" aria-hidden="true" />
               <span>Offline Mesh Chat</span>
             </li>
-            <li className="inline-flex items-center gap-6px">
+            <li className="inline-flex items-center gap-6px rounded-pill bg-layer-2 px-12px py-6px shadow-hairline-12">
               <span className="flex h-2 w-2 rounded-full bg-brand" aria-hidden="true" />
               <span>Argon2id Encrypted Vault</span>
             </li>
           </ul>
         </div>
 
-        <div className="flex shrink-0 flex-col items-start gap-12px sm:items-center">
-          <div className="flex items-center gap-12px">
+        <div className="flex shrink-0 flex-col items-start gap-16px sm:items-center">
+          <div className="flex items-center gap-14px">
             <img
               src="/app_icon.png"
               alt="GupShupGo App Icon"
-              width={56}
-              height={56}
+              width={60}
+              height={60}
               loading="lazy"
               decoding="async"
-              className="h-56px w-56px rounded-16 shadow-elevation"
+              className="h-60px w-60px rounded-16 shadow-elevation ring-1 ring-hairline-12"
             />
             <div className="text-left">
-              <p className="text-16 font-medium text-ink-high">GupShupGo</p>
-              <p className="text-12 text-ink-secondary">Free on Google Play</p>
+              <p className="text-17 font-semibold text-ink-high">GupShupGo</p>
+              <p className="text-13 text-ink-secondary">Free on Google Play</p>
             </div>
           </div>
 
-          <DownloadButton variant="hero" className="w-full sm:w-auto">
+          <DownloadButton variant="hero" className="w-full sm:w-auto shadow-elevation">
             Download on Google Play
           </DownloadButton>
         </div>

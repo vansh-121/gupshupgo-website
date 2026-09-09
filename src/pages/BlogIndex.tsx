@@ -7,7 +7,6 @@ import BlogBreadcrumbs from "@/components/blog/BlogBreadcrumbs";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogCTA from "@/components/blog/BlogCTA";
 import { BLOG_POSTS, BLOG_CATEGORIES, type BlogCategory } from "@/data/blogPosts";
-import { MEASURE_CLASSES } from "@/components/Section";
 
 export default function BlogIndex() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -76,53 +75,51 @@ export default function BlogIndex() {
         jsonLd={collectionSchema}
       />
 
-      <div className={`mx-auto w-full ${MEASURE_CLASSES[1199]} px-20px pt-[120px] pb-72px bp810:px-36px bp810:pt-[160px] bp810:pb-120px`}>
+      <div className="mx-auto w-full max-w-[1199px] px-20px pt-[88px] pb-72px bp810:px-36px bp810:pt-[104px] bp810:pb-120px">
         <BlogBreadcrumbs items={[{ label: "Blog" }]} />
 
-        {/* Header Hero */}
-        <header className="mb-48px space-y-16px text-left">
-          <div className="inline-flex items-center gap-8px rounded-pill bg-pill-soft px-12px py-6px text-13 font-medium text-pill-soft-fg">
-            <BookOpen className="h-4 w-4" aria-hidden="true" />
-            <span>The GupShupGo Journal</span>
-          </div>
-
-          <h1 className="text-32 font-medium leading-115 tracking-tight text-ink-high sm:text-44 md:text-52">
-            Privacy, Offline Mesh &amp; Modern Communication
-          </h1>
-
-          <p className="max-w-[720px] text-16 leading-140 text-ink-secondary sm:text-18">
-            Expert insights, cryptographic breakdowns, and practical guides on staying private,
-            texting without cellular towers, and building healthier digital friendships.
-          </p>
-
-          {/* Search & Category Filter Toolbar */}
-          <div className="pt-24px space-y-16px">
-            {/* Search Box */}
-            <div className="relative max-w-[480px]">
-              <Search className="pointer-events-none absolute left-16px top-1/2 h-4 w-4 -translate-y-1/2 text-ink-secondary" aria-hidden="true" />
-              <input
-                type="search"
-                placeholder="Search articles, topics, or keywords..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                aria-label="Search articles"
-                className="h-48px w-full rounded-pill bg-layer-1 pl-44px pr-20px text-14 text-ink-high placeholder:text-ink-secondary/70 shadow-hairline-12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand transition-standard"
-              />
+        {/* Header Hero — Medium/Editorial publication style */}
+        <header className="mb-48px text-left">
+          <div className="space-y-20px max-w-[980px]">
+            <div className="inline-flex items-center gap-8px rounded-pill bg-pill-soft px-16px py-6px text-13 font-medium text-pill-soft-fg shadow-hairline-12">
+              <BookOpen className="h-4 w-4" aria-hidden="true" />
+              <span>The GupShupGo Journal</span>
             </div>
 
-            {/* Category Pills */}
-            <div className="flex flex-wrap items-center gap-8px pt-8px" role="group" aria-label="Filter by category">
+            <h1 className="text-[38px] font-bold leading-[1.08] tracking-[-0.03em] text-ink-high sm:text-[50px] md:text-[58px] lg:text-[64px] max-w-[960px]">
+              Privacy, Offline Mesh &amp; Modern Communication
+            </h1>
+
+            <p className="max-w-[700px] text-16 leading-150 text-ink-secondary sm:text-18">
+              Expert insights, cryptographic breakdowns, and practical guides on staying private,
+              texting without cellular towers, and building resilient communication.
+            </p>
+          </div>
+
+          {/* Editorial Toolbar: Category Tabs + Search Input */}
+          <div className="mt-36px flex flex-col gap-16px border-b border-hairline-12 pb-20px md:flex-row md:items-center md:justify-between">
+            {/* Category Navigation */}
+            <nav className="flex flex-wrap items-center gap-8px" aria-label="Filter articles by category">
               <button
                 type="button"
                 onClick={() => setSelectedCategory("All")}
                 aria-pressed={selectedCategory === "All"}
-                className={`min-h-[38px] rounded-pill px-16px text-13 font-medium transition-standard ${
+                className={`inline-flex items-center min-h-[38px] rounded-pill px-16px text-13 font-medium transition-standard ${
                   selectedCategory === "All"
-                    ? "bg-brand text-white shadow-elevation"
+                    ? "bg-ink-high text-layer-0 shadow-elevation font-semibold"
                     : "bg-layer-1 text-ink-secondary shadow-hairline-12 hover:text-ink-high hover:bg-layer-2"
                 }`}
               >
-                All Articles ({BLOG_POSTS.length})
+                <span>All Articles</span>
+                <span
+                  className={`ml-6px inline-flex h-5 items-center justify-center rounded-full px-7px text-11 font-semibold ${
+                    selectedCategory === "All"
+                      ? "bg-layer-0/20 text-layer-0"
+                      : "bg-layer-2 text-ink-secondary"
+                  }`}
+                >
+                  {BLOG_POSTS.length}
+                </span>
               </button>
 
               {BLOG_CATEGORIES.map((cat: BlogCategory) => {
@@ -134,16 +131,38 @@ export default function BlogIndex() {
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
                     aria-pressed={isSelected}
-                    className={`min-h-[38px] rounded-pill px-16px text-13 font-medium transition-standard ${
+                    className={`inline-flex items-center min-h-[38px] rounded-pill px-16px text-13 font-medium transition-standard ${
                       isSelected
-                        ? "bg-brand text-white shadow-elevation"
+                        ? "bg-ink-high text-layer-0 shadow-elevation font-semibold"
                         : "bg-layer-1 text-ink-secondary shadow-hairline-12 hover:text-ink-high hover:bg-layer-2"
                     }`}
                   >
-                    {cat} ({count})
+                    <span>{cat}</span>
+                    <span
+                      className={`ml-6px inline-flex h-5 items-center justify-center rounded-full px-7px text-11 font-semibold ${
+                        isSelected
+                          ? "bg-layer-0/20 text-layer-0"
+                          : "bg-layer-2 text-ink-secondary"
+                      }`}
+                    >
+                      {count}
+                    </span>
                   </button>
                 );
               })}
+            </nav>
+
+            {/* Search Box */}
+            <div className="relative w-full sm:w-[280px] shrink-0">
+              <Search className="pointer-events-none absolute left-16px top-1/2 h-4 w-4 -translate-y-1/2 text-ink-secondary" aria-hidden="true" />
+              <input
+                type="search"
+                placeholder="Search articles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                aria-label="Search articles"
+                className="h-40px w-full rounded-pill bg-layer-1 border border-hairline-12 pl-44px pr-16px text-13 text-ink-high placeholder:text-ink-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:border-transparent transition-standard"
+              />
             </div>
           </div>
         </header>
