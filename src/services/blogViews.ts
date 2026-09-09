@@ -77,10 +77,16 @@ const PRIVACY_FETCH_OPTIONS: RequestInit = {
 
 /**
  * Fetches the current live view count for an article slug.
- * If the API is unreachable, seamlessly falls back to the locally cached count.
+ * - Honors DNT / GPC by returning only the locally cached count without any external request.
+ * - If the API is unreachable, seamlessly falls back to the locally cached count.
  */
 export async function fetchArticleViews(slug: string): Promise<number> {
   if (!slug) return 0;
+
+  // Privacy protection: respect user's explicit Do-Not-Track preference
+  if (isDoNotTrackEnabled()) {
+    return getCachedCount(slug);
+  }
 
   try {
     const controller = new AbortController();
