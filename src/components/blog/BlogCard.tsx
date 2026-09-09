@@ -48,18 +48,18 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
 
         {/* Featured Card Content */}
         <div className="space-y-16px p-24px sm:p-36px lg:pl-0">
-          <div className="flex flex-wrap items-center gap-6px text-12 text-ink-secondary">
+          <div className="flex flex-wrap items-center gap-x-8px gap-y-4px text-12 text-ink-secondary">
             <span className="inline-flex items-center gap-4px">
-              <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+              <Clock className="h-3.5 w-3.5 text-ink-secondary shrink-0" aria-hidden="true" />
               <span>{post.readTime}</span>
             </span>
-            <span>·</span>
+            <span className="text-ink-secondary/40" aria-hidden="true">·</span>
             <span>{formattedDate}</span>
             {views > 0 && (
               <>
-                <span>·</span>
-                <span className="inline-flex items-center gap-3px font-medium text-ink-high">
-                  <Eye className="h-3.5 w-3.5 text-ink-secondary" aria-hidden="true" />
+                <span className="text-ink-secondary/40" aria-hidden="true">·</span>
+                <span className="inline-flex items-center gap-4px font-medium text-ink-high">
+                  <Eye className="h-3.5 w-3.5 text-ink-secondary shrink-0" aria-hidden="true" />
                   <span>{views === 1 ? "1 view" : `${formattedViews} views`}</span>
                 </span>
               </>
@@ -136,18 +136,18 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
 
         {/* Card Body */}
         <div className="p-20px space-y-12px">
-          <div className="flex flex-wrap items-center gap-4px text-12 text-ink-secondary">
-            <span className="inline-flex items-center gap-3px">
-              <Clock className="h-3 w-3" aria-hidden="true" />
+          <div className="flex flex-wrap items-center gap-x-8px gap-y-4px text-12 text-ink-secondary">
+            <span className="inline-flex items-center gap-4px">
+              <Clock className="h-3.5 w-3.5 text-ink-secondary shrink-0" aria-hidden="true" />
               <span>{post.readTime}</span>
             </span>
-            <span>·</span>
+            <span className="text-ink-secondary/40" aria-hidden="true">·</span>
             <span>{formattedDate}</span>
             {views > 0 && (
               <>
-                <span>·</span>
-                <span className="inline-flex items-center gap-3px font-medium text-ink-high">
-                  <Eye className="h-3 w-3 text-ink-secondary" aria-hidden="true" />
+                <span className="text-ink-secondary/40" aria-hidden="true">·</span>
+                <span className="inline-flex items-center gap-4px font-medium text-ink-high">
+                  <Eye className="h-3.5 w-3.5 text-ink-secondary shrink-0" aria-hidden="true" />
                   <span>{views === 1 ? "1 view" : `${formattedViews} views`}</span>
                 </span>
               </>
