@@ -60,6 +60,10 @@ export default function BlogPost() {
     year: "numeric",
   });
 
+  const coverImageUrl = post.coverImage.startsWith("http")
+    ? post.coverImage
+    : `https://www.gupshupgo.app${post.coverImage}`;
+
   // Google Schema: BlogPosting + BreadcrumbList + FAQPage
   const schemas: Array<Record<string, unknown>> = [
     {
@@ -89,7 +93,7 @@ export default function BlogPost() {
           "url": "https://www.gupshupgo.app/app_icon.png",
         },
       },
-      "image": "https://www.gupshupgo.app/og-image.png",
+      "image": coverImageUrl,
       "keywords": post.keywords.join(", "),
       "articleSection": post.category,
     },
@@ -141,7 +145,7 @@ export default function BlogPost() {
         description={post.metaDescription}
         canonicalPath={`/blog/${post.slug}`}
         ogType="article"
-        ogImage="/og-image.png"
+        ogImage={post.coverImage}
         keywords={post.keywords}
         publishedTime={post.publishedAt}
         author={post.author.name}

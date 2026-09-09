@@ -85,6 +85,21 @@ export default function SEOHead({
       ogImageEl.setAttribute("content", ogImage.startsWith("http") ? ogImage : `https://www.gupshupgo.app${ogImage}`);
     }
 
+    // Twitter tags
+    const twTitleEl = document.querySelector('meta[name="twitter:title"]');
+    const originalTwTitle = twTitleEl?.getAttribute("content") ?? "";
+    if (twTitleEl) twTitleEl.setAttribute("content", title);
+
+    const twDescEl = document.querySelector('meta[name="twitter:description"]');
+    const originalTwDesc = twDescEl?.getAttribute("content") ?? "";
+    if (twDescEl) twDescEl.setAttribute("content", description);
+
+    const twImageEl = document.querySelector('meta[name="twitter:image"]');
+    const originalTwImage = twImageEl?.getAttribute("content") ?? "";
+    if (ogImage && twImageEl) {
+      twImageEl.setAttribute("content", ogImage.startsWith("http") ? ogImage : `https://www.gupshupgo.app${ogImage}`);
+    }
+
     // Keywords
     const metaKeywords = document.querySelector('meta[name="keywords"]');
     const originalKeywords = metaKeywords?.getAttribute("content") ?? "";
@@ -115,6 +130,9 @@ export default function SEOHead({
       if (ogTitleEl) ogTitleEl.setAttribute("content", originalOgTitle);
       if (ogDescEl) ogDescEl.setAttribute("content", originalOgDesc);
       if (ogImageEl) ogImageEl.setAttribute("content", originalOgImage);
+      if (twTitleEl) twTitleEl.setAttribute("content", originalTwTitle);
+      if (twDescEl) twDescEl.setAttribute("content", originalTwDesc);
+      if (twImageEl) twImageEl.setAttribute("content", originalTwImage);
       if (metaKeywords) metaKeywords.setAttribute("content", originalKeywords);
       if (scriptEl && scriptEl.parentNode) {
         scriptEl.parentNode.removeChild(scriptEl);
