@@ -51,6 +51,31 @@ export function formatViews(count: number, compact = false): string {
 }
 
 /**
+ * Checks if the visitor has enabled "Do Not Track" or "Global Privacy Control"
+ * in their browser settings to respect their privacy preferences.
+ */
+function isDoNotTrackEnabled(): boolean {
+  if (typeof window === "undefined") return false;
+  const nav = window.navigator as { doNotTrack?: string; globalPrivacyControl?: boolean };
+  return (
+    nav.doNotTrack === "1" ||
+    nav.doNotTrack === "yes" ||
+    nav.globalPrivacyControl === true
+  );
+}
+
+/**
+ * Common privacy-hardened fetch configuration:
+ * - Omit credentials (no cookies or auth headers sent)
+ * - no-referrer (browser never sends the article URL or site referrer to third-party)
+ */
+const PRIVACY_FETCH_OPTIONS: RequestInit = {
+  credentials: "omit",
+  referrerPolicy: "no-referrer",
+  mode: "cors",
+};
+
+/**
  * Fetches the current live view count for an article slug.
  * If the API is unreachable, seamlessly falls back to the locally cached count.
  */
@@ -62,6 +87,7 @@ export async function fetchArticleViews(slug: string): Promise<number> {
     const timeoutId = setTimeout(() => controller.abort(), 4000);
 
     const res = await fetch(`${API_BASE}/get/${NAMESPACE}/${encodeURIComponent(slug)}`, {
+      ...PRIVACY_FETCH_OPTIONS,
       signal: controller.signal,
     });
     clearTimeout(timeoutId);
@@ -82,16 +108,26 @@ export async function fetchArticleViews(slug: string): Promise<number> {
 
 /**
  * Records a real live view on the server and returns the updated count.
- * If offline or blocked, increments the local cache so the reader's view still registers locally.
+ * - Honors "Do Not Track" (DNT) / "Global Privacy Control" (GPC) by skipping external hit calls.
+ * - Uses `referrerPolicy: "no-referrer"` so third party receives no referring document URLs.
+ * - If offline, blocked, or DNT is active, increments local fallback cache without third-party leakage.
  */
 export async function recordArticleView(slug: string): Promise<number> {
   if (!slug) return 0;
+
+  // Privacy protection: respect user's explicit Do-Not-Track preference
+  if (isDoNotTrackEnabled()) {
+    const localNext = getCachedCount(slug) + 1;
+    setCachedCount(slug, localNext);
+    return localNext;
+  }
 
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 4000);
 
     const res = await fetch(`${API_BASE}/hit/${NAMESPACE}/${encodeURIComponent(slug)}`, {
+      ...PRIVACY_FETCH_OPTIONS,
       signal: controller.signal,
     });
     clearTimeout(timeoutId);

@@ -95,6 +95,9 @@ export default function PrivacyPolicy() {
             <ul className="mt-8px list-disc space-y-4px pl-20px">
               <li><strong className="font-medium text-ink-high">Firebase (Google LLC)</strong> — Auth, Firestore, Storage, Cloud Messaging</li>
               <li><strong className="font-medium text-ink-high">Agora.io</strong> — Real-time audio/video transmission</li>
+              <li>
+                <strong className="font-medium text-ink-high">Abacus Counter API</strong> — Anonymous, aggregate view counts for public blog articles on our website. All requests omit HTTP referrers and cookies. We actively respect browser <code className="text-12 font-mono">Do Not Track</code> (DNT) and <code className="text-12 font-mono">Global Privacy Control</code> (GPC) signals to prevent tracking visitor reading habits.
+              </li>
             </ul>
             <p className="mt-8px">By using GupShupGo, you also agree to the policies of these services.</p>
           </Section>
