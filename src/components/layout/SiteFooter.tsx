@@ -40,6 +40,15 @@ const LEGAL_LINKS: readonly FooterLink[] = [
   { to: "/delete-account", label: "Delete Your Account" },
 ] as const;
 
+/** Editorial and resource links for SEO discovery. */
+const RESOURCE_LINKS: readonly FooterLink[] = [
+  { to: "/blog", label: "Blog & Guides" },
+  { to: "/blog/how-to-text-without-internet-offline-mesh-messaging", label: "Offline Mesh Chat" },
+  { to: "/blog/signal-protocol-explained-messaging-privacy-guide", label: "Signal E2EE Guide" },
+  { to: "/blog/psychology-of-chat-streaks-daily-bonds", label: "Chat Bonds & Streaks" },
+  { to: "/blog/anonymous-chat-online-safety-guide", label: "Anonymous Chat Safety" },
+] as const;
+
 const linkClasses =
   "text-14 leading-140 text-ink-high underline-offset-4 transition-standard hover:text-ink-accent hover:underline";
 
@@ -52,7 +61,7 @@ export default function SiteFooter() {
     <footer aria-label="Site footer" className="bg-layer-2 shadow-hairline-12">
       <div className="mx-auto w-full max-w-[1320px] px-20px py-64px bp810:px-36px bp810:py-128px">
         <div className="mx-auto w-full max-w-[1199px]">
-          <div className="grid gap-40px md:grid-cols-3">
+          <div className="grid gap-40px sm:grid-cols-2 lg:grid-cols-4">
             {/* Brand column — the logo repeat here is decorative (12.8, 14.3, 14.4). */}
             <div className="flex flex-col gap-12px">
               <div className="flex items-center gap-10px">
@@ -72,6 +81,20 @@ export default function SiteFooter() {
                 Private messaging, HD calls, and offline chat, built for everyday
                 conversations.
               </p>
+            </div>
+
+            {/* Resources / Blog column */}
+            <div className="flex flex-col gap-12px">
+              <h2 className={columnTitleClasses}>Resources</h2>
+              <ul className="flex flex-col gap-8px">
+                {RESOURCE_LINKS.map((link) => (
+                  <li key={link.to}>
+                    <Link to={link.to} className={linkClasses}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Legal column (Requirement 3.7) */}

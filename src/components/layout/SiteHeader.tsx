@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent, MouseEvent, RefObject } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import { Menu, X } from "lucide-react";
 
@@ -378,8 +378,17 @@ export default function SiteHeader() {
 
   const mobileMenu = useDisclosure();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleLinkClick =
     (sectionId: SectionId, disclosure?: Disclosure) => (event: MouseEvent<HTMLAnchorElement>) => {
+      if (location.pathname !== "/") {
+        event.preventDefault();
+        navigate(`/#${sectionId}`);
+        disclosure?.close(false);
+        return;
+      }
       navigateToSection(sectionId)(event);
       // Focus already moved into the target section, so do not steal it back.
       disclosure?.close(false);
@@ -480,6 +489,18 @@ export default function SiteHeader() {
                 </li>
               );
             })}
+            <li>
+              <Link
+                to="/blog"
+                aria-current={location.pathname.startsWith("/blog") ? "page" : undefined}
+                className={cn(
+                  linkClasses,
+                  location.pathname.startsWith("/blog") && ACTIVE_CLASSES[foreground],
+                )}
+              >
+                Blog
+              </Link>
+            </li>
           </ul>
 
           {/* Theme toggle — visible on mobile/tablet (<1024px) only.
@@ -523,9 +544,7 @@ export default function SiteHeader() {
 
           >
             {/*
-              Every section the page renders, in registry order. No legal links:
-              the footer carries those on every route, so duplicating them here
-              would only add a second, competing place to find them.
+              Every section the page renders, in registry order.
             */}
             <ul aria-label="Page sections" className="flex flex-col gap-2px">
               {NAV_SECTIONS.map((section) => (
@@ -539,6 +558,20 @@ export default function SiteHeader() {
                   </a>
                 </li>
               ))}
+              <li key="blog-mobile">
+                <Link
+                  to="/blog"
+                  onClick={() => mobileMenu.close(false)}
+                  aria-current={location.pathname.startsWith("/blog") ? "page" : undefined}
+                  className={cn(
+                    linkClasses,
+                    "w-full",
+                    location.pathname.startsWith("/blog") && ACTIVE_CLASSES[foreground],
+                  )}
+                >
+                  Blog &amp; Guides
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>

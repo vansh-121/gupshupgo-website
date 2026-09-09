@@ -1,0 +1,62 @@
+{
+  "offline-mesh-cover": {
+    "localPath": "/blog/offline-mesh-cover.jpg",
+    "alt": "woman walking near dirt road between mountain range during daytime",
+    "photographer": "Dmitrii Vaccinium",
+    "photographerUrl": "https://unsplash.com/@vaccinium"
+  },
+  "concert-crowd-phones": {
+    "localPath": "/blog/concert-crowd-phones.jpg",
+    "alt": "group of people raising there hands in concert",
+    "photographer": "Hanny Naibaho",
+    "photographerUrl": "https://unsplash.com/@hannynaibaho"
+  },
+  "signal-privacy-cover": {
+    "localPath": "/blog/signal-privacy-cover.jpg",
+    "alt": "Matrix movie still",
+    "photographer": "Markus Spiske",
+    "photographerUrl": "https://unsplash.com/@markusspiske"
+  },
+  "locked-smartphone-security": {
+    "localPath": "/blog/locked-smartphone-security.jpg",
+    "alt": "black and white smartphone on persons hand",
+    "photographer": "Tech Daily",
+    "photographerUrl": "https://unsplash.com/@techdailyca"
+  },
+  "chat-streaks-cover": {
+    "localPath": "/blog/chat-streaks-cover.jpg",
+    "alt": "Couple taking a selfie in a park",
+    "photographer": "Vitaly Gariev",
+    "photographerUrl": "https://unsplash.com/@silverkblack"
+  },
+  "friends-messaging-cafe": {
+    "localPath": "/blog/friends-messaging-cafe.jpg",
+    "alt": "Two women laughing while looking at their phones",
+    "photographer": "Vitaly Gariev",
+    "photographerUrl": "https://unsplash.com/@silverkblack"
+  },
+  "anonymous-chat-cover": {
+    "localPath": "/blog/anonymous-chat-cover.jpg",
+    "alt": "people walking on walkway during nighttime",
+    "photographer": "kevin laminto",
+    "photographerUrl": "https://unsplash.com/@kxvn_lx"
+  },
+  "quiet-cafe-texting": {
+    "localPath": "/blog/quiet-cafe-texting.jpg",
+    "alt": "a woman sitting at a table looking at her cell phone",
+    "photographer": "Brooke Cagle",
+    "photographerUrl": "https://unsplash.com/@brookecagle"
+  },
+  "video-calling-cover": {
+    "localPath": "/blog/video-calling-cover.jpg",
+    "alt": "a person taking a picture of a field with a cell phone",
+    "photographer": "Sorin Gheorghita",
+    "photographerUrl": "https://unsplash.com/@sxtcxtc"
+  },
+  "mobile-call-desk": {
+    "localPath": "/blog/mobile-call-desk.jpg",
+    "alt": "Man smiling while looking at his smartphone at his phone",
+    "photographer": "Vitaly Gariev",
+    "photographerUrl": "https://unsplash.com/@silverkblack"
+  }
+}

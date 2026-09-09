@@ -2,8 +2,8 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 import { screen, waitFor } from "@testing-library/react";
 
 import Index from "@/pages/Index";
-import { FEATURES } from "@/data/features";
-import { SECTIONS } from "@/data/sections";
+import { VISIBLE_FEATURES } from "@/data/features";
+import { SECTIONS, VISIBLE_SECTIONS } from "@/data/sections";
 import { renderWithProviders } from "@/test/renderWithProviders";
 import { setMatchingMediaQueries } from "@/test/matchMedia";
 
@@ -38,6 +38,7 @@ beforeAll(async () => {
     import("@/components/landing/sections/AnonymousChatSection"),
     import("@/components/landing/sections/ProSection"),
     import("@/components/landing/sections/TrustSection"),
+    import("@/components/landing/sections/BlogPreviewSection"),
     import("@/components/landing/sections/NewsletterSection"),
     import("@/components/landing/sections/DownloadClose"),
   ]);
@@ -92,7 +93,7 @@ describe("landing page under reduced motion", () => {
     expect(marquee).toBeInTheDocument();
 
     const marqueeText = (marquee.textContent ?? "").replace(/\s+/g, " ");
-    for (const feature of FEATURES) {
+    for (const feature of VISIBLE_FEATURES) {
       expect(marqueeText).toContain(feature.name);
     }
   });
@@ -100,7 +101,7 @@ describe("landing page under reduced motion", () => {
   it("keeps every section's content readable without a scroll-dependent reveal", async () => {
     await renderLandingWithReducedMotion("light");
 
-    for (const section of SECTIONS) {
+    for (const section of VISIBLE_SECTIONS) {
       const element = document.getElementById(section.id);
       expect(element, `missing section #${section.id}`).not.toBeNull();
       expect(

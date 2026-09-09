@@ -28,6 +28,7 @@ const CallingSection = lazy(() => import("@/components/landing/sections/CallingS
 const AnonymousChatSection = lazy(() => import("@/components/landing/sections/AnonymousChatSection"));
 const ProSection = lazy(() => import("@/components/landing/sections/ProSection"));
 const TrustSection = lazy(() => import("@/components/landing/sections/TrustSection"));
+const BlogPreviewSection = lazy(() => import("@/components/landing/sections/BlogPreviewSection"));
 const NewsletterSection = lazy(() => import("@/components/landing/sections/NewsletterSection"));
 const DownloadClose = lazy(() => import("@/components/landing/sections/DownloadClose"));
 
@@ -44,6 +45,7 @@ export default function Index() {
         <AnonymousChatSection />
         {PRO_LAUNCHED ? <ProSection /> : null}
         <TrustSection />
+        <BlogPreviewSection />
         <NewsletterSection />
         <DownloadClose />
       </Suspense>

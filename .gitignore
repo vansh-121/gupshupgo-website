@@ -13,6 +13,10 @@ dist-ssr
 *.local
 .env
 .env.*
+!.env.example
+
+# Dev-only scripts (contain API key references)
+scripts/fetch-unsplash-images.mjs
 
 # Editor directories and files
 .vscode/*

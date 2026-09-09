@@ -23,6 +23,7 @@ export type SectionId =
   | 'anonymous'
   | 'pro'
   | 'trust'
+  | 'blog'
   | 'newsletter'
   | 'download';
 
@@ -79,6 +80,11 @@ export const SECTIONS: readonly SectionMeta[] = [
     id: 'trust',
     navLabel: 'Trust',
     headingText: 'Built to be trusted',
+  },
+  {
+    id: 'blog',
+    navLabel: null,
+    headingText: 'Latest guides, security research & tech insights',
   },
   {
     id: 'newsletter',
