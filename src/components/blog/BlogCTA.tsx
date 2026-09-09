@@ -1,22 +1,28 @@
 import { DownloadButton } from "@/components/DownloadButton";
 import { ShieldCheck, Radio, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface BlogCTAProps {
   title?: string;
   description?: string;
   variant?: "inline" | "card";
+  className?: string;
 }
 
 export default function BlogCTA({
   title = "Experience Private Messaging Without Limits",
   description = "Get end-to-end encrypted chats, offline mesh messaging via Bluetooth, and HD calling on Android. No phone number sharing in anonymous mode, zero tracking.",
   variant = "card",
+  className,
 }: BlogCTAProps) {
   if (variant === "inline") {
     return (
       <aside
         aria-label="Download callout"
-        className="my-36px flex flex-col items-start justify-between gap-16px rounded-16 bg-layer-1 p-24px shadow-hairline-12 sm:flex-row sm:items-center"
+        className={cn(
+          "my-36px flex flex-col items-start justify-between gap-16px rounded-16 bg-layer-1 p-24px shadow-hairline-12 sm:flex-row sm:items-center",
+          className,
+        )}
       >
         <div className="space-y-4px">
           <p className="text-16 font-medium text-ink-high">{title}</p>
@@ -32,7 +38,10 @@ export default function BlogCTA({
   return (
     <aside
       aria-label="Download GupShupGo"
-      className="my-56px overflow-hidden rounded-24 border border-hairline-12 bg-layer-1 p-28px shadow-hairline-12-elevated sm:p-40px relative"
+      className={cn(
+        "mt-64px mb-48px bp810:mt-80px bp810:mb-64px overflow-hidden rounded-24 border border-hairline-12 bg-layer-1 p-28px shadow-hairline-12-elevated sm:p-40px relative",
+        className,
+      )}
     >
       {/* Decorative gradient glow */}
       <div
@@ -76,11 +85,11 @@ export default function BlogCTA({
             <img
               src="/app_icon.png"
               alt="GupShupGo App Icon"
-              width={60}
-              height={60}
+              width={56}
+              height={56}
               loading="lazy"
               decoding="async"
-              className="h-60px w-60px rounded-16 shadow-elevation ring-1 ring-hairline-12"
+              className="h-56px w-56px rounded-16 shadow-elevation shrink-0 object-contain"
             />
             <div className="text-left">
               <p className="text-17 font-medium text-ink-high">GupShupGo</p>

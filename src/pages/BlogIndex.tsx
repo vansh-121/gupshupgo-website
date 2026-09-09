@@ -175,7 +175,7 @@ export default function BlogIndex() {
         )}
 
         {/* Post Grid */}
-        <section aria-label="Blog posts list">
+        <section aria-label="Blog posts list" className="mb-64px bp810:mb-80px">
           {filteredPosts.length === 0 ? (
             <div className="rounded-24 bg-layer-1 p-48px text-center shadow-hairline-12 space-y-12px">
               <p className="text-18 font-medium text-ink-high">No matching articles found</p>
