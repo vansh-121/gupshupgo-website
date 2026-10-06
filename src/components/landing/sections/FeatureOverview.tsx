@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * Feature overview section — bento grid (Req 10, 13, 14).
  *
  * Every entry of `VISIBLE_FEATURES` renders as one grid cell (Req 1.3, 10.3):
- * all 17 App_Feature_Set capabilities once `PRO_LAUNCHED` is true, and the 16
+ * all 23 App_Feature_Set capabilities once `PRO_LAUNCHED` is true, and the 22
  * non-Pro capabilities while it is false. The data module stays the only source,
  * so this section cannot drift from the JSON-LD `featureList`.
  *
@@ -101,19 +101,22 @@ const c = (featureId: string, span: number): PlannedCell => ({ featureId, span }
 const ROWS_BP1200: GridPlan = PRO_LAUNCHED
   ? [
     [c("encryption", 6), c("mesh", 6)],
-    [c("pro", 6), c("arcade", 6)],
-    [c("calls", 4), c("anonymous", 4), c("messaging", 4)],
-    [c("vault", 3), c("status", 3), c("screen-share", 3), c("call-logs", 3)],
-    [c("qr-add", 3), c("public-profile", 3), c("contacts", 3), c("phone-auth", 3)],
-    [c("notifications", 6), c("themes", 6)],
+    [c("pro", 6), c("ai", 6)],
+    [c("anonymous", 4), c("arcade", 4), c("calls", 4)],
+    [c("messaging", 4), c("documents", 4), c("view-once", 4)],
+    [c("search", 3), c("location", 3), c("link-previews", 3), c("vault", 3)],
+    [c("status", 3), c("screen-share", 3), c("call-logs", 3), c("qr-add", 3)],
+    [c("public-profile", 3), c("contacts", 3), c("phone-auth", 3), c("notifications", 3)],
+    [c("themes", 12)],
   ]
   : [
     [c("encryption", 6), c("mesh", 6)],
-    [c("calls", 4), c("arcade", 4), c("anonymous", 4)],
-    [c("messaging", 6), c("vault", 3), c("status", 3)],
-    [c("screen-share", 4), c("call-logs", 4), c("qr-add", 4)],
-    [c("public-profile", 3), c("contacts", 3), c("phone-auth", 3), c("notifications", 3)],
-    [c("themes", 12)],
+    [c("ai", 6), c("anonymous", 6)],
+    [c("arcade", 4), c("calls", 4), c("messaging", 4)],
+    [c("documents", 4), c("view-once", 4), c("search", 4)],
+    [c("location", 3), c("link-previews", 3), c("vault", 3), c("status", 3)],
+    [c("screen-share", 3), c("call-logs", 3), c("qr-add", 3), c("public-profile", 3)],
+    [c("contacts", 3), c("phone-auth", 3), c("notifications", 3), c("themes", 3)],
   ];
 
 /**
@@ -127,22 +130,27 @@ const ROWS_BP810: GridPlan = PRO_LAUNCHED
   ? [
     [c("encryption", 6)],
     [c("mesh", 3), c("pro", 3)],
+    [c("ai", 3), c("anonymous", 3)],
     [c("arcade", 3), c("calls", 3)],
-    [c("anonymous", 3), c("messaging", 3)],
+    [c("messaging", 3), c("documents", 3)],
+    [c("view-once", 3), c("search", 3)],
+    [c("location", 3), c("link-previews", 3)],
     [c("vault", 2), c("status", 2), c("screen-share", 2)],
     [c("call-logs", 2), c("qr-add", 2), c("public-profile", 2)],
-    [c("contacts", 3), c("phone-auth", 3)],
-    [c("notifications", 3), c("themes", 3)],
+    [c("contacts", 2), c("phone-auth", 2), c("notifications", 2)],
+    [c("themes", 6)],
   ]
   : [
     [c("encryption", 6)],
-    [c("mesh", 3), c("calls", 3)],
-    [c("arcade", 3), c("anonymous", 3)],
-    [c("messaging", 6)],
-    [c("vault", 2), c("status", 2), c("screen-share", 2)],
-    [c("call-logs", 2), c("qr-add", 2), c("public-profile", 2)],
-    [c("contacts", 3), c("phone-auth", 3)],
-    [c("notifications", 3), c("themes", 3)],
+    [c("mesh", 3), c("ai", 3)],
+    [c("anonymous", 3), c("arcade", 3)],
+    [c("calls", 3), c("messaging", 3)],
+    [c("documents", 3), c("view-once", 3)],
+    [c("search", 3), c("location", 3)],
+    [c("link-previews", 3), c("vault", 3)],
+    [c("status", 2), c("screen-share", 2), c("call-logs", 2)],
+    [c("qr-add", 2), c("public-profile", 2), c("contacts", 2)],
+    [c("phone-auth", 2), c("notifications", 2), c("themes", 2)],
   ];
 
 function flatten(plan: GridPlan): readonly PlannedCell[] {

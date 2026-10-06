@@ -68,6 +68,15 @@ export default function PrivacySection() {
                 your PIN and out of the main chat list, even if your phone is unlocked.
               </p>
             </div>
+            <div>
+              <h3 className="text-25 font-medium leading-120 text-ink-high">
+                View-once photos and videos
+              </h3>
+              <p className="mt-8px text-16 leading-140 text-ink-high">
+                Send a photo or video that opens exactly once. The moment it is viewed it is gone,
+                and screenshots are blocked while it is on screen.
+              </p>
+            </div>
           </Reveal>
         </div>
 

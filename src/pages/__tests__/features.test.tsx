@@ -10,9 +10,9 @@ import { renderWithProviders } from "@/test/renderWithProviders";
  * App_Feature_Set coverage (Requirements 1.3, 18.5).
  *
  * Every feature name the site is currently allowed to show — `VISIBLE_FEATURES`,
- * i.e. all 17 once `PRO_LAUNCHED` is true and the 16 non-Pro capabilities while
+ * i.e. all 23 once `PRO_LAUNCHED` is true and the 22 non-Pro capabilities while
  * it is false — must appear in the rendered Landing_Page. The full `FEATURES`
- * registry is asserted separately: it must keep all 17 entries so flipping the
+ * registry is asserted separately: it must keep all 23 entries so flipping the
  * flag restores the Pro capability without re-authoring data.
  *
  * The FeatureMarquee renders the name row twice (the duplicate is
@@ -63,10 +63,10 @@ function normalisedText(element: Element | null): string {
 }
 
 describe("landing page feature coverage", () => {
-  it("keeps the feature module at the 17 verified capabilities", () => {
+  it("keeps the feature module at the 23 verified capabilities", () => {
     // The full registry must stay intact for when PRO_LAUNCHED flips.
-    expect(FEATURES).toHaveLength(17);
-    expect(new Set(FEATURES.map((feature) => feature.name)).size).toBe(17);
+    expect(FEATURES).toHaveLength(23);
+    expect(new Set(FEATURES.map((feature) => feature.name)).size).toBe(23);
   });
 
   it("renders every visible feature name on the landing page", async () => {

@@ -5,15 +5,21 @@ import {
   CircleDashed,
   CirclePlay,
   Crown,
+  Eye,
+  FileText,
   Link,
+  Link2,
   Lock,
+  MapPin,
   MessageSquare,
   PhoneOutgoing,
   QrCode,
   Radio,
   ScreenShare,
+  Search,
   ShieldCheck,
   Smartphone,
+  Sparkles,
   SunMoon,
   UserX,
   Users,
@@ -24,7 +30,7 @@ import { PRO_LAUNCHED } from '@/config/app';
 import type { SectionId } from '@/data/sections';
 
 /**
- * Feature content module — the single source of truth for the 17 shipped app
+ * Feature content module — the single source of truth for the 23 shipped app
  * capabilities (Requirements 4.1, 4.2, 4.3, 4.4, 4.5).
  *
  * Every description states only capabilities that the Android app ships today.
@@ -32,7 +38,7 @@ import type { SectionId } from '@/data/sections';
  *
  * ## Pro gating
  *
- * `FEATURES` always holds all 17 entries so nothing is lost while the app's
+ * `FEATURES` always holds all 23 entries so nothing is lost while the app's
  * `pro_enabled` flag is off. Consumers render `VISIBLE_FEATURES` and ask
  * `showProLabel(feature)` before drawing a Pro badge, so the whole Pro surface
  * follows `PRO_LAUNCHED` (see `src/config/app.ts`) rather than being deleted.
@@ -73,7 +79,7 @@ export const FEATURES: readonly Feature[] = [
     id: 'messaging',
     name: 'Real-time messaging',
     description:
-      'Send text, image, video, and voice-note messages one to one, with delivery and read status and replies to status updates.',
+      'Send text, image, video, and voice-note messages one to one, with delivery and read receipts, swipe to reply, and replies to status updates.',
     Icon: MessageSquare,
     category: 'messaging',
     isPro: false,
@@ -91,7 +97,7 @@ export const FEATURES: readonly Feature[] = [
   {
     id: 'vault',
     name: 'Vault',
-    description: 'Keep chosen messages in a PIN-protected encrypted store on your device.',
+    description: 'Keep chosen messages in a PIN-protected encrypted store on your device, unlocked with your PIN or an optional fingerprint.',
     Icon: Lock,
     category: 'privacy',
     isPro: false,
@@ -168,7 +174,7 @@ export const FEATURES: readonly Feature[] = [
   {
     id: 'anonymous',
     name: 'Anonymous chat',
-    description: 'Match in a lobby and chat without revealing your identity.',
+    description: 'Match in a lobby and chat without revealing your identity, now with photos, video, and voice notes that stay blurred until you tap to reveal them.',
     Icon: UserX,
     category: 'social',
     isPro: false,
@@ -185,7 +191,7 @@ export const FEATURES: readonly Feature[] = [
   {
     id: 'public-profile',
     name: 'Public profiles',
-    description: 'Share a public profile that anyone can open from a link.',
+    description: 'Share a public profile — with your level, Gup Points, and badges — that anyone can open from a link.',
     Icon: Link,
     category: 'social',
     isPro: false,
@@ -219,9 +225,64 @@ export const FEATURES: readonly Feature[] = [
   {
     id: 'themes',
     name: 'Light & dark themes',
-    description: 'Switch the app between light and dark themes.',
+    description: 'Switch the app between light and dark, and give each conversation its own background and bubble colours.',
     Icon: SunMoon,
     category: 'account',
+    isPro: false,
+  },
+  {
+    id: 'documents',
+    name: 'Send any file',
+    description:
+      'Share documents, PDFs, and files from the attachment menu, encrypted end-to-end and sent even over the offline mesh.',
+    Icon: FileText,
+    category: 'messaging',
+    isPro: false,
+  },
+  {
+    id: 'search',
+    name: 'Message search',
+    description:
+      'Search your entire on-device chat history instantly, and it works even with no connection.',
+    Icon: Search,
+    category: 'messaging',
+    isPro: false,
+  },
+  {
+    id: 'location',
+    name: 'Location sharing',
+    description:
+      'Drop a location pin from the attachment menu and open it in any maps app, with coordinates shown before you send.',
+    Icon: MapPin,
+    category: 'messaging',
+    isPro: false,
+  },
+  {
+    id: 'view-once',
+    name: 'View-once media',
+    description:
+      'Send photos and videos that can be opened only once, with screenshots blocked while they are on screen.',
+    Icon: Eye,
+    category: 'privacy',
+    isPro: false,
+    detailSectionId: 'privacy',
+  },
+  {
+    id: 'link-previews',
+    name: 'Link previews',
+    description:
+      'Shared links become rich preview cards built on your device, so opening a chat never pings the linked site.',
+    Icon: Link2,
+    category: 'messaging',
+    isPro: false,
+  },
+  {
+    id: 'ai',
+    name: 'Gup AI',
+    description:
+      'Chat with the built-in Gup AI assistant in its own thread, kept on your device and separate from your encrypted conversations.',
+    Icon: Sparkles,
+    category: 'messaging',
     isPro: false,
   },
 ];
@@ -233,7 +294,7 @@ export const FEATURES: readonly Feature[] = [
 export const PRO_FEATURES: readonly Feature[] = FEATURES.filter((f) => f.isPro);
 
 /**
- * The entries the site is allowed to render right now: all 17 once Pro has
+ * The entries the site is allowed to render right now: all 23 once Pro has
  * launched, otherwise every entry except the `GupShupGo Pro` capability itself.
  * This is what every renderer should map over.
  */

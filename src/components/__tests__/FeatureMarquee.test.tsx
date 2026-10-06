@@ -63,7 +63,7 @@ describe("FeatureMarquee", () => {
 
   it("keeps the full feature registry intact behind the visible subset", () => {
     // Flag-independent: nothing was deleted to hide Pro, only filtered.
-    expect(FEATURES).toHaveLength(17);
+    expect(FEATURES).toHaveLength(23);
     expect(VISIBLE_FEATURES.length).toBeLessThanOrEqual(FEATURES.length);
     for (const feature of VISIBLE_FEATURES) {
       expect(FEATURES).toContain(feature);
