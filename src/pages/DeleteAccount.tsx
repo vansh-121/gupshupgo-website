@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import SiteShell from "@/components/layout/SiteShell";
 import { MEASURE_CLASSES } from "@/components/Section";
 import SEOHead from "@/components/seo/SEOHead";
+import { SUPPORT_EMAIL } from "@/config/app";
 
 /**
  * Account-deletion route, migrated onto the Nova token layer (Req 2.1, 3, 4, 6, 7).
@@ -75,8 +76,8 @@ export default function DeleteAccount() {
                 <ol className="list-decimal space-y-12px pl-20px text-14 leading-140 text-ink-high">
                   <li>
                     Send an email to{" "}
-                    <a href="mailto:vansh.sethi98760@gmail.com" className="text-ink-accent underline underline-offset-2 transition-standard hover:no-underline">
-                      vansh.sethi98760@gmail.com
+                    <a href={`mailto:${SUPPORT_EMAIL}`} className="text-ink-accent underline underline-offset-2 transition-standard hover:no-underline">
+                      {SUPPORT_EMAIL}
                     </a>
                   </li>
                   <li>
@@ -93,7 +94,7 @@ export default function DeleteAccount() {
                 </ol>
 
                 <a
-                  href="mailto:vansh.sethi98760@gmail.com?subject=Account%20Deletion%20Request%20%E2%80%94%20GupShupGo"
+                  href={`mailto:${SUPPORT_EMAIL}?subject=Account%20Deletion%20Request%20%E2%80%94%20GupShupGo`}
                   className="mt-20px inline-flex min-h-11 items-center gap-8px rounded-8 bg-status-error px-16px py-8px text-14 font-medium leading-140 text-white shadow-elevation transition-standard hover:opacity-90"
                 >
                   <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -158,8 +159,8 @@ export default function DeleteAccount() {
           <Section title="Request a Data Export Before Deleting">
             <p>
               Before deleting your account, you have the right to request a copy of your personal data. To do so, email us at{" "}
-              <a href="mailto:vansh.sethi98760@gmail.com" className="text-ink-accent underline underline-offset-2 transition-standard hover:no-underline">
-                vansh.sethi98760@gmail.com
+              <a href={`mailto:${SUPPORT_EMAIL}`} className="text-ink-accent underline underline-offset-2 transition-standard hover:no-underline">
+                {SUPPORT_EMAIL}
               </a>{" "}
               with the subject <strong className="font-medium text-ink-high">"Data Export Request — GupShupGo"</strong>. We will provide your data within <strong className="font-medium text-ink-high">14 business days</strong>.
             </p>
@@ -173,8 +174,8 @@ export default function DeleteAccount() {
                 <p className="font-medium text-ink-high">GupShupGo Support</p>
                 <p>
                   Email:{" "}
-                  <a href="mailto:vansh.sethi98760@gmail.com" className="text-ink-accent underline underline-offset-2 transition-standard hover:no-underline">
-                    vansh.sethi98760@gmail.com
+                  <a href={`mailto:${SUPPORT_EMAIL}`} className="text-ink-accent underline underline-offset-2 transition-standard hover:no-underline">
+                    {SUPPORT_EMAIL}
                   </a>
                 </p>
                 <p className="mt-8px text-12 leading-130 text-ink-high">

@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Search, BookOpen } from "lucide-react";
 
 import SiteShell from "@/components/layout/SiteShell";
@@ -9,8 +10,30 @@ import BlogCTA from "@/components/blog/BlogCTA";
 import { BLOG_POSTS, BLOG_CATEGORIES, type BlogCategory } from "@/data/blogPosts";
 
 export default function BlogIndex() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const categoryParam = searchParams.get("category");
+  const initialCategory =
+    categoryParam && (BLOG_CATEGORIES as readonly string[]).includes(categoryParam)
+      ? categoryParam
+      : "All";
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  /**
+   * Selecting a category writes it to the URL (`?category=…`) so the state is
+   * shareable and matches the breadcrumb links on individual posts, which point
+   * at `/blog?category=…`. "All" clears the param.
+   */
+  const selectCategory = (category: string) => {
+    setSelectedCategory(category);
+    if (category === "All") {
+      setSearchParams({}, { replace: true });
+    } else {
+      setSearchParams({ category }, { replace: true });
+    }
+  };
 
   const filteredPosts = useMemo(() => {
     return BLOG_POSTS.filter((post) => {
@@ -102,7 +125,7 @@ export default function BlogIndex() {
             <nav className="flex flex-wrap items-center gap-8px" aria-label="Filter articles by category">
               <button
                 type="button"
-                onClick={() => setSelectedCategory("All")}
+                onClick={() => selectCategory("All")}
                 aria-pressed={selectedCategory === "All"}
                 className={`inline-flex items-center min-h-[38px] rounded-pill px-16px text-13 font-medium transition-standard ${
                   selectedCategory === "All"
@@ -129,7 +152,7 @@ export default function BlogIndex() {
                   <button
                     key={cat}
                     type="button"
-                    onClick={() => setSelectedCategory(cat)}
+                    onClick={() => selectCategory(cat)}
                     aria-pressed={isSelected}
                     className={`inline-flex items-center min-h-[38px] rounded-pill px-16px text-13 font-medium transition-standard ${
                       isSelected
@@ -185,7 +208,7 @@ export default function BlogIndex() {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedCategory("All");
+                  selectCategory("All");
                   setSearchQuery("");
                 }}
                 className="mt-12px inline-flex min-h-[40px] items-center rounded-pill bg-layer-2 px-20px text-13 font-medium text-ink-high hover:bg-brand hover:text-white transition-standard"

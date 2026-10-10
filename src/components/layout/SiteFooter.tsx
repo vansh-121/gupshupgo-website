@@ -49,6 +49,14 @@ const RESOURCE_LINKS: readonly FooterLink[] = [
   { to: "/blog/anonymous-chat-online-safety-guide", label: "Anonymous Chat Safety" },
 ] as const;
 
+/** Company and support routes. */
+const COMPANY_LINKS: readonly FooterLink[] = [
+  { to: "/about", label: "About Us" },
+  { to: "/contact", label: "Contact" },
+  { to: "/support", label: "Support & Help" },
+  { to: "/faq", label: "FAQ" },
+] as const;
+
 const linkClasses =
   "text-14 leading-140 text-ink-high underline-offset-4 transition-standard hover:text-ink-accent hover:underline";
 
@@ -61,7 +69,7 @@ export default function SiteFooter() {
     <footer aria-label="Site footer" className="bg-layer-2 shadow-hairline-12">
       <div className="mx-auto w-full max-w-[1320px] px-20px py-64px bp810:px-36px bp810:py-128px">
         <div className="mx-auto w-full max-w-[1199px]">
-          <div className="grid gap-40px sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-40px sm:grid-cols-2 lg:grid-cols-5">
             {/* Brand column — the logo repeat here is decorative (12.8, 14.3, 14.4). */}
             <div className="flex flex-col gap-12px">
               <div className="flex items-center gap-10px">
@@ -88,6 +96,20 @@ export default function SiteFooter() {
               <h2 className={columnTitleClasses}>Resources</h2>
               <ul className="flex flex-col gap-8px">
                 {RESOURCE_LINKS.map((link) => (
+                  <li key={link.to}>
+                    <Link to={link.to} className={linkClasses}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company / Support column */}
+            <div className="flex flex-col gap-12px">
+              <h2 className={columnTitleClasses}>Company</h2>
+              <ul className="flex flex-col gap-8px">
+                {COMPANY_LINKS.map((link) => (
                   <li key={link.to}>
                     <Link to={link.to} className={linkClasses}>
                       {link.label}

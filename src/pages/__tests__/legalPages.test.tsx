@@ -14,12 +14,12 @@ import { renderWithProviders } from "@/test/renderWithProviders";
  * Each route keeps a single `<h1>`, renders inside the shared shell landmarks,
  * retains its substantive copy, and renders identically in both themes.
  *
- * `vansh.sethi98760@gmail.com` is the support address; only `DeleteAccount`
+ * `support@gupshupgo.app` is the support address; only `DeleteAccount`
  * carries it — the privacy and terms pages route contact through GitHub — so it
  * is asserted where the page actually renders it.
  */
 
-const SUPPORT_EMAIL = "vansh.sethi98760@gmail.com";
+const SUPPORT_EMAIL = "support@gupshupgo.app";
 
 /** The four numbered steps of the deletion request (DeleteAccount). */
 const DELETION_STEPS = [

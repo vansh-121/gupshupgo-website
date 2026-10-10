@@ -11,6 +11,15 @@ export const SITE_URL = 'https://www.gupshupgo.app';
 export const PLATFORM_LABEL = 'Available on Android';
 
 /**
+ * Support inbox shown on the contact, support, and account-deletion pages.
+ *
+ * Kept here so the address lives in exactly one place instead of being hardcoded
+ * across pages. Swap this for a role alias (e.g. support@gupshupgo.app) once one
+ * exists — nothing else needs to change.
+ */
+export const SUPPORT_EMAIL = 'support@gupshupgo.app';
+
+/**
  * Single build-time gate for every GupShupGo Pro surface on this site.
  *
  * This mirrors the Android app's `pro_enabled` Remote Config flag, which is

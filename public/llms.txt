@@ -24,11 +24,19 @@ GupShupGo lets you communicate privately with friends and family through end-to-
 - Website: https://www.gupshupgo.app/
 - Download on Google Play: https://play.google.com/store/apps/details?id=com.gupshupgo.app
 - Blog & Guides: https://www.gupshupgo.app/blog
+- Best WhatsApp Alternatives in India (Privacy): https://www.gupshupgo.app/blog/best-whatsapp-alternatives-india-privacy
+- WhatsApp vs Signal vs Telegram Privacy Comparison: https://www.gupshupgo.app/blog/whatsapp-vs-signal-vs-telegram-privacy-comparison
+- Free HD Video Calls on Android (No Time Limit): https://www.gupshupgo.app/blog/free-video-calls-android-no-time-limit
+- How to Lock & Hide Private Chats on Android: https://www.gupshupgo.app/blog/how-to-lock-hide-private-chats-android
 - Offline Mesh Chat Guide: https://www.gupshupgo.app/blog/how-to-text-without-internet-offline-mesh-messaging
 - Signal Protocol & Metadata Privacy Guide: https://www.gupshupgo.app/blog/signal-protocol-explained-messaging-privacy-guide
 - Psychology of Chat Streaks & Bonds: https://www.gupshupgo.app/blog/psychology-of-chat-streaks-daily-bonds
 - Safe Anonymous Chat Guide: https://www.gupshupgo.app/blog/anonymous-chat-online-safety-guide
 - Low-Bandwidth HD Calling Guide: https://www.gupshupgo.app/blog/low-bandwidth-hd-video-calling-guide
+- About: https://www.gupshupgo.app/about
+- Contact: https://www.gupshupgo.app/contact
+- Support & Help Centre: https://www.gupshupgo.app/support
+- FAQ: https://www.gupshupgo.app/faq
 - Privacy Policy: https://www.gupshupgo.app/privacy
 - Terms of Service: https://www.gupshupgo.app/terms
 - Delete Account: https://www.gupshupgo.app/delete-account
