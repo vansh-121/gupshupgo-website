@@ -21,6 +21,7 @@ const BlogPost = lazy(() => import("./pages/BlogPost"));
 const CompareIndex = lazy(() => import("./pages/CompareIndex"));
 const CompareWhatsApp = lazy(() => import("./pages/CompareWhatsApp"));
 const CompareTelegram = lazy(() => import("./pages/CompareTelegram"));
+const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
               <Route path="/compare" element={<CompareIndex />} />
               <Route path="/gupshupgo-vs-whatsapp" element={<CompareWhatsApp />} />
               <Route path="/gupshupgo-vs-telegram" element={<CompareTelegram />} />
+              <Route path="/u/:username" element={<PublicProfile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
