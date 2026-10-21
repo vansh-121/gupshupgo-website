@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import LoadingSkeleton from "@/components/landing/LoadingSkeleton";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 
 const Index = lazy(() => import("./pages/Index"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -38,6 +39,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Index />} />
