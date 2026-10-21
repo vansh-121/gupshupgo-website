@@ -220,9 +220,14 @@ export default function CompareIndex() {
                     
                     <div className="absolute top-16px left-16px flex items-center gap-8px">
                       <span
-                        className="rounded-full px-12px py-4px text-12 font-semibold text-white shadow-elevation"
+                        className="inline-flex items-center gap-6px rounded-full px-12px py-4px text-12 font-semibold text-white shadow-elevation"
                         style={{ backgroundColor: brandColor }}
                       >
+                        <img
+                          src={isWhatsApp ? "/icons/whatsapp.svg" : "/icons/telegram.svg"}
+                          alt=""
+                          className="h-4 w-4 rounded-sm object-contain"
+                        />
                         vs {comparison.competitor}
                       </span>
                       <span className="rounded-full bg-brand px-12px py-4px text-12 font-semibold text-white shadow-elevation">
@@ -312,13 +317,21 @@ export default function CompareIndex() {
                   </th>
                   <th scope="col" className="px-20px py-16px w-[21%]">
                     <div className="flex items-center gap-8px">
-                      <span className="inline-block h-3 w-3 rounded-full bg-[#25D366]" aria-hidden="true" />
+                      <img
+                        src="/icons/whatsapp.svg"
+                        alt=""
+                        className="h-5 w-5 rounded-md object-contain"
+                      />
                       <span>WhatsApp</span>
                     </div>
                   </th>
                   <th scope="col" className="px-20px py-16px w-[21%]">
                     <div className="flex items-center gap-8px">
-                      <span className="inline-block h-3 w-3 rounded-full bg-[#229ED9]" aria-hidden="true" />
+                      <img
+                        src="/icons/telegram.svg"
+                        alt=""
+                        className="h-5 w-5 rounded-md object-contain"
+                      />
                       <span>Telegram</span>
                     </div>
                   </th>

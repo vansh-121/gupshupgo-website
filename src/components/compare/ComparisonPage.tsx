@@ -29,30 +29,13 @@ import {
 import { cn } from "@/lib/utils";
 
 /**
- * Competitor Brand Icon SVG helper
+ * Official Competitor App Icon (WhatsApp / Telegram)
  */
-function CompetitorIcon({ name }: { name: string }) {
+function getCompetitorIconSrc(name: string): string {
   if (name.toLowerCase().includes("whatsapp")) {
-    return (
-      <svg
-        className="h-7 w-7 fill-current"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.53 7.34C9.33 7.34 9.09 7.34 8.89 7.79C8.68 8.24 8.09 9.38 8.09 10.74C8.09 12.1 9.08 13.4 9.22 13.59C9.36 13.78 11.16 16.56 13.92 17.75C14.58 18.03 15.09 18.2 15.49 18.33C16.15 18.54 16.75 18.51 17.22 18.44C17.75 18.36 18.85 17.78 19.08 17.13C19.31 16.48 19.31 15.93 19.24 15.81C19.17 15.69 18.98 15.62 18.7 15.48C18.42 15.34 17.06 14.67 16.81 14.58C16.56 14.49 16.38 14.44 16.19 14.72C16 15.01 15.47 15.63 15.31 15.81C15.15 16 14.99 16.02 14.71 15.88C14.43 15.74 13.25 15.35 11.85 14.1C10.76 13.13 10.02 11.93 9.81 11.57C9.6 11.21 9.79 11.01 9.93 10.87C10.06 10.74 10.22 10.53 10.36 10.36C10.5 10.19 10.55 10.08 10.64 9.9C10.73 9.72 10.69 9.56 10.62 9.42C10.55 9.28 9.99 7.91 9.76 7.36C9.54 6.83 9.31 6.9 9.15 6.89C9 6.89 8.84 6.89 8.68 6.89" />
-      </svg>
-    );
+    return "/icons/whatsapp.svg";
   }
-  // Telegram Paper Plane Icon
-  return (
-    <svg
-      className="h-7 w-7 fill-current"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .36z" />
-    </svg>
-  );
+  return "/icons/telegram.svg";
 }
 
 /** Modern table cell with colored badge indicator */
@@ -174,12 +157,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
                     className="h-14 w-14 rounded-16 shadow-elevation shrink-0"
                   />
                   <div>
-                    <div className="flex items-center gap-8px">
-                      <h2 className="text-20 font-semibold text-ink-high">GupShupGo</h2>
-                      <span className="rounded-full bg-brand px-8px py-2px text-11 font-medium text-white shadow-sm">
-                        Offline Mesh
-                      </span>
-                    </div>
+                    <h2 className="text-20 font-semibold text-ink-high">GupShupGo</h2>
                     <p className="text-13 text-ink-secondary">
                       Signal protocol + Bluetooth mesh
                     </p>
@@ -216,12 +194,11 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
               {/* Right Column: Competitor */}
               <div className="flex flex-col justify-between rounded-16 border border-hairline-12 bg-layer-0/60 p-24px transition-standard hover:border-hairline-24">
                 <div className="flex items-center gap-16px mb-16px">
-                  <div
-                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-16 text-white shadow-elevation"
-                    style={{ backgroundColor: competitorBrandColor }}
-                  >
-                    <CompetitorIcon name={comparison.competitor} />
-                  </div>
+                  <img
+                    src={getCompetitorIconSrc(comparison.competitor)}
+                    alt={`${comparison.competitor} App Icon`}
+                    className="h-14 w-14 rounded-16 shadow-elevation shrink-0 object-contain"
+                  />
                   <div>
                     <h2 className="text-20 font-semibold text-ink-high">
                       {comparison.competitor}
@@ -312,10 +289,10 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
                   </th>
                   <th scope="col" className="px-20px py-16px w-[30%]">
                     <div className="flex items-center gap-8px">
-                      <span
-                        className="inline-block h-3 w-3 rounded-full"
-                        style={{ backgroundColor: competitorBrandColor }}
-                        aria-hidden="true"
+                      <img
+                        src={getCompetitorIconSrc(comparison.competitor)}
+                        alt=""
+                        className="h-5 w-5 rounded-md object-contain"
                       />
                       <span>{comparison.competitor}</span>
                     </div>
