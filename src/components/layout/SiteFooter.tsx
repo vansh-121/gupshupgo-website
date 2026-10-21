@@ -43,6 +43,9 @@ const LEGAL_LINKS: readonly FooterLink[] = [
 /** Editorial and resource links for SEO discovery. */
 const RESOURCE_LINKS: readonly FooterLink[] = [
   { to: "/blog", label: "Blog & Guides" },
+  { to: "/compare", label: "Compare Messengers" },
+  { to: "/gupshupgo-vs-whatsapp", label: "GupShupGo vs WhatsApp" },
+  { to: "/gupshupgo-vs-telegram", label: "GupShupGo vs Telegram" },
   { to: "/blog/how-to-text-without-internet-offline-mesh-messaging", label: "Offline Mesh Chat" },
   { to: "/blog/signal-protocol-explained-messaging-privacy-guide", label: "Signal E2EE Guide" },
   { to: "/blog/psychology-of-chat-streaks-daily-bonds", label: "Chat Bonds & Streaks" },

@@ -54,7 +54,7 @@ import { cn } from "@/lib/utils";
 /** Heading copy lives in the shared section registry so nav/tests cannot drift. */
 const HERO_HEADING =
   SECTIONS.find((section) => section.id === "hero")?.headingText ??
-  "Stay Connected. Stay Private. Even Offline.";
+  "Private messaging that works even without the internet";
 
 /** Forward frame: the chat screen. Rear frame: the call screen. */
 const CHAT_SCREEN = getMockupScreen("chat") as MockupChatScreen;
@@ -88,9 +88,10 @@ export default function Hero() {
           as="p"
           className={cn(MEASURE_CLASSES[644], "mt-24px text-lead text-ink-secondary")}
         >
-          Send texts, photos and voice notes, jump into end-to-end encrypted HD
-          video and voice calls, and keep chatting with people nearby even when
-          there is no internet at all.
+          When the signal drops, GupShupGo keeps you talking: chat with people
+          nearby over an offline Bluetooth mesh, with no internet at all. Every
+          message, call and status is end-to-end encrypted by default, and a
+          built-in Gup AI assistant lives right inside the app.
         </Reveal>
 
         <Reveal

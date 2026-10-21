@@ -39,7 +39,7 @@ export const SECTIONS: readonly SectionMeta[] = [
   {
     id: 'hero',
     navLabel: null,
-    headingText: 'Stay Connected. Stay Private. Even Offline.',
+    headingText: 'Private messaging that works even without the internet',
   },
   {
     id: 'features',
