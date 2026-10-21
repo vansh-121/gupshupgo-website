@@ -23,6 +23,7 @@ export type SectionId =
   | 'anonymous'
   | 'pro'
   | 'trust'
+  | 'compare'
   | 'blog'
   | 'newsletter'
   | 'download';
@@ -80,6 +81,11 @@ export const SECTIONS: readonly SectionMeta[] = [
     id: 'trust',
     navLabel: 'Trust',
     headingText: 'Built to be trusted',
+  },
+  {
+    id: 'compare',
+    navLabel: null,
+    headingText: 'How GupShupGo compares',
   },
   {
     id: 'blog',
