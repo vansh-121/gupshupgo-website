@@ -74,6 +74,97 @@ export interface ComparisonVisualFeature {
   readonly badge: string;
 }
 
+export interface ExclusiveFeature {
+  readonly id: string;
+  readonly title: string;
+  readonly subtitle: string;
+  readonly description: string;
+  readonly whatsappStatus: string;
+  readonly telegramStatus: string;
+  readonly techDetail: string;
+  readonly badge: string;
+}
+
+export const EXCLUSIVE_SUPERPOWERS: readonly ExclusiveFeature[] = [
+  {
+    id: 'mesh',
+    title: 'Offline Nearby Chat',
+    subtitle: 'Message nearby friends with zero internet, no mobile data, and no SIM',
+    description:
+      'GupShupGo lets you message nearby friends directly using Bluetooth and local Wi-Fi. Messages hop safely from device to device to reach your friends even during power blackouts, flights, and remote outdoor trips.',
+    whatsappStatus: 'Impossible — strictly requires active internet or data',
+    telegramStatus: 'Impossible — strictly requires active internet or data',
+    techDetail: 'Nearby peer-to-peer messaging over Bluetooth & Wi-Fi',
+    badge: '100% Off-Grid',
+  },
+  {
+    id: 'streaks',
+    title: 'Chat Streaks & Bonds',
+    subtitle: 'Daily messaging streaks with a 24-hour restore window',
+    description:
+      'Build daily chat streaks called Bonds with your best friends. If life gets busy and you miss a day, GupShupGo gives you a friendly 24-hour restore window so your streak is never lost by accident.',
+    whatsappStatus: 'Not available — no chat streaks or bond milestones',
+    telegramStatus: 'Not available — no chat streaks or bond milestones',
+    techDetail: 'Daily streak counters, friendship bonds & 24h restore window',
+    badge: 'Friend Streaks',
+  },
+  {
+    id: 'anonymous',
+    title: 'Anonymous Stranger Chat',
+    subtitle: 'Meet new people safely with blurred media & zero phone leaks',
+    description:
+      'Chat 1-on-1 with new friends under a fun random nickname. Photos, videos, and voice notes stay safely blurred until you tap them. Leave anytime with zero trace, or add each other as friends if you hit it off.',
+    whatsappStatus: 'Not available — requires phone numbers and existing contacts',
+    telegramStatus: 'Not available — no random anonymous stranger matchmaking',
+    techDetail: 'Random nickname shield with tap-to-reveal blurred photos',
+    badge: 'Anonymous Match',
+  },
+  {
+    id: 'vault',
+    title: 'PIN-Protected Secret Vault',
+    subtitle: 'Keep chosen private chats locked behind a separate secret PIN',
+    description:
+      'Keep your most private conversations locked inside a secure vault on your device. Even if someone is holding your unlocked phone, your hidden vault conversations remain completely locked and invisible.',
+    whatsappStatus: 'Basic chat lock only — opens with your main phone screen PIN',
+    telegramStatus: 'Simple app passcode only — cloud chats stay on company servers',
+    techDetail: 'Separate secret PIN lock that keeps private chats hidden on your phone',
+    badge: 'Secret Vault',
+  },
+  {
+    id: 'crypto-isolate',
+    title: 'Silky-Smooth Speed',
+    subtitle: 'Heavy security runs quietly in the background with zero lag',
+    description:
+      'Powerful security encryption is handled quietly behind the scenes so the app never freezes, drops frames, or stutters — keeping your texting, calling, and scrolling buttery smooth.',
+    whatsappStatus: 'Can slow down or drop frames during heavy messaging',
+    telegramStatus: 'Can slow down or drop frames during heavy messaging',
+    techDetail: 'Runs quietly in the background for smooth, stutter-free chatting',
+    badge: 'Zero Lag',
+  },
+  {
+    id: 'arcade',
+    title: 'In-Chat Games & Arcade',
+    subtitle: 'Play casual mini-games with friends, earn badges & points',
+    description:
+      'Launch and play fun casual games directly inside your chats without downloading separate apps. Earn points for chatting and calling, complete daily challenges, and unlock cool profile badges.',
+    whatsappStatus: 'No games or gamification',
+    telegramStatus: 'Third-party web bots only — no native in-chat arcade',
+    techDetail: 'Built-in mini-games, daily challenges, points & unlockable badges',
+    badge: 'In-Chat Games',
+  },
+  {
+    id: 'carrier-hint',
+    title: 'Instant 1-Tap Sign-In',
+    subtitle: 'Instant phone verification without waiting for slow SMS codes',
+    description:
+      'Verifies your phone number directly through your SIM card for instant login, so you never have to sit and wait around for delayed SMS verification codes.',
+    whatsappStatus: 'Standard SMS timer with verification delivery delays',
+    telegramStatus: 'Standard SMS timer with verification delivery delays',
+    techDetail: 'Instant SIM phone number verification',
+    badge: '1-Tap Sign-In',
+  },
+];
+
 export interface Comparison {
   /** Clean URL slug, e.g. `gupshupgo-vs-whatsapp`. */
   readonly slug: string;
@@ -122,35 +213,37 @@ const WHATSAPP: Comparison = {
   competitorBrandColor: '#25D366',
   coverImage: '/blog/gupshupgo-vs-whatsapp-cover.jpg',
   heroHighlights: [
-    'Offline Bluetooth mesh chat when cellular signal & internet fail',
-    'Signal-protocol E2E encryption for chats, calls & status updates',
-    'PIN-protected on-device Vault with Argon2id zero-knowledge security',
-    'Open-source Android client code under the permissive MIT license',
+    'Offline nearby chat that works with no internet, mobile data, or SIM',
+    'Automatic end-to-end encryption by default for all chats, calls & status',
+    'Smooth, stutter-free performance with zero lag during messaging',
+    'PIN-protected Secret Vault to lock your most private chats on your phone',
+    'In-chat casual games, chat streaks with friends, and unlockable badges',
+    '100% open-source Android app code with nothing hidden',
   ],
   visualFeatures: [
     {
-      title: 'Offline Bluetooth Mesh Chat',
-      tagline: 'When networks go down, GupShupGo keeps working',
+      title: 'Offline Nearby Chat',
+      tagline: 'When networks go down, your chats keep going',
       description:
-        'WhatsApp strictly requires an active internet connection or mobile data. GupShupGo relays messages directly between nearby Android devices via Bluetooth and Wi-Fi Direct — keeping friends, family, and teams connected at crowded concerts, treks, flights, or network outages.',
+        'WhatsApp strictly requires an active internet connection or mobile data. GupShupGo relays messages directly between nearby Android devices via Bluetooth and local Wi-Fi — keeping friends, family, and teams connected at crowded concerts, treks, flights, or network outages.',
       image: '/website-screenshots/offline_chat_dark.jpeg',
       imageAlt: 'GupShupGo Offline Mesh Chat screen in dark mode',
       badge: 'GupShupGo Exclusive',
     },
     {
-      title: 'On-Device Encrypted Vault',
-      tagline: 'Extra layer of local PIN & biometric defense',
+      title: 'PIN-Protected Secret Vault',
+      tagline: 'Extra layer of defense on your own phone',
       description:
-        'Beyond standard end-to-end encryption, GupShupGo includes an Argon2id-hardened Vault on your device. Choose which private chats stay hidden and locked behind a separate PIN, protecting your sensitive conversations even if someone holds your unlocked phone.',
+        'Beyond standard encryption, GupShupGo includes a secure Vault on your device. Choose which private chats stay hidden and locked behind a separate secret PIN, protecting your sensitive conversations even if someone holds your unlocked phone.',
       image: '/website-screenshots/vault_dark.jpeg',
       imageAlt: 'GupShupGo PIN-protected Vault screen',
-      badge: 'Zero-Knowledge Security',
+      badge: 'Secret & Locked',
     },
     {
-      title: 'End-to-End Encryption & Open Source',
-      tagline: 'Signal protocol with verifiable source code',
+      title: 'Private by Default & Open Source',
+      tagline: 'Trusted Signal protocol with verified open code',
       description:
-        'Both GupShupGo and WhatsApp build upon the gold-standard Signal protocol. But GupShupGo goes further with encrypted status updates and fully open-source code under the MIT license, so you can inspect the code yourself.',
+        'Both GupShupGo and WhatsApp build upon the trusted Signal protocol. But GupShupGo goes further with encrypted status updates, smooth background security with zero UI lag, and fully open-source code under the MIT license.',
       image: '/website-screenshots/e2e_dark.jpeg',
       imageAlt: 'GupShupGo Signal Protocol end-to-end encryption confirmation',
       badge: 'Open Source MIT',
@@ -159,8 +252,8 @@ const WHATSAPP: Comparison = {
   companionBlogSlug: 'gupshupgo-vs-whatsapp-honest-comparison',
   narrative: [
     'WhatsApp and GupShupGo start from the same privacy foundation. Both use the Signal protocol to end-to-end encrypt personal messages and calls by default, so on the basics of private messaging the two are close.',
-    'Where GupShupGo differs is reach without a network. When there is no signal — a crowded stadium, a trek, a power cut, a flight — GupShupGo can still send messages by relaying them directly between nearby phones over Bluetooth and Wi-Fi Direct, with no internet, no mobile data, and no SIM needed to chat. WhatsApp cannot do this because it needs an internet connection to deliver a message.',
-    'GupShupGo also encrypts status updates end-to-end, adds anonymous one-to-one stranger chat, keeps chosen chats in a PIN-protected on-device Vault, and ships a built-in Gup AI assistant — and it is open source under the MIT license. In fairness, WhatsApp runs on more platforms today: GupShupGo is Android-only for now, while WhatsApp is also on iOS, web and desktop.',
+    'Where GupShupGo differs is reach without a network. When there is no signal — a crowded stadium, a trek, a power cut, a flight — GupShupGo can still send messages by relaying them directly between nearby phones over Bluetooth and Wi-Fi, with no internet, no mobile data, and no SIM needed to chat. WhatsApp cannot do this because it needs an internet connection to deliver a message.',
+    'GupShupGo also runs its security quietly in the background so your phone never stutters or lags, encrypts status updates end-to-end, adds in-chat casual gaming with Gup Arcade, keeps chosen chats hidden in a separate PIN-protected Secret Vault, and ships a built-in Gup AI assistant — and it is open source under the MIT license. In fairness, WhatsApp runs on more platforms today: GupShupGo is Android-only for now, while WhatsApp is also on iOS, web and desktop.',
   ],
   rows: [
     {
@@ -174,9 +267,49 @@ const WHATSAPP: Comparison = {
       competitor: 'Yes — personal chats & calls',
     },
     {
-      label: 'Encryption protocol',
-      gupshupgo: 'Signal protocol',
+      label: 'Encryption standard',
+      gupshupgo: 'Signal protocol (trusted gold standard)',
       competitor: 'Signal protocol',
+    },
+    {
+      label: 'Silky-smooth speed (zero lag during encryption)',
+      gupshupgo: 'Yes — runs quietly in the background without lag',
+      competitor: 'Standard',
+    },
+    {
+      label: 'In-chat casual games & chat streaks',
+      gupshupgo: 'Yes — Gup Arcade (games, points & friend streaks)',
+      competitor: 'No',
+    },
+    {
+      label: 'Live screen sharing in HD calls',
+      gupshupgo: 'Yes — crystal-clear real-time screen sharing',
+      competitor: 'Yes',
+    },
+    {
+      label: 'Full-screen incoming calls when locked',
+      gupshupgo: 'Yes — rings full-screen even when app is closed',
+      competitor: 'Yes',
+    },
+    {
+      label: 'PIN-protected Secret Vault',
+      gupshupgo: 'Yes — locked behind a separate secret PIN on your phone',
+      competitor: 'Partial — basic Chat Lock only',
+    },
+    {
+      label: '24-hour stories & status replies',
+      gupshupgo: 'Yes — photo & text statuses with direct in-chat replies',
+      competitor: 'Yes',
+    },
+    {
+      label: 'Instant 1-tap phone sign-in',
+      gupshupgo: 'Yes — instant SIM verification without SMS delay',
+      competitor: 'No — standard SMS wait code',
+    },
+    {
+      label: 'Fast offline chat search',
+      gupshupgo: 'Yes — instant on-device chat search',
+      competitor: 'Yes',
     },
     {
       label: 'Anonymous stranger chat (1:1 matchmaking)',
@@ -187,11 +320,6 @@ const WHATSAPP: Comparison = {
       label: 'Built-in AI assistant',
       gupshupgo: 'Gup AI (our own built-in assistant)',
       competitor: 'Meta AI (varies by region)',
-    },
-    {
-      label: 'On-device encrypted Vault (PIN-protected)',
-      gupshupgo: 'Yes — Argon2id, zero-knowledge',
-      competitor: 'No comparable on-device vault',
     },
     {
       label: 'Price',
@@ -255,17 +383,19 @@ const TELEGRAM: Comparison = {
   competitorBrandColor: '#229ED9',
   coverImage: '/blog/gupshupgo-vs-telegram-cover.jpg',
   heroHighlights: [
-    'Default Signal-protocol E2E encryption for ALL personal chats, calls & status',
-    'Zero cloud message storage — conversations never live on company servers',
-    'Offline Bluetooth mesh chat that keeps running during server or network blackouts',
-    'Argon2id-hardened on-device Vault plus anonymous stranger chat',
+    'Automatic end-to-end encryption by default on ALL personal chats, calls & status',
+    'Zero cloud message storage — conversations never live on central servers',
+    'Offline nearby chat that keeps running during server or network blackouts',
+    'PIN-protected Secret Vault plus anonymous 1-on-1 stranger chat',
+    'Fun in-chat mini-games with friend streaks, points, and leaderboards',
+    'Silky-smooth speed that runs fast and stutter-free on any phone',
   ],
   visualFeatures: [
     {
       title: 'End-to-End Encryption by Default',
       tagline: 'No manual "Secret Chat" required',
       description:
-        'Telegram stores default cloud chats on its servers. Only one-to-one "Secret Chats" use end-to-end encryption. GupShupGo makes mathematical privacy the unbreakable default for every conversation, call, and status update.',
+        'Telegram stores default cloud chats on its servers. Only one-to-one "Secret Chats" use end-to-end encryption. GupShupGo makes privacy the unbreakable default for every conversation, call, and status update.',
       image: '/website-screenshots/chat_screen_dark.jpeg',
       imageAlt: 'GupShupGo encrypted chat screen with clean UI',
       badge: 'Privacy by Default',
@@ -274,7 +404,7 @@ const TELEGRAM: Comparison = {
       title: 'Independent of Central Servers: Offline Mesh',
       tagline: 'Off-grid communication when servers go dark',
       description:
-        'If Telegram servers encounter an outage, censorship, or regional block, users are disconnected. GupShupGo can chat seamlessly peer-to-peer over local Bluetooth and Wi-Fi Direct without touching any server or router.',
+        'If Telegram servers encounter an outage, censorship, or regional block, users are disconnected. GupShupGo can chat seamlessly peer-to-peer over local Bluetooth and Wi-Fi without touching any server or router.',
       image: '/website-screenshots/offline_chat_dark.jpeg',
       imageAlt: 'GupShupGo Offline Mesh chat screen',
       badge: 'Decentralized Mesh',
@@ -283,7 +413,7 @@ const TELEGRAM: Comparison = {
       title: 'Anonymous Chat & Local Data Sovereignty',
       tagline: 'Connect freely without exposing phone number',
       description:
-        'GupShupGo lets you meet and chat with strangers 1-on-1 anonymously, while an Argon2id Vault shields your private chats on your device. Telegram requires phone numbers for all accounts.',
+        'GupShupGo lets you meet and chat with strangers 1-on-1 anonymously, while a secret Vault shields your private chats on your device. Telegram requires phone numbers for all accounts.',
       image: '/website-screenshots/anonymous_chat_dark.jpeg',
       imageAlt: 'GupShupGo Anonymous stranger chat interface',
       badge: 'Identity Shield',
@@ -291,8 +421,8 @@ const TELEGRAM: Comparison = {
   ],
   companionBlogSlug: 'gupshupgo-vs-telegram-encryption-offline-comparison',
   narrative: [
-    'Telegram and GupShupGo both offer slick, modern messaging, but they treat encryption differently by default. On Telegram, only one-to-one Secret Chats are end-to-end encrypted, and they are tied to a single device; the default cloud chats and group chats are encrypted in transit and stored on Telegram servers, where they can be accessed. On GupShupGo, every chat, call and status update is end-to-end encrypted by default with the Signal protocol — there is no separate mode to turn on.',
-    'GupShupGo also works where Telegram cannot: with no connection at all. When there is no internet or mobile data, GupShupGo relays messages directly between nearby phones over Bluetooth and Wi-Fi Direct, hopping from device to device until they arrive. Telegram needs an internet connection for everything it does.',
+    'Telegram and GupShupGo both offer slick, modern messaging, but they treat encryption differently by default. On Telegram, only one-to-one Secret Chats are end-to-end encrypted, and they are tied to a single device; the default cloud chats and group chats are stored on Telegram servers. On GupShupGo, every chat, call and status update is end-to-end encrypted by default with the Signal protocol — there is no separate mode to turn on.',
+    'GupShupGo also works where Telegram cannot: with no connection at all. When there is no internet or mobile data, GupShupGo relays messages directly between nearby phones over Bluetooth and Wi-Fi, hopping from device to device until they arrive. Telegram needs an internet connection for everything it does.',
     'Both apps are free, and both have open-source roots — Telegram publishes its client apps while keeping its server closed, whereas GupShupGo is fully open source under the MIT license. In fairness, Telegram runs on more platforms and offers very large group features; GupShupGo is Android-only for now and focuses on private one-to-one messaging, calls, and offline reach.',
   ],
   rows: [
@@ -312,6 +442,51 @@ const TELEGRAM: Comparison = {
       competitor: 'Yes — default cloud chats are server-stored',
     },
     {
+      label: 'Encryption standard',
+      gupshupgo: 'Signal protocol (trusted gold standard)',
+      competitor: 'MTProto (cloud chats not end-to-end encrypted)',
+    },
+    {
+      label: 'Silky-smooth speed (zero lag during encryption)',
+      gupshupgo: 'Yes — runs quietly in the background without lag',
+      competitor: 'Standard',
+    },
+    {
+      label: 'In-chat casual games & chat streaks',
+      gupshupgo: 'Yes — Gup Arcade (games, points & friend streaks)',
+      competitor: 'Partial — third-party bots only',
+    },
+    {
+      label: 'Live screen sharing in HD calls',
+      gupshupgo: 'Yes — crystal-clear real-time screen sharing',
+      competitor: 'Yes',
+    },
+    {
+      label: 'Full-screen incoming calls when locked',
+      gupshupgo: 'Yes — rings full-screen even when app is closed',
+      competitor: 'Yes',
+    },
+    {
+      label: 'PIN-protected Secret Vault',
+      gupshupgo: 'Yes — locked behind a separate secret PIN on your phone',
+      competitor: 'Partial — simple app passcode only',
+    },
+    {
+      label: '24-hour stories & status replies',
+      gupshupgo: 'Yes — photo & text statuses with direct in-chat replies',
+      competitor: 'Yes',
+    },
+    {
+      label: 'Instant 1-tap phone sign-in',
+      gupshupgo: 'Yes — instant SIM verification without SMS delay',
+      competitor: 'No — standard SMS wait code',
+    },
+    {
+      label: 'Fast offline chat search',
+      gupshupgo: 'Yes — instant on-device chat search',
+      competitor: 'Yes',
+    },
+    {
       label: 'Anonymous stranger chat (1:1 matchmaking)',
       gupshupgo: 'Yes',
       competitor: 'No',
@@ -320,11 +495,6 @@ const TELEGRAM: Comparison = {
       label: 'Built-in AI assistant',
       gupshupgo: 'Gup AI (our own built-in assistant)',
       competitor: 'Third-party bots & AI',
-    },
-    {
-      label: 'On-device encrypted Vault (PIN-protected)',
-      gupshupgo: 'Yes — Argon2id, zero-knowledge',
-      competitor: 'No comparable on-device vault',
     },
     {
       label: 'Price',
@@ -397,6 +567,30 @@ export const COMPARE_HIGHLIGHTS: readonly HighlightRow[] = [
     gupshupgo: 'Yes — all chats, calls & status',
     whatsapp: 'Yes — chats & calls',
     telegram: 'Secret Chats only (1:1)',
+  },
+  {
+    label: 'PIN-protected Secret Vault',
+    gupshupgo: 'Yes — separate secret PIN',
+    whatsapp: 'Partial (phone PIN only)',
+    telegram: 'Partial (app passcode)',
+  },
+  {
+    label: 'In-chat games & chat streaks',
+    gupshupgo: 'Yes (Gup Arcade & Bonds)',
+    whatsapp: 'No',
+    telegram: 'Bots only',
+  },
+  {
+    label: 'Silky-smooth speed (zero lag)',
+    gupshupgo: 'Yes — fast & stutter-free',
+    whatsapp: 'Standard',
+    telegram: 'Standard',
+  },
+  {
+    label: 'Live screen sharing in HD calls',
+    gupshupgo: 'Yes (HD real-time)',
+    whatsapp: 'Yes',
+    telegram: 'Yes',
   },
   {
     label: 'Built-in AI assistant',

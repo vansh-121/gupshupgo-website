@@ -4,10 +4,16 @@ import {
   ArrowRight,
   BookOpen,
   Check,
+  Cpu,
+  Flame,
+  Gamepad2,
+  Lock,
   Minus,
   Radio,
   ShieldCheck,
+  Smartphone,
   Sparkles,
+  UserX,
   X,
 } from "lucide-react";
 
@@ -21,6 +27,7 @@ import {
   COMPARE_HIGHLIGHTS,
   COMPARISONS,
   COMPARISONS_LAST_UPDATED,
+  EXCLUSIVE_SUPERPOWERS,
 } from "@/data/comparisons";
 import { BLOG_POSTS } from "@/data/blogPosts";
 import { SITE_URL } from "@/config/app";
@@ -111,12 +118,7 @@ export default function CompareIndex() {
         jsonLd={jsonLd}
       />
 
-      <div
-        className={cn(
-          "mx-auto w-full px-20px py-60px bp810:px-36px bp810:py-96px",
-          MEASURE_CLASSES[809],
-        )}
-      >
+      <div className="mx-auto w-full max-w-[1240px] px-20px py-60px bp810:px-36px bp810:py-96px">
         {/* Navigation Breadcrumbs & Back Link */}
         <div className="flex flex-wrap items-center justify-between gap-12px mb-32px">
           <BlogBreadcrumbs items={[{ label: "Compare" }]} />
@@ -259,7 +261,7 @@ export default function CompareIndex() {
                       </div>
                       <div className="flex items-center gap-8px text-13 text-ink-high">
                         <Check className="h-4 w-4 shrink-0 text-emerald-500" />
-                        <span>Argon2id PIN-protected local Vault</span>
+                        <span>PIN-protected Secret Vault</span>
                       </div>
                       <div className="flex items-center gap-8px text-13 text-ink-secondary">
                         <X className="h-4 w-4 shrink-0 text-ink-secondary/70" />
@@ -356,6 +358,90 @@ export default function CompareIndex() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </section>
+
+        {/* Standout Features WhatsApp & Telegram Lack */}
+        <section aria-labelledby="exclusive-superpowers-heading" className="mt-64px">
+          <div className="mb-24px">
+            <div className="inline-flex items-center gap-6px text-12 font-semibold uppercase tracking-wider text-brand dark:text-emerald-400 mb-8px">
+              <Sparkles className="h-4 w-4" aria-hidden="true" />
+              <span>GupShupGo Exclusives</span>
+            </div>
+            <h2
+              id="exclusive-superpowers-heading"
+              className="text-25 font-semibold leading-120 text-ink-high"
+            >
+              Features WhatsApp &amp; Telegram Don't Have
+            </h2>
+            <p className="mt-4px text-14 text-ink-secondary">
+              Capabilities engineered directly into GupShupGo that mainstream messaging apps simply lack
+            </p>
+          </div>
+
+          <div className="grid gap-24px sm:grid-cols-2 lg:grid-cols-3">
+            {EXCLUSIVE_SUPERPOWERS.map((feature) => {
+              const Icon =
+                feature.id === "mesh"
+                  ? Radio
+                  : feature.id === "streaks"
+                  ? Flame
+                  : feature.id === "anonymous"
+                  ? UserX
+                  : feature.id === "vault"
+                  ? Lock
+                  : feature.id === "crypto-isolate"
+                  ? Cpu
+                  : feature.id === "arcade"
+                  ? Gamepad2
+                  : Smartphone;
+
+              return (
+                <div
+                  key={feature.id}
+                  className="group flex flex-col justify-between rounded-24 bg-layer-1 border border-hairline-12 p-28px shadow-hairline-12-elevated transition-standard hover:border-brand/40 hover:shadow-elevation"
+                >
+                  <div className="space-y-16px">
+                    <div className="flex items-center justify-between gap-12px">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-14 bg-brand/10 text-brand dark:text-emerald-400 shrink-0">
+                        <Icon className="h-6 w-6" aria-hidden="true" />
+                      </div>
+                      <span className="rounded-full bg-layer-2 px-12px py-4px text-11 font-semibold tracking-wide text-brand dark:text-emerald-400 border border-hairline-12">
+                        {feature.badge}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-19 font-bold text-ink-high leading-snug">
+                        {feature.title}
+                      </h3>
+                      <p className="mt-4px text-13 font-medium text-brand dark:text-emerald-400">
+                        {feature.subtitle}
+                      </p>
+                    </div>
+
+                    <p className="text-14 leading-160 text-ink-secondary">
+                      {feature.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-24px pt-16px border-t border-hairline-12 space-y-10px text-13">
+                    <div className="flex items-start gap-8px text-ink-secondary">
+                      <X className="h-4 w-4 shrink-0 text-red-500/80 mt-[2px]" aria-hidden="true" />
+                      <span className="leading-snug">
+                        <strong className="font-semibold text-ink-high">WhatsApp:</strong> {feature.whatsappStatus}
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-8px text-ink-secondary">
+                      <X className="h-4 w-4 shrink-0 text-red-500/80 mt-[2px]" aria-hidden="true" />
+                      <span className="leading-snug">
+                        <strong className="font-semibold text-ink-high">Telegram:</strong> {feature.telegramStatus}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 

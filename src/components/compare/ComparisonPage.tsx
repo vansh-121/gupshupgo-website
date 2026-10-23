@@ -7,11 +7,16 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
+  Cpu,
+  Flame,
+  Gamepad2,
   Lock,
   Minus,
   Radio,
   ShieldCheck,
+  Smartphone,
   Sparkles,
+  UserX,
   X,
 } from "lucide-react";
 
@@ -24,6 +29,7 @@ import {
   comparisonJsonLd,
   COMPARISONS,
   COMPARISONS_LAST_UPDATED,
+  EXCLUSIVE_SUPERPOWERS,
   type Comparison,
 } from "@/data/comparisons";
 import { cn } from "@/lib/utils";
@@ -89,12 +95,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
         jsonLd={comparisonJsonLd(comparison)}
       />
 
-      <div
-        className={cn(
-          "mx-auto w-full px-20px py-60px bp810:px-36px bp810:py-96px",
-          MEASURE_CLASSES[809],
-        )}
-      >
+      <div className="mx-auto w-full max-w-[1240px] px-20px py-60px bp810:px-36px bp810:py-96px">
         {/* Navigation Breadcrumbs & Back Link */}
         <div className="flex flex-wrap items-center justify-between gap-12px mb-32px">
           <BlogBreadcrumbs
@@ -120,7 +121,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
             {comparison.h1}
           </h1>
 
-          <p className={cn(MEASURE_CLASSES[644], "text-18 leading-150 text-ink-secondary")}>
+          <p className="max-w-[840px] text-18 leading-150 text-ink-secondary">
             {comparison.intro}
           </p>
 
@@ -175,7 +176,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
                   </li>
                   <li className="flex items-center gap-8px">
                     <Check className="h-4 w-4 shrink-0 text-emerald-500" />
-                    <span>PIN-protected on-device Vault (Argon2id)</span>
+                    <span>PIN-protected Secret Vault</span>
                   </li>
                   <li className="flex items-center gap-8px">
                     <Check className="h-4 w-4 shrink-0 text-emerald-500" />
@@ -228,7 +229,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
                   </li>
                   <li className="flex items-center gap-8px">
                     <X className="h-4 w-4 shrink-0 text-ink-secondary/70" />
-                    <span>No comparable on-device zero-knowledge vault</span>
+                    <span>No separate secret PIN vault</span>
                   </li>
                   <li className="flex items-center gap-8px">
                     <Check className="h-4 w-4 shrink-0 text-emerald-500" />
@@ -320,6 +321,93 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
           </div>
         </section>
 
+        {/* Features the Competitor Lacks */}
+        <section aria-labelledby="competitor-lacks-heading" className="mt-64px">
+          <div className="mb-24px">
+            <div className="inline-flex items-center gap-6px text-12 font-semibold uppercase tracking-wider text-brand dark:text-emerald-400 mb-8px">
+              <Sparkles className="h-4 w-4" aria-hidden="true" />
+              <span>GupShupGo Exclusives</span>
+            </div>
+            <h2
+              id="competitor-lacks-heading"
+              className="text-25 font-semibold leading-120 text-ink-high"
+            >
+              Features {comparison.competitor} Doesn't Have
+            </h2>
+            <p className="mt-4px text-14 text-ink-secondary">
+              Distinctive capabilities built into GupShupGo's architecture that {comparison.competitor} does not offer
+            </p>
+          </div>
+
+          <div className="grid gap-24px sm:grid-cols-2 lg:grid-cols-3">
+            {EXCLUSIVE_SUPERPOWERS.map((feature) => {
+              const competitorStatus =
+                comparison.competitor === "WhatsApp"
+                  ? feature.whatsappStatus
+                  : feature.telegramStatus;
+
+              const Icon =
+                feature.id === "mesh"
+                  ? Radio
+                  : feature.id === "streaks"
+                  ? Flame
+                  : feature.id === "anonymous"
+                  ? UserX
+                  : feature.id === "vault"
+                  ? Lock
+                  : feature.id === "crypto-isolate"
+                  ? Cpu
+                  : feature.id === "arcade"
+                  ? Gamepad2
+                  : Smartphone;
+
+              return (
+                <div
+                  key={feature.id}
+                  className="group flex flex-col justify-between rounded-24 bg-layer-1 border border-hairline-12 p-28px shadow-hairline-12-elevated transition-standard hover:border-brand/40 hover:shadow-elevation"
+                >
+                  <div className="space-y-16px">
+                    <div className="flex items-center justify-between gap-12px">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-14 bg-brand/10 text-brand dark:text-emerald-400 shrink-0">
+                        <Icon className="h-6 w-6" aria-hidden="true" />
+                      </div>
+                      <span className="rounded-full bg-layer-2 px-12px py-4px text-11 font-semibold tracking-wide text-brand dark:text-emerald-400 border border-hairline-12">
+                        {feature.badge}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-19 font-bold text-ink-high leading-snug">
+                        {feature.title}
+                      </h3>
+                      <p className="mt-4px text-13 font-medium text-brand dark:text-emerald-400">
+                        {feature.subtitle}
+                      </p>
+                    </div>
+
+                    <p className="text-14 leading-160 text-ink-secondary">
+                      {feature.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-24px pt-16px border-t border-hairline-12 space-y-10px text-13">
+                    <div className="flex items-center gap-8px text-emerald-600 dark:text-emerald-400 font-semibold">
+                      <Check className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+                      <span>Built into GupShupGo</span>
+                    </div>
+                    <div className="flex items-start gap-8px text-ink-secondary">
+                      <X className="h-4 w-4 shrink-0 text-red-500/80 mt-[2px]" aria-hidden="true" />
+                      <span className="leading-snug">
+                        <strong className="font-semibold text-ink-high">{comparison.competitor}:</strong> {competitorStatus}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
         {/* Visual Feature Breakdown with Real Screenshots */}
         {comparison.visualFeatures && comparison.visualFeatures.length > 0 && (
           <section aria-labelledby="visual-showcase-heading" className="mt-64px">
@@ -387,24 +475,70 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
           </section>
         )}
 
-        {/* Narrative Section */}
+        {/* Narrative Section with Right-Side Photo Showcase */}
         <section aria-labelledby="comparison-narrative-heading" className="mt-64px">
-          <div className="rounded-24 bg-layer-1 p-24px sm:p-36px shadow-hairline-12 border border-hairline-12">
-            <h2
-              id="comparison-narrative-heading"
-              className="mb-20px text-25 font-semibold leading-120 text-ink-high"
-            >
-              How they really compare
-            </h2>
-            <div
-              className={cn(
-                MEASURE_CLASSES[644],
-                "space-y-16px text-16 leading-160 text-ink-secondary",
-              )}
-            >
-              {comparison.narrative.map((paragraph) => (
-                <p key={paragraph.slice(0, 32)}>{paragraph}</p>
-              ))}
+          <div className="grid gap-32px rounded-24 bg-layer-1 p-24px sm:p-36px lg:p-40px shadow-hairline-12-elevated border border-hairline-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            {/* Left: Narrative copy */}
+            <div>
+              <div className="inline-flex items-center gap-6px text-12 font-semibold uppercase tracking-wider text-brand dark:text-emerald-400 mb-10px">
+                <BookOpen className="h-4 w-4" aria-hidden="true" />
+                <span>Architectural Verdict</span>
+              </div>
+              <h2
+                id="comparison-narrative-heading"
+                className="mb-20px text-25 sm:text-28 font-semibold leading-120 text-ink-high"
+              >
+                How they really compare
+              </h2>
+              <div className="space-y-16px text-15 sm:text-16 leading-160 text-ink-secondary">
+                {comparison.narrative.map((paragraph) => (
+                  <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Rich Visual Photo & Takeaway Scorecard */}
+            <div className="flex flex-col items-center justify-center overflow-hidden rounded-20 border border-hairline-12 bg-layer-0/70 p-16px sm:p-20px shadow-sm">
+              <div className="relative w-full aspect-[16/10] overflow-hidden rounded-16 bg-layer-2 shadow-elevation">
+                <img
+                  src={comparison.coverImage || "/blog/messaging-comparison-cover.jpg"}
+                  alt={`GupShupGo vs ${comparison.competitor} architectural overview`}
+                  loading="lazy"
+                  className="h-full w-full object-cover brightness-[0.95] dark:brightness-[0.85] transition-transform duration-500 hover:scale-102"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                <div className="absolute bottom-16px left-16px right-16px">
+                  <span className="inline-block rounded-full bg-brand px-10px py-3px text-11 font-bold uppercase tracking-wider text-white shadow-elevation">
+                    The Verdict
+                  </span>
+                  <p className="mt-6px text-15 font-semibold text-white">
+                    GupShupGo vs {comparison.competitor}
+                  </p>
+                  <p className="text-12 text-white/80">
+                    Automatic Privacy + Offline Nearby Chat
+                  </p>
+                </div>
+              </div>
+
+              {/* Takeaway scorecard badges below photo */}
+              <div className="mt-14px grid w-full grid-cols-2 gap-10px text-center">
+                <div className="rounded-12 bg-layer-1 p-12px border border-hairline-12">
+                  <span className="block text-11 font-semibold uppercase tracking-wider text-ink-secondary">
+                    Offline Mesh
+                  </span>
+                  <span className="text-13 font-bold text-emerald-600 dark:text-emerald-400">
+                    GupShupGo Only
+                  </span>
+                </div>
+                <div className="rounded-12 bg-layer-1 p-12px border border-hairline-12">
+                  <span className="block text-11 font-semibold uppercase tracking-wider text-ink-secondary">
+                    Signal E2EE
+                  </span>
+                  <span className="text-13 font-bold text-brand dark:text-emerald-400">
+                    Default
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>

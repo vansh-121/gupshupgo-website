@@ -1,53 +1,70 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Sparkles, X } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  Flame,
+  Gamepad2,
+  Lock,
+  Radio,
+  Sparkles,
+  UserX,
+  X,
+} from "lucide-react";
 
 import Section from "@/components/Section";
 import SectionHeading from "@/components/SectionHeading";
 import { bandFor } from "@/data/sections";
+import { EXCLUSIVE_SUPERPOWERS } from "@/data/comparisons";
 
 const SHOWDOWN_ROWS = [
   {
-    feature: "Works Offline (No Internet / SIM)",
-    gupshupgo: "Yes — Bluetooth & Wi-Fi Direct mesh",
+    feature: "Works with No Internet (Offline Mesh)",
+    gupshupgo: "Yes — Bluetooth & local Wi-Fi mesh",
     whatsapp: "No — Strictly requires active internet",
     telegram: "No — Strictly requires active internet",
   },
   {
-    feature: "Default E2E Encryption",
-    gupshupgo: "Yes — Signal protocol on by default",
-    whatsapp: "Yes — Signal protocol by default",
-    telegram: "No — Cloud chats default (Secret chats opt-in)",
+    feature: "Chat Streaks & Friend Bonds",
+    gupshupgo: "Yes — Daily streaks with 24h restore",
+    whatsapp: "No — Not available",
+    telegram: "No — Not available",
   },
   {
-    feature: "Encrypted Group Chats",
-    gupshupgo: "Yes — Full E2EE on all group chats",
-    whatsapp: "Yes — End-to-end encrypted",
-    telegram: "No — Stored plaintext on cloud servers",
+    feature: "Anonymous Stranger Chat",
+    gupshupgo: "Yes — 1-on-1 chats with blurred media",
+    whatsapp: "No — Phone numbers always exposed",
+    telegram: "No — Phone required, no random matching",
   },
   {
-    feature: "On-Device PIN Vault & Anti-Screenshot",
-    gupshupgo: "Yes — Argon2id hash + FLAG_SECURE",
-    whatsapp: "No — Basic device lock (No screenshot block)",
-    telegram: "No — Basic app lock (No screenshot block)",
+    feature: "PIN-Protected Secret Vault",
+    gupshupgo: "Yes — Separate secret PIN & anti-screenshot",
+    whatsapp: "No — Basic phone screen lock only",
+    telegram: "No — Basic app passcode only",
   },
   {
-    feature: "Decoupled Anonymous Chat",
-    gupshupgo: "Yes — Rotating aliases, 0 phone reveal",
-    whatsapp: "No — Phone number exposed to groups",
-    telegram: "No — Phone required, nearby triangulation",
+    feature: "In-Chat Games & Arcade",
+    gupshupgo: "Yes — Built-in mini-games & rewards",
+    whatsapp: "No — Not available",
+    telegram: "Partial — External web bots only",
   },
   {
-    feature: "Zero Ad Tracking & Telemetry",
-    gupshupgo: "Yes — No commercial profiling",
-    whatsapp: "No — Telemetry shared with Meta",
-    telegram: "No — Sponsored ads in public channels",
+    feature: "Silky-Smooth Speed (Zero Lag)",
+    gupshupgo: "Yes — Heavy tasks run in background",
+    whatsapp: "Standard — Can lag on heavy media",
+    telegram: "Standard — Can lag on heavy media",
+  },
+  {
+    feature: "Automatic Privacy & Encryption",
+    gupshupgo: "Yes — Chats, calls & status by default",
+    whatsapp: "Yes — Personal chats & calls",
+    telegram: "No — Secret Chats only (not default)",
   },
 ];
 
 export default function CompareSection() {
   return (
     <Section id="compare" band={bandFor("compare")}>
-      <div className="space-y-40px">
+      <div className="space-y-48px">
         {/* Section Header */}
         <div className="flex flex-col items-start justify-between gap-20px min-[680px]:flex-row min-[680px]:items-end">
           <div className="space-y-12px max-w-[680px]">
@@ -61,7 +78,7 @@ export default function CompareSection() {
             </SectionHeading>
 
             <p className="text-16 leading-150 text-ink-secondary sm:text-18">
-              See why privacy-conscious mobile users choose GupShupGo over cloud-first and big-tech alternatives.
+              See why mobile users switch to GupShupGo for offline freedom, chat streaks, hidden vaults, and uncompromising privacy.
             </p>
           </div>
 
@@ -156,7 +173,74 @@ export default function CompareSection() {
           </table>
         </div>
 
-        {/* Two Deep Dive Showcase Action Cards with Rich Visual Previews */}
+        {/* Standout Features WhatsApp & Telegram Lack */}
+        <div>
+          <div className="mb-20px">
+            <h3 className="text-18 font-bold text-ink-high sm:text-20">
+              Features WhatsApp &amp; Telegram Don't Have
+            </h3>
+            <p className="mt-4px text-14 text-ink-secondary">
+              Capabilities built directly into GupShupGo that mainstream chat apps simply do not offer.
+            </p>
+          </div>
+
+          <div className="grid gap-16px sm:grid-cols-2 lg:grid-cols-4">
+            {EXCLUSIVE_SUPERPOWERS.slice(0, 4).map((feature) => {
+              const Icon =
+                feature.id === "mesh"
+                  ? Radio
+                  : feature.id === "streaks"
+                  ? Flame
+                  : feature.id === "anonymous"
+                  ? UserX
+                  : Lock;
+
+              return (
+                <div
+                  key={feature.id}
+                  className="flex flex-col justify-between rounded-20 bg-layer-1 border border-hairline-12 p-20px shadow-sm transition-standard hover:border-brand/40 hover:shadow-elevation"
+                >
+                  <div className="space-y-12px">
+                    <div className="flex items-center justify-between gap-8px">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-12 bg-brand/10 text-brand dark:text-emerald-400 shrink-0">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </div>
+                      <span className="rounded-full bg-layer-2 px-10px py-3px text-11 font-semibold text-brand dark:text-emerald-400 border border-hairline-12">
+                        {feature.badge}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h4 className="text-16 font-bold text-ink-high">
+                        {feature.title}
+                      </h4>
+                      <p className="mt-2px text-12 font-medium text-brand dark:text-emerald-400">
+                        {feature.subtitle}
+                      </p>
+                    </div>
+
+                    <p className="text-13 leading-150 text-ink-secondary">
+                      {feature.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-16px pt-12px border-t border-hairline-12 space-y-6px text-12 text-ink-secondary">
+                    <div className="flex items-center gap-6px">
+                      <X className="h-3.5 w-3.5 text-red-500/80 shrink-0" aria-hidden="true" />
+                      <span><strong>WhatsApp:</strong> Not available</span>
+                    </div>
+                    <div className="flex items-center gap-6px">
+                      <X className="h-3.5 w-3.5 text-red-500/80 shrink-0" aria-hidden="true" />
+                      <span><strong>Telegram:</strong> Not available</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Two Deep Dive Showcase Action Cards */}
         <div className="grid gap-20px sm:grid-cols-2">
           {/* Card 1: GupShupGo vs WhatsApp */}
           <Link
@@ -197,7 +281,7 @@ export default function CompareSection() {
             {/* Card Content Body */}
             <div className="flex flex-1 flex-col justify-between p-20px space-y-16px">
               <p className="text-14 leading-150 text-ink-secondary">
-                Signal protocol baseline, offline Bluetooth mesh versus cellular blackouts, and zero metadata profiling.
+                Both encrypt chats end-to-end, but GupShupGo keeps you chatting nearby with zero internet or SIM, adds secret PIN locks, and is 100% open source.
               </p>
               <div className="inline-flex items-center gap-8px text-14 font-semibold text-emerald-600 dark:text-emerald-400 group-hover:underline">
                 <span>Read in-depth WhatsApp comparison</span>
@@ -231,7 +315,7 @@ export default function CompareSection() {
                   vs Telegram
                 </span>
                 <span className="rounded-full bg-brand px-12px py-5px text-12 font-semibold text-white shadow-elevation">
-                  Default E2EE
+                  Privacy by Default
                 </span>
               </div>
 
@@ -245,7 +329,7 @@ export default function CompareSection() {
             {/* Card Content Body */}
             <div className="flex flex-1 flex-col justify-between p-20px space-y-16px">
               <p className="text-14 leading-150 text-ink-secondary">
-                Default client-client Signal encryption versus MTProto cloud storage, secret chats limits, and zero server storage.
+                Telegram stores regular chats on company cloud servers. GupShupGo protects every conversation by default and works during network outages.
               </p>
               <div className="inline-flex items-center gap-8px text-14 font-semibold text-sky-600 dark:text-sky-400 group-hover:underline">
                 <span>Read in-depth Telegram comparison</span>
