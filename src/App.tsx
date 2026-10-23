@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import LoadingSkeleton from "@/components/landing/LoadingSkeleton";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 
 const Index = lazy(() => import("./pages/Index"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -18,6 +19,10 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const Support = lazy(() => import("./pages/Support"));
 const BlogIndex = lazy(() => import("./pages/BlogIndex"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
+const CompareIndex = lazy(() => import("./pages/CompareIndex"));
+const CompareWhatsApp = lazy(() => import("./pages/CompareWhatsApp"));
+const CompareTelegram = lazy(() => import("./pages/CompareTelegram"));
+const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 
 const queryClient = new QueryClient();
 
@@ -34,6 +39,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Suspense fallback={<LoadingSkeleton />}>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -46,6 +52,10 @@ const App = () => (
               <Route path="/support" element={<Support />} />
               <Route path="/blog" element={<BlogIndex />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/compare" element={<CompareIndex />} />
+              <Route path="/gupshupgo-vs-whatsapp" element={<CompareWhatsApp />} />
+              <Route path="/gupshupgo-vs-telegram" element={<CompareTelegram />} />
+              <Route path="/u/:username" element={<PublicProfile />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

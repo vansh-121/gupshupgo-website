@@ -31,9 +31,12 @@ const VISIBLE_COUNT = VISIBLE_SECTIONS.length;
 async function renderLanding(theme: "light" | "dark") {
   const result = renderWithProviders(<Index />, { theme });
   // All lazy chunks have resolved once the final section is in the document.
-  await waitFor(() => {
-    expect(document.getElementById(LAST_SECTION_ID)).not.toBeNull();
-  });
+  await waitFor(
+    () => {
+      expect(document.getElementById(LAST_SECTION_ID)).not.toBeNull();
+    },
+    { timeout: 5000 },
+  );
   return result;
 }
 

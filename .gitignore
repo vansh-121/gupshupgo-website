@@ -28,3 +28,6 @@ scripts/fetch-unsplash-images.mjs
 *.njsproj
 *.sln
 *.sw?
+
+.agents
+AGENTS.md

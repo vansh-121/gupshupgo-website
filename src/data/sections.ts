@@ -23,6 +23,7 @@ export type SectionId =
   | 'anonymous'
   | 'pro'
   | 'trust'
+  | 'compare'
   | 'blog'
   | 'newsletter'
   | 'download';
@@ -39,7 +40,7 @@ export const SECTIONS: readonly SectionMeta[] = [
   {
     id: 'hero',
     navLabel: null,
-    headingText: 'Stay Connected. Stay Private. Even Offline.',
+    headingText: 'The Private Chat App That Works Even Without Internet',
   },
   {
     id: 'features',
@@ -80,6 +81,11 @@ export const SECTIONS: readonly SectionMeta[] = [
     id: 'trust',
     navLabel: 'Trust',
     headingText: 'Built to be trusted',
+  },
+  {
+    id: 'compare',
+    navLabel: null,
+    headingText: 'How GupShupGo compares',
   },
   {
     id: 'blog',

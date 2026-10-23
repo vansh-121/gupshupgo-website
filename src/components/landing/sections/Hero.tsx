@@ -54,7 +54,7 @@ import { cn } from "@/lib/utils";
 /** Heading copy lives in the shared section registry so nav/tests cannot drift. */
 const HERO_HEADING =
   SECTIONS.find((section) => section.id === "hero")?.headingText ??
-  "Stay Connected. Stay Private. Even Offline.";
+  "The Private Chat App That Works Even Without Internet";
 
 /** Forward frame: the chat screen. Rear frame: the call screen. */
 const CHAT_SCREEN = getMockupScreen("chat") as MockupChatScreen;
@@ -81,16 +81,15 @@ export default function Hero() {
           )}
         >
           {HERO_HEADING}
-
         </Reveal>
 
         <Reveal
           as="p"
           className={cn(MEASURE_CLASSES[644], "mt-24px text-lead text-ink-secondary")}
         >
-          Send texts, photos and voice notes, jump into end-to-end encrypted HD
-          video and voice calls, and keep chatting with people nearby even when
-          there is no internet at all.
+          The secure Android chat app that keeps you connected anywhere. Message
+          and call friends with total privacy, and keep chatting with people
+          nearby with zero internet, Wi-Fi, or SIM needed when networks go down.
         </Reveal>
 
         <Reveal

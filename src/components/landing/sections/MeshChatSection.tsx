@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import ScreenshotMockup from "@/components/DeviceMockup/ScreenshotMockup";
 import { Bluetooth, Lock, Radio, ShieldCheck, Smartphone, type LucideIcon } from "lucide-react";
 
@@ -160,6 +161,14 @@ export default function MeshChatSection() {
           When the network drops, GupShupGo keeps going. Your messages travel between nearby
           devices over Bluetooth and Wi-Fi Direct with no internet connection, hopping from phone
           to phone through multi-hop relaying until they arrive.
+        </p>
+        <p className="mt-16px text-16 leading-140 text-ink-secondary">
+          <Link
+            to="/compare"
+            className="text-ink-accent underline underline-offset-2 transition-standard hover:no-underline"
+          >
+            See how GupShupGo's offline chat compares to WhatsApp and Telegram
+          </Link>
         </p>
       </Reveal>
 
