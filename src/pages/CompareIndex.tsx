@@ -527,7 +527,7 @@ export default function CompareIndex() {
 
         {/* Bottom CTA */}
         <BlogCTA
-          title="Private messaging that works even without the internet"
+          title="The Private Chat App That Works Even Without Internet"
           description="Download GupShupGo free on Google Play — Signal-protocol encryption on by default, a built-in Gup AI assistant, and offline Bluetooth mesh chat when there's no signal."
         />
       </div>
