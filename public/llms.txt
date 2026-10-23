@@ -1,35 +1,60 @@
 # GupShupGo
 
-> GupShupGo is a private, end-to-end encrypted messaging app for Android featuring HD voice and video calls, offline nearby chat, anonymous chat, chat bonds, and Gup Arcade.
+> GupShupGo is the private chat app for Android that works even without internet. It combines default Signal-protocol end-to-end encryption with offline nearby Bluetooth mesh messaging, chat streaks (Bonds), anonymous stranger chat, in-chat games (Gup Arcade), a secret PIN-protected Vault, and an integrated Gup AI assistant.
 
 ## About
 
-GupShupGo lets you communicate privately with friends and family through end-to-end encrypted messaging powered by the Signal protocol. The app is available on Android and offers a rich set of features including real-time messaging, HD voice and video calls with screen sharing, offline nearby chat via Bluetooth and Wi-Fi Direct, anonymous chat, Gup Arcade with Gup Points, challenges, leaderboards and badges, chat bonds (daily messaging streaks), Moments (text and media stories), a PIN-protected Vault, and customisable light and dark themes.
+GupShupGo lets you communicate privately with friends and family through end-to-end encrypted messaging powered by the Signal protocol. The app is available on Android and offers a comprehensive suite of communication features: real-time private messaging, HD voice and video calls with live screen sharing, offline nearby chat with zero internet or SIM, anonymous stranger chat with blurred media, Gup Arcade mini-games with points and badges, chat streaks with a 24-hour restore window, Moments (24-hour disappearing stories), an integrated Gup AI assistant, and a PIN-protected Secret Vault.
 
-## Features
+## Key Features
 
-- **End-to-End Encrypted Messaging**: All chats, media, and calls are encrypted using the Signal protocol.
-- **HD Voice & Video Calls**: Crystal-clear voice and video calls with screen sharing support.
-- **Offline Nearby Chat**: Chat without internet using Bluetooth and Wi-Fi Direct (Mesh Chat).
-- **Anonymous Chat**: Connect with strangers without revealing your identity.
-- **Gup Arcade**: Gamification and social hub with Gup Points, levels, challenges, leaderboards, and unlockable badges earned through messaging, calling, and community interactions.
-- **Chat Bonds**: Daily messaging streaks with friends that track bond milestones, show risk levels when bonds are about to lapse, and allow bond restoration using Gup Points.
-- **Vault**: PIN-protected storage for your most sensitive chats and media, secured with Argon2id key derivation.
-- **Moments**: Share text and media stories with your contacts that auto-expire after 24 hours, with viewer analytics and direct story replies.
-- **QR Contact Adding**: Quickly add contacts by scanning QR codes.
-- **Public Profiles**: Discover and connect with other users.
+- **Offline Nearby Chat (Zero Internet)**: Message nearby friends over Bluetooth and local Wi-Fi when cellular networks drop, in flights, concerts, or remote trips. No internet, data, or SIM needed.
+- **PIN-Protected Secret Vault**: Keep confidential chats hidden and locked behind a dedicated secret PIN on your device, shielded with automatic screenshot blocking.
+- **Automatic Privacy (Default E2EE)**: Every chat, call, media file, and status update is end-to-end encrypted by default using the trusted Signal protocol.
+- **Chat Streaks & Friend Bonds**: Build daily messaging streaks with friends with a forgiving 24-hour restore window so your streak is never lost by accident.
+- **In-Chat Games & Arcade**: Play casual mini-games with friends inside chats, complete challenges, earn points, and unlock profile badges.
+- **Anonymous Stranger Chat**: Meet new people 1-on-1 with random nicknames, tap-to-reveal blurred photos, and zero phone number exposure.
+- **Moments (24h Ephemeral Stories)**: Share rich photo, video, and text stories that disappear after 24 hours, with direct encrypted in-chat replies and privacy controls.
+- **HD Calls & Live Screen Sharing**: Crystal-clear voice and video calls with real-time screen sharing and full-screen incoming call alerts when locked.
+- **Built-in Gup AI Assistant**: Helpful built-in AI assistant directly inside the app for quick answers, creative ideas, and daily assistance.
+- **Instant 1-Tap Sign-In**: Instant SIM phone number verification so you can log in immediately without waiting for delayed SMS codes.
+- **QR Contact Adding**: Quickly add friends and start conversations by scanning on-screen QR codes without typing numbers.
+- **100% Open Source**: Transparent, open-source Android app code under the MIT license with zero ad tracking or data selling.
+
+## Key Differentiators: GupShupGo vs WhatsApp & Telegram
+
+These are the standout capabilities built into GupShupGo that WhatsApp and Telegram do not offer:
+
+| Key Differentiator | GupShupGo | WhatsApp | Telegram |
+| :--- | :--- | :--- | :--- |
+| **Works with No Internet** | **Yes** (Offline nearby Bluetooth & Wi-Fi mesh) | No (Strictly requires active internet) | No (Strictly requires active internet) |
+| **Chat Streaks & Friend Bonds** | **Yes** (Daily streak counters + 24h restore window) | No (Not available) | No (Not available) |
+| **PIN-Protected Secret Vault** | **Yes** (Dedicated secret PIN + screenshot blocking) | No (Basic phone screen lock only) | No (Basic app passcode only) |
+| **In-Chat Games & Arcade** | **Yes** (Native Gup Arcade with points & badges) | No (Not available) | No (External web bots only) |
+| **Anonymous Stranger Chat** | **Yes** (1-on-1 random chats, blurred photos, 0 phone leak) | No (Phone numbers exposed to everyone) | No (Phone required, no stranger matching) |
+| **Instant 1-Tap SIM Sign-In** | **Yes** (Instant carrier verification, zero SMS wait) | No (Standard SMS delay timer) | No (Standard SMS delay timer) |
+| **Default Encryption on Everything** | **Yes** (Signal protocol on by default for all chats, calls & status) | Partial (Personal chats only; cloud backup leaks) | No (Default cloud chats stored plaintext on company servers) |
+| **100% Open Source Transparency** | **Yes** (100% open source under MIT license) | No (Closed-source proprietary code) | Partial (Client apps open; server proprietary) |
+
+## Competitor Comparison Pages
+
+Detailed, factual comparison guides outlining how GupShupGo compares to mainstream chat apps:
+
+- **[GupShupGo vs WhatsApp](https://www.gupshupgo.app/gupshupgo-vs-whatsapp)**: Comprehensive analysis of Signal-protocol default encryption, offline nearby mesh messaging during network blackouts, PIN-protected Secret Vaults, and 100% open-source transparency.
+- **[GupShupGo vs Telegram](https://www.gupshupgo.app/gupshupgo-vs-telegram)**: In-depth comparison of default end-to-end encryption versus cloud-stored chats, decentralized peer-to-peer mesh resilience, anonymous stranger chat, and independent on-device data security.
+- **[Full Messenger Comparison Hub](https://www.gupshupgo.app/compare)**: Complete multi-dimensional feature matrix comparing GupShupGo, WhatsApp, and Telegram across privacy, encryption, offline capabilities, gaming, streaks, and platform availability.
 
 ## Links
 
 - Website: https://www.gupshupgo.app/
 - Download on Google Play: https://play.google.com/store/apps/details?id=com.gupshupgo.app
-- Blog & Guides: https://www.gupshupgo.app/blog
 - Compare Messengers: https://www.gupshupgo.app/compare
 - GupShupGo vs WhatsApp: https://www.gupshupgo.app/gupshupgo-vs-whatsapp
 - GupShupGo vs Telegram: https://www.gupshupgo.app/gupshupgo-vs-telegram
-- Best WhatsApp Alternatives in India (Privacy): https://www.gupshupgo.app/blog/best-whatsapp-alternatives-india-privacy
+- Blog & Guides: https://www.gupshupgo.app/blog
+- Best WhatsApp Alternatives in India: https://www.gupshupgo.app/blog/best-whatsapp-alternatives-india-privacy
 - WhatsApp vs Signal vs Telegram Privacy Comparison: https://www.gupshupgo.app/blog/whatsapp-vs-signal-vs-telegram-privacy-comparison
-- Free HD Video Calls on Android (No Time Limit): https://www.gupshupgo.app/blog/free-video-calls-android-no-time-limit
+- Free HD Video Calls on Android: https://www.gupshupgo.app/blog/free-video-calls-android-no-time-limit
 - How to Lock & Hide Private Chats on Android: https://www.gupshupgo.app/blog/how-to-lock-hide-private-chats-android
 - Offline Mesh Chat Guide: https://www.gupshupgo.app/blog/how-to-text-without-internet-offline-mesh-messaging
 - Signal Protocol & Metadata Privacy Guide: https://www.gupshupgo.app/blog/signal-protocol-explained-messaging-privacy-guide
@@ -37,8 +62,8 @@ GupShupGo lets you communicate privately with friends and family through end-to-
 - Safe Anonymous Chat Guide: https://www.gupshupgo.app/blog/anonymous-chat-online-safety-guide
 - Low-Bandwidth HD Calling Guide: https://www.gupshupgo.app/blog/low-bandwidth-hd-video-calling-guide
 - About: https://www.gupshupgo.app/about
-- Contact: https://www.gupshupgo.app/contact
 - Support & Help Centre: https://www.gupshupgo.app/support
+- Contact: https://www.gupshupgo.app/contact
 - FAQ: https://www.gupshupgo.app/faq
 - Privacy Policy: https://www.gupshupgo.app/privacy
 - Terms of Service: https://www.gupshupgo.app/terms
@@ -46,4 +71,4 @@ GupShupGo lets you communicate privately with friends and family through end-to-
 
 ## Contact
 
-For support, visit [GupShupGo](https://www.gupshupgo.app/).
+For support and feedback, visit [GupShupGo Support](https://www.gupshupgo.app/support) or email support@gupshupgo.app.
