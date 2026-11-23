@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const VALIDATION_MESSAGE = "Enter a valid email address, like you@example.com.";
+/** Dummy and RFC 2606 test domains used by crawlers/spambots */
+const BLOCKED_DOMAINS = new Set([
+  "example.com",
+  "example.org",
+  "example.net",
+  "test.com",
+  "test.org",
+  "sample.com",
+  "mailinator.com",
+]);
+
+const VALIDATION_MESSAGE = "Enter a valid email address.";
 const SUBMIT_ERROR_MESSAGE = "We could not save your email just now. Please try again.";
 
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY as string;
@@ -14,13 +25,15 @@ const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY as string;
  * Product-updates subscription form — powered by Web3Forms.
  *
  * Submissions POST to https://api.web3forms.com/submit and are forwarded
- * to the inbox associated with `VITE_WEB3FORMS_KEY`. No backend or RLS
- * setup required.
+ * to the inbox associated with `VITE_WEB3FORMS_KEY`. Includes anti-spam honeypot,
+ * test-domain suppression, and bot speed checks to protect Web3Forms monthly quota.
  */
 export default function NewsletterForm() {
   const [email, setEmail] = useState("");
+  const [botcheck, setBotcheck] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "pending" | "success" | "error">("idle");
+  const mountTimeRef = useRef<number>(Date.now());
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,6 +41,23 @@ export default function NewsletterForm() {
 
     if (!EMAIL_PATTERN.test(trimmed)) {
       setValidationError(VALIDATION_MESSAGE);
+      return;
+    }
+
+    const domain = trimmed.split("@")[1]?.toLowerCase();
+
+    // Anti-spam layer 1: Honeypot field checked by bots
+    // Anti-spam layer 2: Dummy/placeholder domains (e.g. you@example.com from crawlers/scripts)
+    // Anti-spam layer 3: Subhuman submission speed (< 800ms from component mount)
+    const isBot =
+      botcheck ||
+      (domain && BLOCKED_DOMAINS.has(domain)) ||
+      Date.now() - mountTimeRef.current < 800;
+
+    if (isBot) {
+      // Silently pretend success to deceive spam bots without consuming Web3Forms quota
+      setValidationError(null);
+      setStatus("success");
       return;
     }
 
@@ -42,6 +72,7 @@ export default function NewsletterForm() {
           access_key: WEB3FORMS_KEY,
           email: trimmed,
           subject: "New GupShupGo Newsletter Subscriber",
+          botcheck: botcheck ? "bot" : "",
         }),
       });
 
@@ -77,6 +108,19 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="w-full">
+      {/* Invisible honeypot field for bot trapping */}
+      <input
+        type="checkbox"
+        name="botcheck"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+        style={{ display: "none" }}
+        checked={botcheck}
+        onChange={(e) => setBotcheck(e.target.checked)}
+      />
+
       <div className="flex flex-col gap-12px sm:flex-row sm:items-end">
         <div className="flex-1">
           <label
@@ -91,7 +135,7 @@ export default function NewsletterForm() {
             type="email"
             autoComplete="email"
             maxLength={255}
-            placeholder="you@example.com"
+            placeholder="name@domain.com"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             aria-invalid={message ? true : undefined}

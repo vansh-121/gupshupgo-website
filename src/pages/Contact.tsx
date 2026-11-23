@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   Mail,
@@ -24,6 +24,16 @@ import { SUPPORT_EMAIL } from "@/config/app";
 const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY as string) || "";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const BLOCKED_DOMAINS = new Set([
+  "example.com",
+  "example.org",
+  "example.net",
+  "test.com",
+  "test.org",
+  "sample.com",
+  "mailinator.com",
+]);
+
 /**
  * Contact route.
  *
@@ -35,9 +45,11 @@ export default function Contact() {
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("General question");
   const [message, setMessage] = useState("");
+  const [botcheck, setBotcheck] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const mountTimeRef = useRef<number>(Date.now());
 
   const handleCopy = async () => {
     try {
@@ -76,6 +88,23 @@ export default function Contact() {
       return;
     }
 
+    const domain = trimmedEmail.split("@")[1]?.toLowerCase();
+
+    // Anti-spam layer 1: Honeypot field checked by bots
+    // Anti-spam layer 2: Dummy/placeholder domains (e.g. you@example.com from crawlers/scripts)
+    // Anti-spam layer 3: Subhuman submission speed (< 1000ms from component mount)
+    const isBot =
+      botcheck ||
+      (domain && BLOCKED_DOMAINS.has(domain)) ||
+      Date.now() - mountTimeRef.current < 1000;
+
+    if (isBot) {
+      // Silently pretend success to deceive spam bots without consuming Web3Forms quota
+      setErrorMessage(null);
+      setStatus("success");
+      return;
+    }
+
     setErrorMessage(null);
     setStatus("submitting");
 
@@ -91,6 +120,7 @@ export default function Contact() {
           message: trimmedMessage,
           subject: `[GupShupGo Contact] ${topic} from ${trimmedName}`,
           from_name: `${trimmedName} (via GupShupGo)`,
+          botcheck: botcheck ? "bot" : "",
         }),
       });
 
@@ -192,6 +222,8 @@ export default function Contact() {
                   style={{ display: "none" }}
                   tabIndex={-1}
                   autoComplete="off"
+                  checked={botcheck}
+                  onChange={(e) => setBotcheck(e.target.checked)}
                 />
 
                 {errorMessage && (
