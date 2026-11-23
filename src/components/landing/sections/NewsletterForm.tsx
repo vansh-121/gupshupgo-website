@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,20 +21,24 @@ const VALIDATION_MESSAGE = "Enter a valid email address.";
 const SUBMIT_ERROR_MESSAGE = "We could not save your email just now. Please try again.";
 
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY as string;
+const HCAPTCHA_SITE_KEY =
+  (import.meta.env.VITE_HCAPTCHA_SITE_KEY as string) || "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
 
 /**
  * Product-updates subscription form — powered by Web3Forms.
  *
  * Submissions POST to https://api.web3forms.com/submit and are forwarded
  * to the inbox associated with `VITE_WEB3FORMS_KEY`. Includes anti-spam honeypot,
- * test-domain suppression, and bot speed checks to protect Web3Forms monthly quota.
+ * test-domain suppression, bot speed checks, and hCaptcha human verification.
  */
 export default function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [botcheck, setBotcheck] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "pending" | "success" | "error">("idle");
   const mountTimeRef = useRef<number>(Date.now());
+  const captchaRef = useRef<HCaptcha | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,6 +66,11 @@ export default function NewsletterForm() {
       return;
     }
 
+    if (!captchaToken) {
+      setValidationError("Please complete the captcha verification.");
+      return;
+    }
+
     setValidationError(null);
     setStatus("pending");
 
@@ -73,6 +83,7 @@ export default function NewsletterForm() {
           email: trimmed,
           subject: "New GupShupGo Newsletter Subscriber",
           botcheck: botcheck ? "bot" : "",
+          "h-captcha-response": captchaToken,
         }),
       });
 
@@ -158,6 +169,20 @@ export default function NewsletterForm() {
             "Subscribe"
           )}
         </Button>
+      </div>
+
+      {/* hCaptcha human verification */}
+      <div className="mt-16px">
+        <HCaptcha
+          ref={captchaRef}
+          sitekey={HCAPTCHA_SITE_KEY}
+          reCaptchaCompat={false}
+          onVerify={(token) => {
+            setCaptchaToken(token);
+            if (validationError) setValidationError(null);
+          }}
+          onExpire={() => setCaptchaToken(null)}
+        />
       </div>
 
       {message ? (

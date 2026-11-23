@@ -1,14 +1,32 @@
+import React from "react";
 import { beforeEach, describe, expect, it, vi, afterEach } from "vitest";
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 
 import NewsletterForm from "@/components/landing/sections/NewsletterForm";
 import { renderWithProviders } from "@/test/renderWithProviders";
 
+vi.mock("@hcaptcha/react-hcaptcha", () => {
+  const MockHCaptcha = React.forwardRef<unknown, { onVerify?: (token: string) => void }>(
+    ({ onVerify }, _ref) => (
+      <button
+        type="button"
+        data-testid="mock-hcaptcha"
+        onClick={() => onVerify?.("mock-hcaptcha-token")}
+      >
+        Solve Captcha
+      </button>
+    ),
+  );
+  MockHCaptcha.displayName = "MockHCaptcha";
+  return { default: MockHCaptcha };
+});
+
 function renderForm() {
   renderWithProviders(<NewsletterForm />, { theme: "light" });
   return {
     input: screen.getByLabelText("Email address") as HTMLInputElement,
     submit: () => screen.getByRole("button", { name: /subscrib/i }),
+    solveCaptcha: () => fireEvent.click(screen.getByTestId("mock-hcaptcha")),
   };
 }
 
@@ -25,7 +43,7 @@ describe("NewsletterForm", () => {
     vi.useRealTimers();
   });
 
-  it("inserts the trimmed address and replaces the form with a confirmation", async () => {
+  it("inserts the trimmed address and replaces the form with a confirmation after captcha", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       json: async () => ({ success: true }),
@@ -36,9 +54,10 @@ describe("NewsletterForm", () => {
     const startTime = 1000000;
     vi.spyOn(Date, "now").mockReturnValueOnce(startTime).mockReturnValue(startTime + 2000);
 
-    const { input, submit } = renderForm();
+    const { input, submit, solveCaptcha } = renderForm();
 
     type(input, "  user@gupshupgo.com  ");
+    solveCaptcha();
     fireEvent.click(submit());
 
     const status = await screen.findByRole("status");
@@ -52,9 +71,33 @@ describe("NewsletterForm", () => {
         body: expect.stringContaining('"email":"user@gupshupgo.com"'),
       }),
     );
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://api.web3forms.com/submit",
+      expect.objectContaining({
+        body: expect.stringContaining('"h-captcha-response":"mock-hcaptcha-token"'),
+      }),
+    );
 
     // The form is gone once the confirmation shows.
     expect(screen.queryByLabelText("Email address")).toBeNull();
+  });
+
+  it("requires captcha verification before sending for human visitors", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    const startTime = 1000000;
+    vi.spyOn(Date, "now").mockReturnValueOnce(startTime).mockReturnValue(startTime + 2000);
+
+    const { input, submit } = renderForm();
+
+    type(input, "user@gupshupgo.com");
+    // Did not solve captcha
+    fireEvent.click(submit());
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(/captcha/i);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("reports invalid input against the field, keeps the value, and sends nothing", async () => {
@@ -86,9 +129,10 @@ describe("NewsletterForm", () => {
     const startTime = 1000000;
     vi.spyOn(Date, "now").mockReturnValueOnce(startTime).mockReturnValue(startTime + 2000);
 
-    const { input, submit } = renderForm();
+    const { input, submit, solveCaptcha } = renderForm();
 
     type(input, "realuser@gupshupgo.com");
+    solveCaptcha();
     fireEvent.click(submit());
 
     const alert = await screen.findByRole("alert");
@@ -101,7 +145,7 @@ describe("NewsletterForm", () => {
     expect(submit()).not.toHaveAttribute("aria-busy", "true");
   });
 
-  it("suppresses bot dummy domains with fake success without consuming API quota", async () => {
+  it("suppresses bot dummy domains with fake success without consuming API quota or needing captcha", async () => {
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
 
@@ -131,9 +175,10 @@ describe("NewsletterForm", () => {
     const startTime = 1000000;
     vi.spyOn(Date, "now").mockReturnValueOnce(startTime).mockReturnValue(startTime + 2000);
 
-    const { input, submit } = renderForm();
+    const { input, submit, solveCaptcha } = renderForm();
 
     type(input, "someone@gupshupgo.com");
+    solveCaptcha();
     fireEvent.click(submit());
 
     await waitFor(() => {

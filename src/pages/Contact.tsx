@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import {
   Mail,
   MessageSquare,
@@ -22,6 +23,8 @@ import SEOHead from "@/components/seo/SEOHead";
 import { SUPPORT_EMAIL } from "@/config/app";
 
 const WEB3FORMS_KEY = (import.meta.env.VITE_WEB3FORMS_KEY as string) || "";
+const HCAPTCHA_SITE_KEY =
+  (import.meta.env.VITE_HCAPTCHA_SITE_KEY as string) || "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const BLOCKED_DOMAINS = new Set([
@@ -46,10 +49,12 @@ export default function Contact() {
   const [topic, setTopic] = useState("General question");
   const [message, setMessage] = useState("");
   const [botcheck, setBotcheck] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const mountTimeRef = useRef<number>(Date.now());
+  const captchaRef = useRef<HCaptcha | null>(null);
 
   const handleCopy = async () => {
     try {
@@ -105,6 +110,11 @@ export default function Contact() {
       return;
     }
 
+    if (!captchaToken) {
+      setErrorMessage("Please complete the captcha verification.");
+      return;
+    }
+
     setErrorMessage(null);
     setStatus("submitting");
 
@@ -121,6 +131,7 @@ export default function Contact() {
           subject: `[GupShupGo Contact] ${topic} from ${trimmedName}`,
           from_name: `${trimmedName} (via GupShupGo)`,
           botcheck: botcheck ? "bot" : "",
+          "h-captcha-response": captchaToken,
         }),
       });
 
@@ -144,6 +155,8 @@ export default function Contact() {
     setTopic("General question");
     setStatus("idle");
     setErrorMessage(null);
+    setCaptchaToken(null);
+    captchaRef.current?.resetCaptcha();
   };
 
   const inputClasses =
@@ -313,6 +326,20 @@ export default function Contact() {
                     }}
                     placeholder="Tell us what's going on. If it's a bug, your device model and Android version help a lot."
                     className="w-full rounded-8 bg-layer-1 px-16px py-12px text-15 leading-140 text-ink-high shadow-hairline-12 placeholder:text-ink-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand transition-standard"
+                  />
+                </div>
+
+                {/* hCaptcha human verification */}
+                <div className="pt-8px pb-4px">
+                  <HCaptcha
+                    ref={captchaRef}
+                    sitekey={HCAPTCHA_SITE_KEY}
+                    reCaptchaCompat={false}
+                    onVerify={(token) => {
+                      setCaptchaToken(token);
+                      if (errorMessage) setErrorMessage(null);
+                    }}
+                    onExpire={() => setCaptchaToken(null)}
                   />
                 </div>
 
