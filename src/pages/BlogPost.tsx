@@ -226,7 +226,7 @@ export default function BlogPost() {
                 {copied ? (
                   <>
                     <Check className="h-4 w-4 text-emerald-500 shrink-0" aria-hidden="true" />
-                    <span>Copied!</span>
+                    <span>Copied</span>
                   </>
                 ) : (
                   <>

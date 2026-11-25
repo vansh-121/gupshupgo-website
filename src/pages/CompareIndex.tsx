@@ -216,7 +216,7 @@ export default function CompareIndex() {
                       src={coverImg}
                       alt={comparison.h1}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
                     
@@ -238,7 +238,7 @@ export default function CompareIndex() {
                     </div>
 
                     <div className="absolute bottom-16px left-16px right-16px">
-                      <h3 className="text-20 font-bold text-white drop-shadow-sm">
+                      <h3 className="text-20 font-medium text-white drop-shadow-sm">
                         {comparison.h1}
                       </h3>
                     </div>

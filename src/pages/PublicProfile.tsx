@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { MessageCircle, Download, ExternalLink, ShieldCheck, WifiOff, Sparkles } from "lucide-react";
+import { MessageCircle, Download, ExternalLink, ShieldCheck, WifiOff } from "lucide-react";
 
 import SiteShell from "@/components/layout/SiteShell";
 import { Button } from "@/components/ui/button";
@@ -57,26 +57,21 @@ const PublicProfile = () => {
         
         {/* Profile Card */}
         <div className="relative flex w-full max-w-[580px] flex-col items-center rounded-32 border border-hairline-56 bg-layer-0/95 p-32px text-center shadow-elevation backdrop-blur-md bp480:p-48px">
-          
-          {/* Ambient Glow */}
-          <div className="pointer-events-none absolute -top-40px left-1/2 -z-10 h-[220px] w-[220px] -translate-x-1/2 rounded-full bg-brand/15 blur-3xl" />
-
-          {/* Profile Avatar Circle with Bold Prominent Initial */}
-          <div className="relative mb-24px flex h-[104px] w-[104px] items-center justify-center rounded-full bg-gradient-to-tr from-brand to-brand-accent shadow-elevation ring-4 ring-layer-0 bp480:h-[116px] bp480:w-[116px]">
-            <span className="text-48 font-bold leading-none text-white bp480:text-57">{initialLetter}</span>
+          {/* Profile Avatar Circle */}
+          <div className="relative mb-24px flex h-[104px] w-[104px] items-center justify-center rounded-full bg-brand shadow-elevation ring-4 ring-layer-0 bp480:h-[116px] bp480:w-[116px]">
+            <span className="text-48 font-medium leading-none text-white bp480:text-57">{initialLetter}</span>
             <div className="absolute -bottom-2px -right-2px flex h-[36px] w-[36px] items-center justify-center rounded-full border-2 border-layer-0 bg-brand text-white shadow-sm">
               <MessageCircle className="h-[20px] w-[20px]" />
             </div>
           </div>
 
-          {/* Member Badge */}
-          <div className="mb-16px inline-flex items-center gap-6px rounded-full bg-brand/10 px-16px py-6px text-13 font-semibold tracking-wide text-brand dark:bg-brand/20">
-            <Sparkles className="h-[16px] w-[16px] shrink-0" />
+          {/* Member Label */}
+          <p className="mb-12px text-13 font-medium text-ink-secondary">
             GupShupGo Member
-          </div>
+          </p>
 
-          {/* BIG, Bold, High-Impact Username Title */}
-          <h1 className="mb-20px max-w-full break-all text-39 font-bold leading-110 tracking-tight text-ink-high bp480:text-48 bp810:text-57">
+          {/* Username Title */}
+          <h1 className="mb-20px max-w-full break-all text-39 font-medium leading-110 text-ink-high bp480:text-48 bp810:text-57">
             @{cleanUsername}
           </h1>
 
@@ -106,7 +101,7 @@ const PublicProfile = () => {
             {/* Primary Action Button */}
             <Button
               onClick={handleOpenApp}
-              className="h-[54px] w-full max-w-[420px] rounded-pill bg-brand px-28px text-16 font-semibold text-white shadow-elevation transition-standard hover:bg-brand-dark active:scale-[0.98] bp480:text-19"
+              className="h-[54px] w-full max-w-[420px] rounded-pill bg-brand px-28px text-16 font-medium text-white shadow-elevation transition-standard hover:bg-brand-dark active:scale-[0.98] bp480:text-19"
             >
               <ExternalLink className="mr-10px h-[20px] w-[20px] shrink-0" />
               Open in GupShupGo App

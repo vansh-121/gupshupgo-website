@@ -274,14 +274,14 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
               <caption className="sr-only">
                 A feature-by-feature comparison of GupShupGo and {comparison.competitor}.
               </caption>
-              <thead className="bg-layer-2 text-13 font-semibold uppercase tracking-wider text-ink-high border-b border-hairline-12">
+              <thead className="bg-layer-2 text-13 font-medium text-ink-high border-b border-hairline-12">
                 <tr>
                   <th scope="col" className="px-20px py-16px w-[40%]">
                     Feature
                   </th>
                   <th
                     scope="col"
-                    className="px-20px py-16px w-[30%] bg-brand/10 border-x border-brand/20 text-brand dark:text-emerald-400 font-bold"
+                    className="px-20px py-16px w-[30%] bg-brand/10 border-x border-brand/20 text-brand dark:text-emerald-400 font-medium"
                   >
                     <div className="flex items-center gap-8px">
                       <img src="/app_icon.png" alt="" className="h-5 w-5 rounded-md" />
@@ -324,7 +324,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
         {/* Features the Competitor Lacks */}
         <section aria-labelledby="competitor-lacks-heading" className="mt-64px">
           <div className="mb-24px">
-            <div className="inline-flex items-center gap-6px text-12 font-semibold uppercase tracking-wider text-brand dark:text-emerald-400 mb-8px">
+            <div className="inline-flex items-center gap-6px text-12 font-medium text-brand dark:text-emerald-400 mb-8px">
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               <span>GupShupGo Exclusives</span>
             </div>
@@ -449,7 +449,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
                         src={feature.image}
                         alt={feature.imageAlt}
                         loading="lazy"
-                        className="max-h-[380px] w-auto rounded-12 object-contain shadow-elevation transition-transform duration-500 hover:scale-102"
+                        className="max-h-[380px] w-auto rounded-12 object-contain shadow-elevation"
                       />
                     </div>
 
@@ -480,7 +480,7 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
           <div className="grid gap-32px rounded-24 bg-layer-1 p-24px sm:p-36px lg:p-40px shadow-hairline-12-elevated border border-hairline-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
             {/* Left: Narrative copy */}
             <div>
-              <div className="inline-flex items-center gap-6px text-12 font-semibold uppercase tracking-wider text-brand dark:text-emerald-400 mb-10px">
+              <div className="inline-flex items-center gap-6px text-12 font-medium text-brand dark:text-emerald-400 mb-10px">
                 <BookOpen className="h-4 w-4" aria-hidden="true" />
                 <span>Architectural Verdict</span>
               </div>
@@ -504,11 +504,11 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
                   src={comparison.coverImage || "/blog/messaging-comparison-cover.jpg"}
                   alt={`GupShupGo vs ${comparison.competitor} architectural overview`}
                   loading="lazy"
-                  className="h-full w-full object-cover brightness-[0.95] dark:brightness-[0.85] transition-transform duration-500 hover:scale-102"
+                  className="h-full w-full object-cover brightness-[0.95] dark:brightness-[0.85]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
                 <div className="absolute bottom-16px left-16px right-16px">
-                  <span className="inline-block rounded-full bg-brand px-10px py-3px text-11 font-bold uppercase tracking-wider text-white shadow-elevation">
+                  <span className="inline-block rounded-full bg-brand px-10px py-3px text-11 font-medium text-white shadow-elevation">
                     The Verdict
                   </span>
                   <p className="mt-6px text-15 font-semibold text-white">
@@ -523,18 +523,18 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
               {/* Takeaway scorecard badges below photo */}
               <div className="mt-14px grid w-full grid-cols-2 gap-10px text-center">
                 <div className="rounded-12 bg-layer-1 p-12px border border-hairline-12">
-                  <span className="block text-11 font-semibold uppercase tracking-wider text-ink-secondary">
+                  <span className="block text-11 font-medium text-ink-secondary">
                     Offline Mesh
                   </span>
-                  <span className="text-13 font-bold text-emerald-600 dark:text-emerald-400">
+                  <span className="text-13 font-medium text-emerald-600 dark:text-emerald-400">
                     GupShupGo Only
                   </span>
                 </div>
                 <div className="rounded-12 bg-layer-1 p-12px border border-hairline-12">
-                  <span className="block text-11 font-semibold uppercase tracking-wider text-ink-secondary">
+                  <span className="block text-11 font-medium text-ink-secondary">
                     Signal E2EE
                   </span>
-                  <span className="text-13 font-bold text-brand dark:text-emerald-400">
+                  <span className="text-13 font-medium text-brand dark:text-emerald-400">
                     Default
                   </span>
                 </div>
@@ -548,11 +548,11 @@ export default function ComparisonPage({ comparison }: { comparison: Comparison 
           <section aria-label="Companion Blog Guide" className="mt-40px">
             <Link
               to={`/blog/${comparison.companionBlogSlug}`}
-              className="group block overflow-hidden rounded-20 border border-brand/25 bg-gradient-to-r from-brand/10 via-layer-1 to-layer-1 p-24px sm:p-32px shadow-hairline-12 transition-standard hover:shadow-elevation hover:border-brand/50"
+              className="group block overflow-hidden rounded-20 border border-hairline-12 bg-layer-1 p-24px sm:p-32px shadow-hairline-12 transition-standard hover:shadow-elevation hover:border-brand/50"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-16px">
                 <div className="space-y-8px">
-                  <div className="inline-flex items-center gap-6px text-12 font-semibold uppercase tracking-wider text-brand dark:text-emerald-400">
+                  <div className="inline-flex items-center gap-6px text-12 font-medium text-brand dark:text-emerald-400">
                     <BookOpen className="h-4 w-4" aria-hidden="true" />
                     <span>In-Depth Editorial Analysis</span>
                   </div>

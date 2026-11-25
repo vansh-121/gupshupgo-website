@@ -34,7 +34,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
             alt={post.coverImageAlt}
             loading="eager"
             decoding="async"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover"
           />
           <div className="absolute left-16px top-16px flex items-center gap-8px">
             <span className="rounded-pill bg-brand px-12px py-4px text-12 font-medium leading-100 text-white shadow-elevation">
@@ -114,7 +114,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
       aria-labelledby={`blog-title-${post.slug}`}
       className={cn(
         "group relative flex flex-col justify-between overflow-hidden rounded-20 bg-layer-1",
-        "shadow-hairline-12 transition-standard hover:-translate-y-1 hover:shadow-hairline-12-elevated",
+        "shadow-hairline-12 transition-standard hover:shadow-hairline-12-elevated",
       )}
     >
       <div>
@@ -125,7 +125,7 @@ export default function BlogCard({ post, featured = false }: BlogCardProps) {
             alt={post.coverImageAlt}
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover"
           />
           <div className="absolute left-12px top-12px">
             <span className="rounded-pill bg-black/60 backdrop-blur-md px-10px py-4px text-12 font-medium leading-100 text-white border border-white/15 shadow-sm">

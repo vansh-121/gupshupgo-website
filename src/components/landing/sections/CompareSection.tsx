@@ -97,14 +97,14 @@ export default function CompareSection() {
             <caption className="sr-only">
               Quick comparison of GupShupGo, WhatsApp, and Telegram key features.
             </caption>
-            <thead className="bg-layer-2 text-13 font-semibold uppercase tracking-wider text-ink-high border-b border-hairline-12">
+            <thead className="bg-layer-2 text-13 font-medium text-ink-high border-b border-hairline-12">
               <tr>
                 <th scope="col" className="px-20px py-16px w-[34%]">
                   Capability
                 </th>
                 <th
                   scope="col"
-                  className="px-20px py-16px w-[26%] bg-brand/10 border-x border-brand/20 text-brand dark:text-emerald-400 font-bold"
+                  className="px-20px py-16px w-[26%] bg-brand/10 border-x border-brand/20 text-brand dark:text-emerald-400 font-medium"
                 >
                   <div className="flex items-center gap-8px">
                     <img src="/app_icon.png" alt="" className="h-5 w-5 rounded-md shrink-0" />
@@ -253,7 +253,7 @@ export default function CompareSection() {
                 src="/blog/gupshupgo-vs-whatsapp-cover.jpg"
                 alt="GupShupGo vs WhatsApp privacy showdown"
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
@@ -272,7 +272,7 @@ export default function CompareSection() {
               </div>
 
               <div className="absolute bottom-16px left-16px right-16px">
-                <h3 className="text-19 font-bold text-white drop-shadow-sm sm:text-21">
+                <h3 className="text-19 font-medium text-white drop-shadow-sm sm:text-21">
                   GupShupGo vs WhatsApp
                 </h3>
               </div>
@@ -301,7 +301,7 @@ export default function CompareSection() {
                 src="/blog/gupshupgo-vs-telegram-cover.jpg"
                 alt="GupShupGo vs Telegram encryption architecture comparison"
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
@@ -320,7 +320,7 @@ export default function CompareSection() {
               </div>
 
               <div className="absolute bottom-16px left-16px right-16px">
-                <h3 className="text-19 font-bold text-white drop-shadow-sm sm:text-21">
+                <h3 className="text-19 font-medium text-white drop-shadow-sm sm:text-21">
                   GupShupGo vs Telegram
                 </h3>
               </div>
